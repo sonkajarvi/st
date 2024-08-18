@@ -8,13 +8,20 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
 add_executable(rendertest
     engine.c
+    glad_loader.c
     main.c
     window.c
     window_x11.c
 )
 
+add_subdirectory(thirdparty/glad)
+
+target_include_directories(rendertest PRIVATE
+    thirdparty/glad/include
+)
+
 target_link_libraries(rendertest PRIVATE
-    X11 GL
+    X11 GL glad
 )
 
 target_compile_options(rendertest PRIVATE
