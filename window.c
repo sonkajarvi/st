@@ -6,6 +6,7 @@
 
 void window_create(const char *title, int width, int height)
 {
+    assert(global_engine_context);
     struct st_window **window = &global_engine_context->window;
 
     *window = malloc(sizeof(**window));
@@ -18,6 +19,7 @@ void window_create(const char *title, int width, int height)
 
 void window_destroy(void)
 {
+    assert(global_engine_context);
     struct st_window *window = global_engine_context->window;
     assert(window);
 
@@ -29,6 +31,7 @@ void window_destroy(void)
 
 void window_show(void)
 {
+    assert(global_engine_context);
     struct st_window *window = global_engine_context->window;
     assert(window);
 
@@ -39,14 +42,34 @@ void window_show(void)
 
 bool window_should_close(void)
 {
+    assert(global_engine_context);
     struct st_window *window = global_engine_context->window;
     assert(window);
 
     return !window->is_open;    
 }
 
+void window_get_size(int *width, int *height)
+{
+    assert(global_engine_context);
+    struct st_window *window = global_engine_context->window;
+    assert(window);
+
+    call_impl(window_get_size, window, width, height);
+}
+
+void window_get_pos(int *x, int *y)
+{
+    assert(global_engine_context);
+    struct st_window *window = global_engine_context->window;
+    assert(window);
+
+    call_impl(window_get_pos, window, x, y);    
+}
+
 void poll_events(void)
 {
+    assert(global_engine_context);
     struct st_window *window = global_engine_context->window;
     assert(window);
 
@@ -55,6 +78,7 @@ void poll_events(void)
 
 void swap_buffers(void)
 {
+    assert(global_engine_context);
     struct st_window *window = global_engine_context->window;
     assert(window);
 

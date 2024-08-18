@@ -18,6 +18,7 @@
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display *, GLXFBConfig, GLXContext, Bool, const int *);
 
 static Atom wm_delete_window;
+static XWindowAttributes window_attribs;
 
 void impl_x11_window_create(struct st_window *window, const char *title, int width, int height)
 {
@@ -113,6 +114,26 @@ void impl_x11_window_show(struct st_window *window)
     XMapWindow(window->x11.display, window->x11.window);
 }
 
+void impl_x11_window_get_size(struct st_window *window, int *width, int *height)
+{
+    XGetWindowAttributes(window->x11.display, window->x11.window, &window_attribs);
+
+    if (width)
+        *width = window_attribs.width;
+    if (height)
+        *height = window_attribs.height;
+}
+
+void impl_x11_window_get_pos(struct st_window *window, int *x, int *y)
+{
+    XGetWindowAttributes(window->x11.display, window->x11.window, &window_attribs);
+
+    if (x)
+        *x = window_attribs.x;
+    if (y)
+        *y = window_attribs.y;
+}
+
 void impl_x11_poll_events(struct st_window *window)
 {
     XEvent event;
@@ -128,6 +149,8 @@ void impl_x11_poll_events(struct st_window *window)
             break;
         }
     }
+
+    XFlush(window->x11.display);
 }
 
 void impl_glx_swap_buffers(struct st_window *window)

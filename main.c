@@ -17,12 +17,19 @@ int main(void)
 
     glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 
+    int w, h, x, y;
+    
     window_show();
     while (!window_should_close()) {
         poll_events();
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        window_get_size(&w, &h);
+        printf("window size: %d %d, ", w, h);
+        
+        window_get_pos(&x, &y);
+        printf("window pos: %d %d\n", x, y);
 
+        glClear(GL_COLOR_BUFFER_BIT);
         swap_buffers();
     }
 
