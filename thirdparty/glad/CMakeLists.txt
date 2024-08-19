@@ -8,6 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
 add_library(glad STATIC
     src/glad.c
+    src/glad_glx.c
 )
 
 target_include_directories(glad PRIVATE

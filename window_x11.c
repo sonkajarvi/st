@@ -1,16 +1,16 @@
+#include "window_x11.h"
+
 #include <assert.h>
 #include <unistd.h>
 #include <stdio.h>
 
-#include <GL/gl.h>
-#include <GL/glx.h>
-#include <GL/glxext.h>
 #include <X11/X.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
+#include <glad/glad_glx.h>
+
 #include "common.h"
-#include "window_x11.h"
 
 #define GLX_CONTEXT_MAJOR_VERSION_ARB 0x2091
 #define GLX_CONTEXT_MINOR_VERSION_ARB 0x2092
@@ -24,6 +24,8 @@ void impl_x11_window_create(struct st_window *window, const char *title, int wid
 {
     window->x11.display = XOpenDisplay(NULL);
     assert(window->x11.display);
+
+    assert(gladLoadGLX(window->x11.display, DefaultScreen(window->x11.display)));
 
     int vi_attribs[] = {
         GLX_X_RENDERABLE, True,
@@ -161,7 +163,7 @@ void impl_glx_swap_buffers(struct st_window *window)
 void impl_glx_context_create(struct st_window *window)
 {
     glXCreateContextAttribsARBProc glxCreateContextAttribsABR =
-        (glXCreateContextAttribsARBProc)glXGetProcAddressARB((const GLubyte *)"glXCreateContextAttribsARB");
+        (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte *)"glXCreateContextAttribsARB");
     
     int ctx_attribs[] = {
         GLX_CONTEXT_MAJOR_VERSION_ARB, 4,

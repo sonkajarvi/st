@@ -10,6 +10,8 @@ add_executable(rendertest
     engine.c
     glad_loader.c
     main.c
+    renderer_gl.c
+    util.c
     window.c
     window_x11.c
 )
@@ -17,11 +19,12 @@ add_executable(rendertest
 add_subdirectory(thirdparty/glad)
 
 target_include_directories(rendertest PRIVATE
+    thirdparty/cglm/include
     thirdparty/glad/include
 )
 
 target_link_libraries(rendertest PRIVATE
-    X11 GL glad
+    X11 glad
 )
 
 target_compile_options(rendertest PRIVATE
@@ -33,5 +36,5 @@ target_compile_options(rendertest PRIVATE
     -pedantic
     # -Wconversion
     -Wstrict-prototypes
-    -Wno-gnu-zero-variadic-macro-agruments
+    # -Wno-gnu-zero-variadic-macro-
 )
