@@ -10,6 +10,7 @@ add_executable(rendertest
     engine.c
     glad_loader.c
     main.c
+    renderer.c
     renderer_gl.c
     util.c
     window.c
@@ -36,5 +37,5 @@ target_compile_options(rendertest PRIVATE
     -pedantic
     # -Wconversion
     -Wstrict-prototypes
-    # -Wno-gnu-zero-variadic-macro-
+    -Wno-gnu-zero-variadic-macro
 )

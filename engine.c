@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "window_x11.h"
+#include "renderer_gl.h"
 
 struct st_engine *global_engine_context = NULL;
 
@@ -20,6 +21,12 @@ static void impl_for_x11(void)
 
     global_engine_context->impl.context_create = impl_glx_context_create;
     global_engine_context->impl.context_destroy = impl_glx_context_destroy;
+
+    global_engine_context->impl.renderer_init = impl_gl_renderer_init;
+    global_engine_context->impl.renderer_destroy = impl_gl_renderer_destroy;
+    global_engine_context->impl.renderer_begin = impl_gl_renderer_begin;
+    global_engine_context->impl.renderer_end = impl_gl_renderer_end;
+    global_engine_context->impl.renderer_push_mesh = impl_gl_renderer_push_mesh;
 }
 
 void engine_init(void)
