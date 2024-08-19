@@ -18,6 +18,7 @@ char *read_file(const char *path)
         s = malloc(len + 1);
         if (s)
             ret = fread(s, 1, len, file);
+        s[len] = '\0';
 
         fclose(file);
 
