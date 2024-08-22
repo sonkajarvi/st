@@ -1,8 +1,8 @@
 #include <stdio.h>
 
 #include <glad/glad.h>
-#include <cglm/struct/vec2.h>
-#include <cglm/struct/vec4.h>
+#include <cglm/vec2.h>
+#include <cglm/vec4.h>
 
 #include "common.h"
 #include "glad_loader.h"
@@ -21,13 +21,12 @@ int main(void)
 
     glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 
-    renderer_init();
-
+    const float n = 0.25f;
     const struct st_vertex vertices[] = {
-        { (vec2s){{ 0.5f,  0.5f}}, (vec4s){{1.0f, 1.0f, 1.0f, 1.0f}} },
-        { (vec2s){{ 0.5f, -0.5f}}, (vec4s){{1.0f, 1.0f, 1.0f, 1.0f}} },
-        { (vec2s){{-0.5f, -0.5f}}, (vec4s){{1.0f, 1.0f, 1.0f, 1.0f}} },
-        { (vec2s){{-0.5f,  0.5f}}, (vec4s){{1.0f, 1.0f, 1.0f, 1.0f}} },
+        { { n,  n, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} },
+        { { n, -n, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} },
+        { {-n, -n, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} },
+        { {-n,  n, 0.0f}, {1.0f, 1.0f, 0.0f, 1.0f} },
     };
 
     const unsigned int indices[] = {
@@ -35,14 +34,15 @@ int main(void)
         1, 2, 3
     };
 
-    int width, height;
+    struct st_camera camera = {
+        {0.0f, 0.0f, -3.0f}
+    };
+    
+    renderer_init(&camera);
 
     window_show();
     while (!window_should_close()) {
         poll_events();
-    
-        window_get_size(&width, &height);
-        glViewport(0, 0, width, height);
 
         renderer_begin();
         renderer_push_mesh(vertices, 4, indices, 6);

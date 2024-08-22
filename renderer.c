@@ -2,13 +2,13 @@
 
 #include <assert.h>
 
-void renderer_init(void)
+void renderer_init(struct st_camera *camera)
 {
     assert(global_engine_context);
     struct st_window *window = global_engine_context->window;
     assert(window);
 
-    call_impl(renderer_init);
+    call_impl(renderer_init, camera);
 }
 
 void renderer_destroy(void)

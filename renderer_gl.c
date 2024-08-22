@@ -1,12 +1,18 @@
 #include "renderer_gl.h"
 
 #include <assert.h>
+#include <math.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 
 #include <glad/glad_glx.h>
+#include <cglm/mat4.h>
+#include <cglm/cam.h>
+#include <cglm/affine.h>
 
+#include "cglm/vec3.h"
+#include "common.h"
 #include "util.h"
 
 #define INDEX_COUNT 256
@@ -17,16 +23,20 @@ struct gl_renderer
     struct st_vertex *vertex_buffer_ptr;
     unsigned int indices[INDEX_COUNT];
 
+    struct st_camera *camera;
+
     GLuint shader;
     GLuint vao;
     GLuint vbo;
     GLuint ebo;
 
+    // per draw call
     size_t draw_count;
     size_t index_count;
     size_t vertex_count;
     size_t mesh_count;
     
+    // from begin to end
     size_t total_index_count;
     size_t total_vertex_count;
     size_t total_mesh_count;
@@ -94,6 +104,10 @@ end:
 
 static void flush(void)
 {
+    int width, height;
+    window_get_size(&width, &height);
+    glViewport(0, 0, width, height);
+
     // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     // glEnable(GL_BLEND);
 
@@ -103,6 +117,26 @@ static void flush(void)
         glClear(GL_COLOR_BUFFER_BIT);
         renderer.first_draw = false;
     }
+
+    mat4 model = GLM_MAT4_IDENTITY_INIT;
+    vec3 axis = {1.0f, 1.0f, 1.0f};
+    static float angle = -55.0f;
+    glm_rotate(model, glm_rad(angle), axis);
+    angle--;
+    
+    mat4 view = GLM_MAT4_IDENTITY_INIT;
+    glm_translate(view, renderer.camera->position);
+
+    mat4 projection = GLM_MAT4_IDENTITY_INIT;
+    const float ratio = (float)width / (float)height;
+    glm_perspective(glm_rad(45.0f), ratio, 0.1f, 100.0f, projection);
+
+    glUniformMatrix4fv(glGetUniformLocation(renderer.shader, "u_View"),
+        1, GL_FALSE, *view);
+    glUniformMatrix4fv(glGetUniformLocation(renderer.shader, "u_Model"),
+        1, GL_FALSE, *model);
+    glUniformMatrix4fv(glGetUniformLocation(renderer.shader, "u_Projection"),
+        1, GL_FALSE, *projection);
 
     size_t len = renderer.vertex_buffer_ptr - renderer.vertex_buffer;
 
@@ -128,10 +162,11 @@ static void flush(void)
     renderer.vertex_buffer_ptr = renderer.vertex_buffer;
 }
 
-void impl_gl_renderer_init(void)
+void impl_gl_renderer_init(struct st_camera *camera)
 {
     memset(&renderer, 0, sizeof(renderer));
     renderer.vertex_buffer_ptr = renderer.vertex_buffer;
+    renderer.camera = camera;
 
     glGenVertexArrays(1, &renderer.vao);
     glBindVertexArray(renderer.vao);
@@ -144,7 +179,7 @@ void impl_gl_renderer_init(void)
     glGenBuffers(1, &renderer.ebo);
 
     // position
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
         sizeof(struct st_vertex), (void *)offsetof(struct st_vertex, position));
     glEnableVertexAttribArray(0);
 

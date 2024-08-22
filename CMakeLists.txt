@@ -25,7 +25,7 @@ target_include_directories(rendertest PRIVATE
 )
 
 target_link_libraries(rendertest PRIVATE
-    X11 glad
+    X11 glad m
 )
 
 target_compile_options(rendertest PRIVATE

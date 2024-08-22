@@ -3,7 +3,7 @@
 
 #include "common.h"
 
-void impl_gl_renderer_init(void);
+void impl_gl_renderer_init(struct st_camera *camera);
 void impl_gl_renderer_destroy(void);
 void impl_gl_renderer_begin(void);
 void impl_gl_renderer_end(void);

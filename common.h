@@ -5,8 +5,8 @@
 
 #include <glad/glad_glx.h>
 
-#include <cglm/struct/vec2.h>
-#include <cglm/struct/vec4.h>
+#include <cglm/vec3.h>
+#include <cglm/vec4.h>
 
 /**
  * Platforms and backends:
@@ -29,6 +29,11 @@
         global_engine_context->impl.f(__VA_ARGS__); \
     } while (0)
 
+struct st_camera
+{
+    vec3 position;
+};
+
 struct st_window
 {
     // keyboard
@@ -46,8 +51,8 @@ struct st_window
 
 struct st_vertex
 {
-    vec2s position;
-    vec4s color;
+    vec3 position;
+    vec4 color;
 };
 
 struct st_engine
@@ -68,7 +73,7 @@ struct st_engine
         void (*context_create)(struct st_window *);
         void (*context_destroy)(struct st_window *);
     
-        void (*renderer_init)(void);
+        void (*renderer_init)(struct st_camera *);
         void (*renderer_destroy)(void);
         void (*renderer_begin)(void);
         void (*renderer_end)(void);
@@ -91,7 +96,7 @@ void window_get_pos(int *x, int *y);
 void poll_events(void);
 void swap_buffers(void);
 
-void renderer_init(void);
+void renderer_init(struct st_camera *camera);
 void renderer_destroy(void);
 void renderer_begin(void);
 void renderer_end(void);
