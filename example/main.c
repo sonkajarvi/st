@@ -4,8 +4,8 @@
 #include <cglm/vec2.h>
 #include <cglm/vec4.h>
 
-#include "common.h"
-#include "glad_loader.h"
+#include <common.h>
+#include <glad_loader.h>
 
 int main(void)
 {

@@ -9,7 +9,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 set(SOURCES
     engine.c
     glad_loader.c
-    main.c
     renderer.c
     renderer_gl.c
     util.c
@@ -32,7 +31,7 @@ elseif (DEFINED __linux__)
 
 endif()
 
-add_executable(rendertest ${SOURCES})
+add_library(rendertest ${SOURCES})
 
 add_subdirectory(thirdparty/glad)
 
