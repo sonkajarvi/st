@@ -3,7 +3,12 @@
 
 #include <stdbool.h>
 
+#ifdef ST_PLATFORM_LINUX
 #include <glad/glad_glx.h>
+#elif defined(ST_PLATFORM_WINDOWS)
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
 
 #include <cglm/vec3.h>
 #include <cglm/vec4.h>
@@ -41,12 +46,18 @@ struct st_window
     
     bool is_open;
 
+#ifdef ST_PLATFORM_LINUX
     struct {
         Display *display;
         GLXContext context;
         GLXFBConfig fbc;
         Window root, window;
     } x11;
+#elif defined(ST_PLATFORM_WINDOWS)
+    struct {
+        HWND window;
+    } win32;
+#endif
 };
 
 struct st_vertex

@@ -10,7 +10,7 @@
 int main(void)
 {
     engine_init();
-    window_create("rendertest", 150, 150);
+    window_create("rendertest", 1200, 800);
 
     glad_init();
 
