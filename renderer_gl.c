@@ -188,7 +188,7 @@ void impl_gl_renderer_init(struct st_camera *camera)
         sizeof(struct st_vertex), (void *)offsetof(struct st_vertex, color));
     glEnableVertexAttribArray(1);
 
-    renderer.shader = shader_create("../assets/basic.vert", "../assets/basic.frag");
+    renderer.shader = shader_create(ST_ASSETS_PATH "/shaders/basic.vert", ST_ASSETS_PATH "/shaders/basic.frag");
     glUseProgram(renderer.shader);
 }
 

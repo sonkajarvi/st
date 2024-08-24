@@ -19,17 +19,20 @@ set(LIBS glad m)
 
 if (DEFINED WIN32)
     message("using Windows")
-    add_compile_definitions(rendertest PRIVATE ST_PLATFORM_WINDOWS)
+    add_compile_definitions(ST_PLATFORM_WINDOWS)
     set(LIBS ${LIBS} gdi32 opengl32)
     set(SOURCES ${SOURCES} window_win32.c)
     
 elseif (DEFINED __linux__)
     message("using Linux")
-    add_compile_definitions(rendertest PRIVATE ST_PLATFORM_LINUX)
+    add_compile_definitions(ST_PLATFORM_LINUX)
     set(LIBS ${LIBS} X11)
     set(SOURCES ${SOURCES} window_x11.c)
 
 endif()
+
+# Absolute assets path
+add_compile_definitions(ST_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets")
 
 add_library(rendertest ${SOURCES})
 
