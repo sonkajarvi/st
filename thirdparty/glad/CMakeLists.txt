@@ -8,7 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
 set(SOURCES src/glad.c)
 
-if (DEFINED __linux__)
+if (UNIX AND NOT APPLE)
     set(SOURCES ${SOURCES} src/glad_glx.c)
 endif()
 

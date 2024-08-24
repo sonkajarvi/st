@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.20)
 project(rendertest LANGUAGES C)
 
 set(CMAKE_C_STANDARD 11)
-set(CMAKE_C_STANDARD_REQUIRED on)
-set(CMAKE_EXPORT_COMPILE_COMMANDS on)
+set(CMAKE_C_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(SOURCES
     engine.c
@@ -17,13 +17,13 @@ set(SOURCES
 
 set(LIBS glad m)
 
-if (DEFINED WIN32)
+if (WIN32)
     message("using Windows")
     add_compile_definitions(ST_PLATFORM_WINDOWS)
     set(LIBS ${LIBS} gdi32 opengl32)
     set(SOURCES ${SOURCES} window_win32.c)
     
-elseif (DEFINED __linux__)
+elseif (UNIX AND NOT APPLE)
     message("using Linux")
     add_compile_definitions(ST_PLATFORM_LINUX)
     set(LIBS ${LIBS} X11)
