@@ -119,10 +119,10 @@ static void flush(void)
     }
 
     mat4 model = GLM_MAT4_IDENTITY_INIT;
-    vec3 axis = {1.0f, 1.0f, 1.0f};
+    vec3 axis = {1.0f, 0.0f, 0.0f};
     static float angle = -55.0f;
     glm_rotate(model, glm_rad(angle), axis);
-    angle -= 0.01f;
+    // angle -= 0.01f;
     
     mat4 view = GLM_MAT4_IDENTITY_INIT;
     glm_translate(view, renderer.camera->position);
