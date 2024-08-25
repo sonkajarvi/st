@@ -27,12 +27,6 @@ static void impl_for_x11(void)
 
     global_engine_context->impl.context_create = impl_glx_context_create;
     global_engine_context->impl.context_destroy = impl_glx_context_destroy;
-
-    global_engine_context->impl.renderer_init = impl_gl_renderer_init;
-    global_engine_context->impl.renderer_destroy = impl_gl_renderer_destroy;
-    global_engine_context->impl.renderer_begin = impl_gl_renderer_begin;
-    global_engine_context->impl.renderer_end = impl_gl_renderer_end;
-    global_engine_context->impl.renderer_push_mesh = impl_gl_renderer_push_mesh;
 }
 #elif defined(ST_PLATFORM_WINDOWS)
 static void impl_for_win32(void)
@@ -48,14 +42,17 @@ static void impl_for_win32(void)
 
     global_engine_context->impl.context_create = impl_wgl_context_create;
     global_engine_context->impl.context_destroy = impl_wgl_context_destroy;
+}
+#endif
 
+static void impl_for_gl(void)
+{
     global_engine_context->impl.renderer_init = impl_gl_renderer_init;
     global_engine_context->impl.renderer_destroy = impl_gl_renderer_destroy;
     global_engine_context->impl.renderer_begin = impl_gl_renderer_begin;
     global_engine_context->impl.renderer_end = impl_gl_renderer_end;
     global_engine_context->impl.renderer_push_mesh = impl_gl_renderer_push_mesh;
 }
-#endif
 
 void engine_init(void)
 {
@@ -70,6 +67,8 @@ void engine_init(void)
 #elif defined(ST_PLATFORM_WINDOWS)
     impl_for_win32();
 #endif
+
+    impl_for_gl();
 }
 
 void engine_destroy(void)
