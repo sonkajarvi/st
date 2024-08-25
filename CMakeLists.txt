@@ -31,10 +31,11 @@ elseif (UNIX AND NOT APPLE)
 
 endif()
 
-# Absolute assets path
-add_compile_definitions(ST_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets")
 
 add_library(rendertest ${SOURCES})
+
+# Absolute assets path
+target_compile_definitions(rendertest PUBLIC ST_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets")
 
 add_subdirectory(thirdparty/glad)
 
