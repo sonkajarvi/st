@@ -11,7 +11,7 @@
 
 #include "renderer_gl.h"
 
-struct st_engine *global_engine_context = NULL;
+StEngine *global_engine_context = NULL;
 
 #ifdef ST_PLATFORM_LINUX
 static void impl_for_x11(void)

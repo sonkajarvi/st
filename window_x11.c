@@ -20,7 +20,7 @@ typedef GLXContext (*glXCreateContextAttribsARBProc)(Display *, GLXFBConfig, GLX
 static Atom wm_delete_window;
 static XWindowAttributes window_attribs;
 
-void impl_x11_window_create(struct st_window *window, const char *title, int width, int height)
+void impl_x11_window_create(StWindow *window, const char *title, int width, int height)
 {
     window->x11.display = XOpenDisplay(NULL);
     assert(window->x11.display);
@@ -103,20 +103,20 @@ void impl_x11_window_create(struct st_window *window, const char *title, int wid
     XSetWMProtocols(window->x11.display, window->x11.window, &wm_delete_window, 1);
 }
 
-void impl_x11_window_destroy(struct st_window *window)
+void impl_x11_window_destroy(StWindow *window)
 {
     XDestroyWindow(window->x11.display, window->x11.window);
     XCloseDisplay(window->x11.display);
 }
 
-void impl_x11_window_show(struct st_window *window)
+void impl_x11_window_show(StWindow *window)
 {
     assert(window);
 
     XMapWindow(window->x11.display, window->x11.window);
 }
 
-void impl_x11_window_get_size(struct st_window *window, int *width, int *height)
+void impl_x11_window_get_size(StWindow *window, int *width, int *height)
 {
     XGetWindowAttributes(window->x11.display, window->x11.window, &window_attribs);
 
@@ -126,7 +126,7 @@ void impl_x11_window_get_size(struct st_window *window, int *width, int *height)
         *height = window_attribs.height;
 }
 
-void impl_x11_window_get_pos(struct st_window *window, int *x, int *y)
+void impl_x11_window_get_pos(StWindow *window, int *x, int *y)
 {
     XGetWindowAttributes(window->x11.display, window->x11.window, &window_attribs);
 
@@ -136,7 +136,7 @@ void impl_x11_window_get_pos(struct st_window *window, int *x, int *y)
         *y = window_attribs.y;
 }
 
-void impl_x11_poll_events(struct st_window *window)
+void impl_x11_poll_events(StWindow *window)
 {
     XEvent event;
     while (QLength(window->x11.display)) {
@@ -155,12 +155,12 @@ void impl_x11_poll_events(struct st_window *window)
     XFlush(window->x11.display);
 }
 
-void impl_glx_swap_buffers(struct st_window *window)
+void impl_glx_swap_buffers(StWindow *window)
 {
     glXSwapBuffers(window->x11.display, window->x11.window);
 }
 
-void impl_glx_context_create(struct st_window *window)
+void impl_glx_context_create(StWindow *window)
 {
     glXCreateContextAttribsARBProc glxCreateContextAttribsABR =
         (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte *)"glXCreateContextAttribsARB");
@@ -181,7 +181,7 @@ void impl_glx_context_create(struct st_window *window)
     printf("GLX version: %d.%d\n", major, minor);
 }
 
-void impl_glx_context_destroy(struct st_window *window)
+void impl_glx_context_destroy(StWindow *window)
 {
     glXMakeCurrent(window->x11.display, 0, 0);
     glXDestroyContext(window->x11.display, window->x11.context);

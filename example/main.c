@@ -22,7 +22,7 @@ int main(void)
     glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 
     const float n = 0.25f;
-    const struct st_vertex vertices[] = {
+    const StVertex vertices[] = {
         { { n,  n, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} },
         { { n, -n, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} },
         { {-n, -n, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} },
@@ -34,7 +34,7 @@ int main(void)
         1, 2, 3
     };
 
-    struct st_camera camera = {
+    StCamera camera = {
         {0.0f, 0.0f, -3.0f}
     };
     

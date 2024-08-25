@@ -24,7 +24,7 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
     return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-void impl_win32_window_create(struct st_window *window, const char *title, int width, int height)
+void impl_win32_window_create(StWindow *window, const char *title, int width, int height)
 {
     assert(window);
     assert(title);
@@ -58,7 +58,7 @@ void impl_win32_window_create(struct st_window *window, const char *title, int w
     assert(window->win32.window);
 }
 
-void impl_win32_window_destroy(struct st_window *window)
+void impl_win32_window_destroy(StWindow *window)
 {
     assert(window);
     assert(window->win32.window);
@@ -67,7 +67,7 @@ void impl_win32_window_destroy(struct st_window *window)
     window->win32.window = NULL;
 }
 
-void impl_win32_window_show(struct st_window *window)
+void impl_win32_window_show(StWindow *window)
 {
     assert(window);
     assert(window->win32.window);
@@ -76,7 +76,7 @@ void impl_win32_window_show(struct st_window *window)
     UpdateWindow(window->win32.window);
 }
 
-void impl_win32_window_get_size(struct st_window *window, int *width, int *height)
+void impl_win32_window_get_size(StWindow *window, int *width, int *height)
 {
     assert(window);
     assert(window->win32.window);
@@ -90,7 +90,7 @@ void impl_win32_window_get_size(struct st_window *window, int *width, int *heigh
         *height = rect.bottom - rect.top;
 }
 
-void impl_win32_window_get_pos(struct st_window *window, int *x, int *y)
+void impl_win32_window_get_pos(StWindow *window, int *x, int *y)
 {
     assert(window);
     assert(window->win32.window);
@@ -104,7 +104,7 @@ void impl_win32_window_get_pos(struct st_window *window, int *x, int *y)
         *y = rect.top;
 }
 
-void impl_win32_poll_events(struct st_window *window)
+void impl_win32_poll_events(StWindow *window)
 {
     assert(window);
     assert(window->win32.window);
@@ -122,7 +122,7 @@ void impl_win32_poll_events(struct st_window *window)
     }
 }
 
-void impl_wgl_swap_buffers(struct st_window *window)
+void impl_wgl_swap_buffers(StWindow *window)
 {
     assert(window);
     assert(window->win32.window);
@@ -130,7 +130,7 @@ void impl_wgl_swap_buffers(struct st_window *window)
     SwapBuffers(GetDC(window->win32.window));
 }
 
-void impl_wgl_context_create(struct st_window *window)
+void impl_wgl_context_create(StWindow *window)
 {
     assert(window);
     assert(window->win32.window);
@@ -187,7 +187,7 @@ void impl_wgl_context_create(struct st_window *window)
     wglSwapIntervalEXT(0);
 }
 
-void impl_wgl_context_destroy(struct st_window *window)
+void impl_wgl_context_destroy(StWindow *window)
 {
     assert(window);
     assert(window->win32.window);

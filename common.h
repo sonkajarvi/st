@@ -34,12 +34,12 @@
         global_engine_context->impl.f(__VA_ARGS__); \
     } while (0)
 
-struct st_camera
+typedef struct StCamera
 {
     vec3 position;
-};
+} StCamera;
 
-struct st_window
+typedef struct StWindow
 {
     // keyboard
     // mouse
@@ -58,41 +58,41 @@ struct st_window
         HWND window;
     } win32;
 #endif
-};
+} StWindow;
 
-struct st_vertex
+typedef struct StVertex
 {
     vec3 position;
     vec4 color;
-};
+} StVertex;
 
-struct st_engine
+typedef struct StEngine
 {
-    struct st_window *window;
+    StWindow *window;
 
     // per platform functions
     struct {
-        void (*window_create)(struct st_window *, const char *, int, int);
-        void (*window_destroy)(struct st_window *);
-        void (*window_show)(struct st_window *);
-        void (*window_get_size)(struct st_window *, int *, int *);
-        void (*window_get_pos)(struct st_window *, int *, int *);
+        void (*window_create)(StWindow *, const char *, int, int);
+        void (*window_destroy)(StWindow *);
+        void (*window_show)(StWindow *);
+        void (*window_get_size)(StWindow *, int *, int *);
+        void (*window_get_pos)(StWindow *, int *, int *);
 
-        void (*poll_events)(struct st_window *);
-        void (*swap_buffers)(struct st_window *);
+        void (*poll_events)(StWindow *);
+        void (*swap_buffers)(StWindow *);
         
-        void (*context_create)(struct st_window *);
-        void (*context_destroy)(struct st_window *);
+        void (*context_create)(StWindow *);
+        void (*context_destroy)(StWindow *);
     
-        void (*renderer_init)(struct st_camera *);
+        void (*renderer_init)(StCamera *);
         void (*renderer_destroy)(void);
         void (*renderer_begin)(void);
         void (*renderer_end)(void);
-        void (*renderer_push_mesh)(const struct st_vertex *, const size_t, const unsigned int *, const size_t);
+        void (*renderer_push_mesh)(const StVertex *, const size_t, const unsigned int *, const size_t);
     } impl;
-};
+} StEngine;
 
-extern struct st_engine *global_engine_context;
+extern StEngine *global_engine_context;
 
 void engine_init(void);
 void engine_destroy(void);
@@ -107,11 +107,11 @@ void window_get_pos(int *x, int *y);
 void poll_events(void);
 void swap_buffers(void);
 
-void renderer_init(struct st_camera *camera);
+void renderer_init(StCamera *camera);
 void renderer_destroy(void);
 void renderer_begin(void);
 void renderer_end(void);
-void renderer_push_mesh(const struct st_vertex *vertices,
+void renderer_push_mesh(const StVertex *vertices,
     const size_t vertex_count, const unsigned int *indices, const size_t index_count);
 
 #endif // COMMON_H

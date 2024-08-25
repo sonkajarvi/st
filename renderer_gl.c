@@ -19,11 +19,11 @@
 
 struct gl_renderer
 {
-    struct st_vertex vertex_buffer[3 * INDEX_COUNT];
-    struct st_vertex *vertex_buffer_ptr;
+    StVertex vertex_buffer[3 * INDEX_COUNT];
+    StVertex *vertex_buffer_ptr;
     unsigned int indices[INDEX_COUNT];
 
-    struct st_camera *camera;
+    StCamera *camera;
 
     GLuint shader;
     GLuint vao;
@@ -142,7 +142,7 @@ static void flush(void)
 
     glBindVertexArray(renderer.vao);
     glBindBuffer(GL_ARRAY_BUFFER, renderer.vbo);
-    glBufferSubData(GL_ARRAY_BUFFER, 0, len * sizeof(struct st_vertex), renderer.vertex_buffer);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, len * sizeof(StVertex), renderer.vertex_buffer);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer.ebo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER,
@@ -162,7 +162,7 @@ static void flush(void)
     renderer.vertex_buffer_ptr = renderer.vertex_buffer;
 }
 
-void impl_gl_renderer_init(struct st_camera *camera)
+void impl_gl_renderer_init(StCamera *camera)
 {
     memset(&renderer, 0, sizeof(renderer));
     renderer.vertex_buffer_ptr = renderer.vertex_buffer;
@@ -180,12 +180,12 @@ void impl_gl_renderer_init(struct st_camera *camera)
 
     // position
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
-        sizeof(struct st_vertex), (void *)offsetof(struct st_vertex, position));
+        sizeof(StVertex), (void *)offsetof(StVertex, position));
     glEnableVertexAttribArray(0);
 
     // color
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE,
-        sizeof(struct st_vertex), (void *)offsetof(struct st_vertex, color));
+        sizeof(StVertex), (void *)offsetof(StVertex, color));
     glEnableVertexAttribArray(1);
 
     renderer.shader = shader_create(ST_ASSETS_PATH "/shaders/basic.vert", ST_ASSETS_PATH "/shaders/basic.frag");
@@ -222,7 +222,7 @@ void impl_gl_renderer_end(void)
     flush();
 }
 
-void impl_gl_renderer_push_mesh(const struct st_vertex *vertices,
+void impl_gl_renderer_push_mesh(const StVertex *vertices,
     const size_t vertex_count, const unsigned int *indices, const size_t index_count)
 {
     if (renderer.index_count + index_count >= INDEX_COUNT)
