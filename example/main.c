@@ -19,25 +19,24 @@ int main(void)
     printf("GL vendor:    %s\n", glGetString(GL_VENDOR));
     printf("GLSL version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+
     glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 
-    const float n = 0.25f;
-    const StVertex vertices[] = {
-        { { n,  n, 0.0f}, {1.0f, 0.0f, 0.0f, 1.0f} },
-        { { n, -n, 0.0f}, {0.0f, 0.0f, 1.0f, 1.0f} },
-        { {-n, -n, 0.0f}, {0.0f, 1.0f, 0.0f, 1.0f} },
-        { {-n,  n, 0.0f}, {1.0f, 1.0f, 0.0f, 1.0f} },
-    };
-
-    const unsigned int indices[] = {
-        0, 1, 3,
-        1, 2, 3
-    };
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 
     StCamera camera = {
-        {0.0f, 0.0f, -3.0f}
+        {0.0f, 0.0f, -5.0f}
     };
-    
+
+    StModel model = {0};
+    model_from_obj(&model, ST_ASSETS_PATH "/models/ball.obj");
+
     renderer_init(&camera);
 
     window_show();
@@ -45,7 +44,7 @@ int main(void)
         poll_events();
 
         renderer_begin();
-        renderer_push_mesh(vertices, 4, indices, 6);
+        renderer_push_mesh(model.vertices, model.v_len, model.indices, model.i_len);
         renderer_end();
 
         swap_buffers();

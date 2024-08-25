@@ -15,7 +15,7 @@
 #include "common.h"
 #include "util.h"
 
-#define INDEX_COUNT 256
+#define INDEX_COUNT 65536
 
 struct gl_renderer
 {
@@ -108,9 +108,6 @@ static void flush(void)
     window_get_size(&width, &height);
     glViewport(0, 0, width, height);
 
-    // glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    // glEnable(GL_BLEND);
-
     // we may have multiple draw calls,
     // clear only on the first
     if (renderer.first_draw) {
@@ -119,10 +116,10 @@ static void flush(void)
     }
 
     mat4 model = GLM_MAT4_IDENTITY_INIT;
-    vec3 axis = {1.0f, 0.0f, 0.0f};
-    static float angle = -55.0f;
+    vec3 axis = {0.0f, 1.0f, 0.0f};
+    static float angle = 0.0f;
     glm_rotate(model, glm_rad(angle), axis);
-    // angle -= 0.01f;
+    angle -= 0.01f;
     
     mat4 view = GLM_MAT4_IDENTITY_INIT;
     glm_translate(view, renderer.camera->position);

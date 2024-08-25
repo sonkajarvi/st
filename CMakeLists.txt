@@ -9,6 +9,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(SOURCES
     engine.c
     glad_loader.c
+    model.c
+    parse.c
     renderer.c
     renderer_gl.c
     util.c

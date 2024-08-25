@@ -66,6 +66,14 @@ typedef struct StVertex
     vec4 color;
 } StVertex;
 
+typedef struct StModel
+{
+    StVertex *vertices;
+    size_t v_len, v_cap;
+    unsigned int *indices;
+    size_t i_len, i_cap;
+} StModel;
+
 typedef struct StEngine
 {
     StWindow *window;
@@ -113,5 +121,8 @@ void renderer_begin(void);
 void renderer_end(void);
 void renderer_push_mesh(const StVertex *vertices,
     const size_t vertex_count, const unsigned int *indices, const size_t index_count);
+
+void model_from_obj(StModel *model, const char *path);
+void model_destroy(StModel *model);
 
 #endif // COMMON_H
