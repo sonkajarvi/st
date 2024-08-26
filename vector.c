@@ -2,16 +2,26 @@
 
 #include <stdlib.h>
 
-void *vector_realloc(void *v, const size_t bytes, const size_t byte_width)
+size_t __vector_calc_cap(void *v, const size_t add_len)
+{
+    const size_t cap = v ? vector_capacity(v) : VECTOR_DEFAULT_CAPACITY;
+    size_t new_cap = cap;
+    while (new_cap < add_len)
+        new_cap = __vector_f(new_cap);
+    
+    return new_cap;
+}
+
+void *__vector_realloc(void *v, const size_t cap, const size_t type_width)
 {
     const size_t header_size = sizeof(StVectorHeader);
 
-    void *tmp = realloc(v ? vector_header(v) : NULL, header_size + (bytes * byte_width));
+    void *tmp = realloc(v ? __vector_header(v) : NULL, header_size + (cap * type_width));
     tmp = (char *)tmp + header_size;
     
     if (!v)
-        vector_header(tmp)->length = 0;
-    vector_header(tmp)->capacity = bytes;
+        __vector_header(tmp)->length = 0;
+    __vector_header(tmp)->capacity = cap;
 
     return tmp;
 }
