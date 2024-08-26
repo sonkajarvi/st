@@ -21,23 +21,23 @@ struct gl_renderer
 {
     StVertex vertex_buffer[3 * INDEX_COUNT];
     StVertex *vertex_buffer_ptr;
-    unsigned int indices[INDEX_COUNT];
+    // unsigned int indices[INDEX_COUNT];
 
     StCamera *camera;
 
     GLuint shader;
     GLuint vao;
     GLuint vbo;
-    GLuint ebo;
+    // GLuint ebo;
 
     // per draw call
     size_t draw_count;
-    size_t index_count;
+    // size_t index_count;
     size_t vertex_count;
     size_t mesh_count;
     
     // from begin to end
-    size_t total_index_count;
+    // size_t total_index_count;
     size_t total_vertex_count;
     size_t total_mesh_count;
 
@@ -141,18 +141,19 @@ static void flush(void)
     glBindBuffer(GL_ARRAY_BUFFER, renderer.vbo);
     glBufferSubData(GL_ARRAY_BUFFER, 0, len * sizeof(StVertex), renderer.vertex_buffer);
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer.ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-        renderer.index_count * sizeof(unsigned int), renderer.indices, GL_DYNAMIC_DRAW);
+    // glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, renderer.ebo);
+    // glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+    //     renderer.index_count * sizeof(unsigned int), renderer.indices, GL_DYNAMIC_DRAW);
 
-    glDrawElements(GL_TRIANGLES, renderer.index_count, GL_UNSIGNED_INT, 0);
+    // glDrawElements(GL_TRIANGLES, renderer.index_count, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, renderer.vertex_count);
     renderer.draw_count++;
 
-    renderer.total_index_count += renderer.index_count;
+    // renderer.total_index_count += renderer.index_count;
     renderer.total_vertex_count += renderer.vertex_count;
     renderer.total_mesh_count += renderer.mesh_count;
 
-    renderer.index_count = 0;
+    // renderer.index_count = 0;
     renderer.vertex_count = 0;
     renderer.mesh_count = 0;
 
@@ -173,7 +174,7 @@ void impl_gl_renderer_init(StCamera *camera)
     glBufferData(GL_ARRAY_BUFFER,
         sizeof(renderer.vertex_buffer), NULL, GL_DYNAMIC_DRAW);
 
-    glGenBuffers(1, &renderer.ebo);
+    // glGenBuffers(1, &renderer.ebo);
 
     // position
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
@@ -192,7 +193,7 @@ void impl_gl_renderer_init(StCamera *camera)
 void impl_gl_renderer_destroy(void)
 {
     glDeleteBuffers(1, &renderer.vbo);
-    glDeleteBuffers(1, &renderer.ebo);
+    // glDeleteBuffers(1, &renderer.ebo);
     glDeleteVertexArrays(1, &renderer.vao);
 
     glDeleteProgram(renderer.shader);
@@ -203,11 +204,11 @@ void impl_gl_renderer_begin(void)
     renderer.vertex_buffer_ptr = renderer.vertex_buffer;
 
     renderer.draw_count = 0;
-    renderer.index_count = 0;
+    // renderer.index_count = 0;
     renderer.vertex_count = 0;
     renderer.mesh_count = 0;
 
-    renderer.total_index_count = 0;
+    // renderer.total_index_count = 0;
     renderer.total_vertex_count = 0;
     renderer.total_mesh_count = 0;
 
@@ -222,16 +223,20 @@ void impl_gl_renderer_end(void)
 void impl_gl_renderer_push_mesh(const StVertex *vertices,
     const size_t vertex_count, const unsigned int *indices, const size_t index_count)
 {
-    if (renderer.index_count + index_count >= INDEX_COUNT)
+    (void)indices;
+    (void)index_count;
+
+    // if (renderer.index_count + index_count >= INDEX_COUNT)
+    if (renderer.vertex_count + vertex_count >= 3 * INDEX_COUNT)
         flush();
 
     for (size_t i = 0; i < vertex_count; i++) {
         *renderer.vertex_buffer_ptr++ = vertices[i];
     }
 
-    for (size_t i = 0; i < index_count; i++) {
-        renderer.indices[renderer.index_count++] = renderer.vertex_count + indices[i];
-    }
+    // for (size_t i = 0; i < index_count; i++) {
+    //     renderer.indices[renderer.index_count++] = renderer.vertex_count + indices[i];
+    // }
 
     renderer.vertex_count += vertex_count;
     renderer.mesh_count++;
