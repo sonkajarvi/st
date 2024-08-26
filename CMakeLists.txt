@@ -14,6 +14,7 @@ set(SOURCES
     renderer.c
     renderer_gl.c
     util.c
+    vector.c
     window.c
 )
 
