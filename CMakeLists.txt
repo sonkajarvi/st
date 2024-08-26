@@ -60,3 +60,8 @@ target_compile_options(rendertest PRIVATE
     -Wstrict-prototypes
     -Wno-gnu-zero-variadic-macro
 )
+
+# tests
+include(CTest)
+enable_testing()
+add_subdirectory(tests)
