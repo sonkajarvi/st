@@ -135,6 +135,8 @@
  * @param len array length
  *
  * @note does nothing, if ptr is null or len is less than 1
+ *
+ * @todo fix nonnull warning on linux
  */
 #define vector_push_range(v, ptr, len) \
     ((ptr) && (len) > 0 \
