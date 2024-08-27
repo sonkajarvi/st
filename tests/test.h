@@ -42,7 +42,7 @@
     StTestResult __func(x)(void)
 
 #define test_assert(expr) \
-    if (!(expr)) return (StTestResult){TEST_FAILURE, __LINE__, #expr, __FILE_NAME__}
+    if (!(expr)) return (StTestResult){TEST_FAILURE, __LINE__, #expr, __FILE__}
 
 #define test_success() \
     return (StTestResult){TEST_SUCCESS, 0, 0, 0}
