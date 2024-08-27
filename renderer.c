@@ -2,13 +2,13 @@
 
 #include <assert.h>
 
-void renderer_init(StCamera *camera)
+void renderer_init(StCamera *camera, StLight *light)
 {
     assert(global_engine_context);
     StWindow *window = global_engine_context->window;
     assert(window);
 
-    call_impl(renderer_init, camera);
+    call_impl(renderer_init, camera, light);
 }
 
 void renderer_destroy(void)

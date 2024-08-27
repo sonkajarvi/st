@@ -24,6 +24,7 @@ struct gl_renderer
     // unsigned int indices[INDEX_COUNT];
 
     StCamera *camera;
+    StLight *light;
 
     GLuint shader;
     GLuint vao;
@@ -111,7 +112,7 @@ static void flush(void)
     // we may have multiple draw calls,
     // clear only on the first
     if (renderer.first_draw) {
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         renderer.first_draw = false;
     }
 
@@ -134,6 +135,16 @@ static void flush(void)
         1, GL_FALSE, *model);
     glUniformMatrix4fv(glGetUniformLocation(renderer.shader, "u_Projection"),
         1, GL_FALSE, *projection);
+    
+    glUniform3f(glGetUniformLocation(renderer.shader, "u_LightPos"),
+        renderer.light->position[0],
+        renderer.light->position[1],
+        renderer.light->position[2]);
+
+    glUniform3f(glGetUniformLocation(renderer.shader, "u_LightColor"),
+        renderer.light->color[0],
+        renderer.light->color[1],
+        renderer.light->color[2]);
 
     size_t len = renderer.vertex_buffer_ptr - renderer.vertex_buffer;
 
@@ -160,11 +171,12 @@ static void flush(void)
     renderer.vertex_buffer_ptr = renderer.vertex_buffer;
 }
 
-void impl_gl_renderer_init(StCamera *camera)
+void impl_gl_renderer_init(StCamera *camera, StLight *light)
 {
     memset(&renderer, 0, sizeof(renderer));
     renderer.vertex_buffer_ptr = renderer.vertex_buffer;
     renderer.camera = camera;
+    renderer.light = light;
 
     glGenVertexArrays(1, &renderer.vao);
     glBindVertexArray(renderer.vao);
@@ -185,6 +197,11 @@ void impl_gl_renderer_init(StCamera *camera)
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE,
         sizeof(StVertex), (void *)offsetof(StVertex, color));
     glEnableVertexAttribArray(1);
+
+    // normal
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE,
+        sizeof(StVertex), (void *)offsetof(StVertex, normal));
+    glEnableVertexAttribArray(2);
 
     renderer.shader = shader_create(ST_ASSETS_PATH "/shaders/basic.vert", ST_ASSETS_PATH "/shaders/basic.frag");
     glUseProgram(renderer.shader);

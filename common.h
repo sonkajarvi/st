@@ -39,6 +39,12 @@ typedef struct StCamera
     vec3 position;
 } StCamera;
 
+typedef struct StLight
+{
+    vec3 position;
+    vec3 color;
+} StLight;
+
 typedef struct StWindow
 {
     // keyboard
@@ -90,7 +96,7 @@ typedef struct StEngine
         void (*context_create)(StWindow *);
         void (*context_destroy)(StWindow *);
     
-        void (*renderer_init)(StCamera *);
+        void (*renderer_init)(StCamera *, StLight *);
         void (*renderer_destroy)(void);
         void (*renderer_begin)(void);
         void (*renderer_end)(void);
@@ -113,7 +119,7 @@ void window_get_pos(int *x, int *y);
 void poll_events(void);
 void swap_buffers(void);
 
-void renderer_init(StCamera *camera);
+void renderer_init(StCamera *camera, StLight *light);
 void renderer_destroy(void);
 void renderer_begin(void);
 void renderer_end(void);

@@ -26,9 +26,11 @@ int main(void)
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
 
+    glEnable(GL_DEPTH_TEST);
+
     glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     // glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 
     StCamera camera = {
@@ -38,7 +40,12 @@ int main(void)
     StModel model = {0};
     model_from_obj(&model, ST_ASSETS_PATH "/models/suzanne.obj");
 
-    renderer_init(&camera);
+    StLight light = {
+        {5.0f, 5.0f, 5.0f},
+        {0.5f, 1.0f, 1.0f}
+    };
+
+    renderer_init(&camera, &light);
 
     window_show();
     while (!window_should_close()) {
