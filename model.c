@@ -236,8 +236,8 @@ void model_from_obj(StModel *model, const char *path)
     }
 
     printf("finished parsing '%s'\n", path);
-    printf("vertices: %lld\n", vector_length(buffer.vertices));
-    printf("normals: %lld\n", vector_length(buffer.normals));
+    printf("vertices: %zu\n", vector_length(buffer.vertices));
+    printf("normals: %zu\n", vector_length(buffer.normals));
 
 end:
     fclose(fp);

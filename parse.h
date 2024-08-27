@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#define parser_printf(parser, fmt, ...) printf("(%lld:%lld) "fmt, (parser).ln, (parser).col, ##__VA_ARGS__)
+#define parser_printf(parser, fmt, ...) printf("(%zu:%zu) "fmt, (parser).ln, (parser).col, ##__VA_ARGS__)
 
 typedef struct StParser
 {
