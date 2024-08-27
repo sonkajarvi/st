@@ -191,6 +191,27 @@ test_case(vector_push_range)
     test_success();
 }
 
+test_case(vector_push_copy)
+{
+    typedef float vec3[3];
+    vec3 *v = NULL;
+
+    vec3 tmp;
+    tmp[0] = 1.0f;
+    tmp[1] = 2.0f;
+    tmp[2] = 3.0f;
+
+    vector_push_copy(v, tmp);
+    test_assert(vector_length(v) == 1);
+    test_assert(v[0][0] == 1.0f);
+    test_assert(v[0][1] == 2.0f);
+    test_assert(v[0][2] == 3.0f);
+
+    vector_free(v);
+
+    test_success();
+}
+
 test_case(vector_reserve)
 {
     int *v = NULL;

@@ -144,6 +144,17 @@
         : 0)
 
 /**
+ * @brief push a value to a vector using memmove
+ *
+ * @param v vector
+ * @param value value
+ */
+#define vector_push_copy(v, value) \
+    (__vector_grow((v), 1), \
+        memmove((v) + vector_length((v)), &(value), sizeof((value))), \
+        __vector_header((v))->length++)
+
+/**
  * @brief reserve capacity for a vector
  *
  * @param v vector
