@@ -43,7 +43,7 @@
  *
  * @note returns 0, if v is null
  */
-#define vector_length(v)    ((v) ? __vector_header((v))->length : 0)
+#define vector_length(v)    ((v) ? (size_t)__vector_header((v))->length : (size_t)0)
 
 /**
  * @brief get capacity of a vector
