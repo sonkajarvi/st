@@ -6,6 +6,7 @@
 
 #include <common.h>
 #include <glad_loader.h>
+#include <vector.h>
 
 int main(void)
 {
@@ -35,7 +36,7 @@ int main(void)
     };
 
     StModel model = {0};
-    model_from_obj(&model, ST_ASSETS_PATH "/models/ball.obj");
+    model_from_obj(&model, ST_ASSETS_PATH "/models/suzanne.obj");
 
     renderer_init(&camera);
 
@@ -44,12 +45,13 @@ int main(void)
         poll_events();
 
         renderer_begin();
-        renderer_push_mesh(model.vertices, model.v_len, model.indices, model.i_len);
+        renderer_push_mesh(model.vertices, vector_length(model.vertices), NULL, 0);
         renderer_end();
 
         swap_buffers();
     }
 
+    model_destroy(&model);
     renderer_destroy();
     window_destroy();
     engine_destroy();

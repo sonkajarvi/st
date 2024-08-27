@@ -64,14 +64,12 @@ typedef struct StVertex
 {
     vec3 position;
     vec4 color;
+    vec3 normal;
 } StVertex;
 
 typedef struct StModel
 {
     StVertex *vertices;
-    size_t v_len, v_cap;
-    unsigned int *indices;
-    size_t i_len, i_cap;
 } StModel;
 
 typedef struct StEngine

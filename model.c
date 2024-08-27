@@ -3,13 +3,24 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include <cglm/vec3.h>
+#include <cglm/vec4.h>
 
 #include "parse.h"
+#include "vector.h"
 
 #define is_whitespace(c) (c == ' ' || c == '\t' || c == '\n' || c == '\r')
 
 // https://en.wikipedia.org/wiki/Wavefront_.obj_file
 // https://cs418.cs.illinois.edu/website/text/obj.html
+
+typedef struct StModel_OBJBuffer
+{
+    vec3 *vertices;
+    vec3 *normals;
+} StModel_OBJBuffer;
 
 static void skip_until_newline(StParser *parser, FILE *fp)
 {
@@ -29,39 +40,6 @@ static void skip_whitespace(StParser *parser, FILE *fp)
 
         consume(parser, fp);
     }
-}
-
-static void model_push_vertex(StModel *model, float x, float y, float z)
-{
-    assert(model);
-
-    if (model->v_len == model->v_cap) {
-        model->v_cap = model->v_cap ? model->v_cap * 2 : 8;
-        model->vertices = realloc(model->vertices, sizeof(*model->vertices) * model->v_cap);
-    }
-
-    model->v_len++;
-    StVertex *v = &model->vertices[model->v_len - 1];
-    v->position[0] = x;
-    v->position[1] = y;
-    v->position[2] = z;
-    v->color[0] = 1.0f;
-    v->color[1] = 1.0f;
-    v->color[2] = 1.0f;
-    v->color[3] = 1.0f;
-}
-
-static void model_push_index(StModel *model, unsigned int index)
-{
-    assert(model);
-
-    if (model->i_len == model->i_cap) {
-        model->i_cap = model->i_cap ? model->i_cap * 2 : 8;
-        model->indices = realloc(model->indices, sizeof(*model->indices) * model->i_cap);
-    }
-
-    model->i_len++;
-    model->indices[model->i_len - 1] = index;    
 }
 
 static float parse_float(StParser *parser, FILE *fp)
@@ -91,7 +69,7 @@ static unsigned int parse_int(StParser *parser, FILE *fp)
     skip_whitespace(parser, fp);
 
     char c;
-    while (i < 15 && (c = peek(fp), !is_whitespace(c))) {
+    while (i < 15 && (c = peek(fp), c >= '0' && c <= '9')) {
         buf[i++] = c;
         consume(parser, fp);
     }
@@ -102,34 +80,102 @@ static unsigned int parse_int(StParser *parser, FILE *fp)
     return ret;
 }
 
-static void parse_vertex(StModel *model, StParser *parser, FILE *fp)
+static void parse_vertex(StModel *model, StParser *parser, FILE *fp, StModel_OBJBuffer *buffer)
 {
-    float x, y, z;
-    x = parse_float(parser, fp);
-    y = parse_float(parser, fp);
-    z = parse_float(parser, fp);
-    model_push_vertex(model, x, y, z);
+    (void)model;
+    (void)buffer;
+
+    vec3 v;
+    v[0] = parse_float(parser, fp);
+    v[1] = parse_float(parser, fp);
+    v[2] = parse_float(parser, fp);
+    vector_push_copy(buffer->vertices, v);
     
     // ignore 4th value
     skip_until_newline(parser, fp);
 }
 
-static void parse_face(StModel *model, StParser *parser, FILE *fp)
+static void parse_normal(StModel *model, StParser *parser, FILE *fp, StModel_OBJBuffer *buffer)
 {
-    unsigned int i0, i1, i2;
-    i0 = parse_int(parser, fp) - 1;
-    i1 = parse_int(parser, fp) - 1;
-    i2 = parse_int(parser, fp) - 1;
-    model_push_index(model, i0);
-    model_push_index(model, i1);
-    model_push_index(model, i2);
+    (void)model;
+    (void)buffer;
+
+    vec3 v;
+    v[0] = parse_float(parser, fp);
+    v[1] = parse_float(parser, fp);
+    v[2] = parse_float(parser, fp);
+    vector_push_copy(buffer->normals, v);
+    
+    // ignore 4th value
+    skip_until_newline(parser, fp);
+}
+
+static void model_push_vertex(StModel *model, StModel_OBJBuffer *buffer, unsigned int vertex, unsigned int normal)
+{
+    (void)model;
+    (void)buffer;
+    (void)vertex;
+    (void)normal;
+
+    assert(vertex < vector_length(buffer->vertices));
+    assert(normal < vector_length(buffer->normals));
+
+    StVertex v;
+    v.position[0] = buffer->vertices[vertex][0];
+    v.position[1] = buffer->vertices[vertex][1];
+    v.position[2] = buffer->vertices[vertex][2];
+    
+    v.color[0] = 1.0f;
+    v.color[1] = 1.0f;
+    v.color[2] = 1.0f;
+    v.color[3] = 1.0f;
+    
+    v.normal[0] = buffer->normals[normal][0];
+    v.normal[1] = buffer->normals[normal][1];
+    v.normal[2] = buffer->normals[normal][2];
+
+    vector_push_copy(model->vertices, v);
+}
+
+static void parse_face(StModel *model, StParser *parser, FILE *fp, StModel_OBJBuffer *buffer)
+{
+    (void)model;
+    (void)buffer;
+
+    unsigned int v0, v1, v2;
+    unsigned int n0, n1, n2;
+
+    v0 = parse_int(parser, fp) - 1;
+    consume(parser, fp);
+    consume(parser, fp);
+    n0 = parse_int(parser, fp) - 1;
+    
+    v1 = parse_int(parser, fp) - 1;
+    consume(parser, fp);
+    consume(parser, fp);
+    n1 = parse_int(parser, fp) - 1;
+
+    v2 = parse_int(parser, fp) - 1;
+    consume(parser, fp);
+    consume(parser, fp);
+    n2 = parse_int(parser, fp) - 1;
+
+    model_push_vertex(model, buffer, v0, n0);
+    model_push_vertex(model, buffer, v1, n1);
+    model_push_vertex(model, buffer, v2, n2);
 
     while (peek(fp) != '\n') {
-        i1 = i2;
-        i2 = parse_int(parser, fp) - 1;
-        model_push_index(model, i0);
-        model_push_index(model, i1);
-        model_push_index(model, i2);
+        v1 = v2;
+        n1 = n2;
+
+        v2 = parse_int(parser, fp) - 1;
+        consume(parser, fp);
+        consume(parser, fp);
+        n2 = parse_int(parser, fp) - 1;
+
+        model_push_vertex(model, buffer, v0, n0);
+        model_push_vertex(model, buffer, v1, n1);
+        model_push_vertex(model, buffer, v2, n2);
     }
 
     skip_until_newline(parser, fp);
@@ -144,38 +190,60 @@ void model_from_obj(StModel *model, const char *path)
     assert(fp);
 
     StParser parser = {0};
+    StModel_OBJBuffer buffer = {0};
 
     char c;
     while((c = consume(&parser, fp)) != EOF)
     {
         switch (c) {
         case '\n':
-            printf("(%lld:%lld) empty line\n", parser.ln, parser.col);
+            parser_printf(parser, "empty line\n");
             break;
 
         case '#':
-            printf("(%lld:%lld) comment\n", parser.ln, parser.col);
+            parser_printf(parser, "comment\n");
             skip_until_newline(&parser, fp);
             break;
 
         case 'v':
-            parse_vertex(model, &parser, fp);
+            c = consume(&parser, fp);
+            switch (c) {
+            case ' ':
+                // parser_printf(parser, "vertex\n");
+                parse_vertex(model, &parser, fp, &buffer);
+                break;
+            
+            case 'n':
+                // parser_printf(parser, "normal\n");
+                parse_normal(model, &parser, fp, &buffer);
+                break;
+            
+            default:
+                parser_printf(parser, "unknown token: '%c' (0x%x)\n", c, c);
+                goto end;
+            }
             break;
         
         case 'f':
-            parse_face(model, &parser, fp);
+            // parser_printf(parser, "face\n");
+            parse_face(model, &parser, fp, &buffer);
             break;
         
         default:
-            printf("(%lld:%lld) unknown token: '%c' (0x%x)\n", parser.ln, parser.col, c, c);
+            parser_printf(parser, "unknown token: '%c' (0x%x)\n", c, c);
             goto end;
         }
     }
 
     printf("finished parsing '%s'\n", path);
+    printf("vertices: %lld\n", vector_length(buffer.vertices));
+    printf("normals: %lld\n", vector_length(buffer.normals));
 
 end:
     fclose(fp);
+
+    vector_free(buffer.vertices);
+    vector_free(buffer.normals);
 }
 
 void model_destroy(StModel *model)
@@ -183,5 +251,4 @@ void model_destroy(StModel *model)
     assert(model);
 
     free(model->vertices);
-    free(model->indices);
 }
