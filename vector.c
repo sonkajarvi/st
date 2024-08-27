@@ -6,7 +6,7 @@ size_t __vector_calc_cap(void *v, const size_t add_len)
 {
     const size_t cap = v ? vector_capacity(v) : VECTOR_DEFAULT_CAPACITY;
     size_t new_cap = cap;
-    while (new_cap < add_len)
+    while (new_cap < vector_length(v) + add_len)
         new_cap = __vector_f(new_cap);
     
     return new_cap;
