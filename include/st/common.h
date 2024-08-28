@@ -94,8 +94,13 @@ typedef struct StWindow
 #elif defined(ST_PLATFORM_WINDOWS)
     struct {
         HWND window;
+        UINT64 offset;
+        UINT64 frequency;
     } win32;
 #endif
+
+    int fps;
+    float deltatime;
 } StWindow;
 
 typedef struct StVertex
@@ -116,6 +121,7 @@ typedef struct StEngine
 
     // per platform functions
     struct {
+        double (*engine_time)(StWindow *);
         void (*window_create)(StWindow *, const char *, int, int);
         void (*window_destroy)(StWindow *);
         void (*window_show)(StWindow *);
@@ -147,6 +153,9 @@ void window_show(void);
 bool window_should_close(void);
 void window_get_size(int *width, int *height);
 void window_get_pos(int *x, int *y);
+double window_time(void);
+int window_fps(void);
+float window_deltatime(void);
 
 void poll_events(void);
 void swap_buffers(void);

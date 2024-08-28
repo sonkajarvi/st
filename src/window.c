@@ -67,11 +67,55 @@ void window_get_pos(int *x, int *y)
     call_impl(window_get_pos, window, x, y);    
 }
 
+double window_time(void)
+{
+    assert(global_engine_context);
+    StWindow *window = global_engine_context->window;
+    assert(window);
+
+    return_impl(engine_time, window);
+}
+
+int window_fps(void)
+{
+    assert(global_engine_context);
+    StWindow *window = global_engine_context->window;
+    assert(window);
+
+    return window->fps;
+}
+
+float window_deltatime(void)
+{
+    assert(global_engine_context);
+    StWindow *window = global_engine_context->window;
+    assert(window);
+
+    return window->deltatime;
+}
+
 void poll_events(void)
 {
     assert(global_engine_context);
     StWindow *window = global_engine_context->window;
     assert(window);
+
+    // update time
+    static int frames = 0;
+    static double elapsed = 0.0;
+    static double last = 0.0;
+
+    double now = window_time();
+    window->deltatime = (float)(now - last);
+    elapsed += now - last;
+    last = now;
+
+    if (elapsed >= 1.0) {
+        elapsed = 0.0;
+        window->fps = frames;
+        frames = 0;
+    }
+    frames++;
 
     // reset mouse wheel delta
     window->mouse.wheel = 0.0f;

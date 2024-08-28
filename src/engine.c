@@ -30,6 +30,8 @@ static void impl_for_x11(void)
 #elif defined(ST_PLATFORM_WINDOWS)
 static void impl_for_win32(void)
 {
+    global_engine_context->impl.engine_time = impl_win32_engine_time;
+
     global_engine_context->impl.window_create = impl_win32_window_create;
     global_engine_context->impl.window_destroy = impl_win32_window_destroy;
     global_engine_context->impl.window_show = impl_win32_window_show;

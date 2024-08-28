@@ -2,7 +2,6 @@
 
 #include <assert.h>
 #include <stdio.h>
-#include <winuser.h>
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -188,6 +187,19 @@ void impl_win32_window_create(StWindow *window, const char *title, int width, in
     );
 
     assert(window->win32.window);
+
+    assert(QueryPerformanceCounter((LARGE_INTEGER *)&window->win32.offset));
+    assert(QueryPerformanceFrequency((LARGE_INTEGER *)&window->win32.frequency));
+}
+
+double impl_win32_engine_time(StWindow *window)
+{
+    assert(window);
+    assert(window->win32.window);
+
+    UINT64 counter;
+    QueryPerformanceCounter((LARGE_INTEGER *)&counter);
+    return (double)(counter - window->win32.offset) / window->win32.frequency;
 }
 
 void impl_win32_window_destroy(StWindow *window)

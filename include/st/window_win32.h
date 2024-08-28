@@ -3,6 +3,8 @@
 
 #include <st/common.h>
 
+double impl_win32_engine_time(StWindow *);
+
 void impl_win32_window_create(StWindow *, const char *, int, int);
 void impl_win32_window_destroy(StWindow *);
 void impl_win32_window_show(StWindow *);
