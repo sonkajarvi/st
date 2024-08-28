@@ -10,6 +10,7 @@
 #include <windows.h>
 #endif
 
+#include <cglm/ivec2.h>
 #include <cglm/vec3.h>
 #include <cglm/vec4.h>
 
@@ -47,8 +48,9 @@ typedef struct StLight
 
 typedef struct StWindow
 {
-    // keyboard
-    // mouse
+    struct {
+        ivec2 position;
+    } mouse;
     
     bool is_open;
 
