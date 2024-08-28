@@ -10,6 +10,7 @@ set(SOURCES
     src/engine.c
     src/glad_loader.c
     src/model.c
+    src/mouse.c
     src/parse.c
     src/renderer.c
     src/renderer_gl.c

@@ -13,12 +13,54 @@
 
 static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    if (global_engine_context->window->win32.window) {
+    assert(global_engine_context);
+    StWindow *window = global_engine_context->window;
+    assert(window);
+
+    int index = -1;
+
+    if (window->win32.window) {
         switch (msg) {
         case WM_CLOSE:
             PostQuitMessage(0);
             break;
+
+        case WM_MOUSEMOVE:
+            window->mouse.position[0] = LOWORD(lparam);
+            window->mouse.position[1] = HIWORD(lparam);
+            break;
+        
+        case WM_MOUSEWHEEL:
+            window->mouse.wheel = GET_WHEEL_DELTA_WPARAM(wparam) / 120.0f;
+            break;
+
+        case WM_LBUTTONDOWN:
+        case WM_RBUTTONDOWN:
+        case WM_MBUTTONDOWN:
+        case WM_XBUTTONDOWN:
+            if (msg == WM_LBUTTONDOWN) index = ST_MOUSE_LEFT;
+            else if (msg == WM_RBUTTONDOWN) index = ST_MOUSE_RIGHT;
+            else if (msg == WM_MBUTTONDOWN) index = ST_MOUSE_MIDDLE;
+            else if (msg == WM_XBUTTONDOWN)
+                index = GET_XBUTTON_WPARAM(wparam) == XBUTTON1 ? ST_MOUSE_X1 : ST_MOUSE_X2;
+
+            window->mouse.state[index].curr = 1;
+            break;
+
+        case WM_LBUTTONUP:
+        case WM_RBUTTONUP:
+        case WM_MBUTTONUP:
+        case WM_XBUTTONUP:
+            if (msg == WM_LBUTTONUP) index = ST_MOUSE_LEFT;
+            else if (msg == WM_RBUTTONUP) index = ST_MOUSE_RIGHT;
+            else if (msg == WM_MBUTTONUP) index = ST_MOUSE_MIDDLE;
+            else if (msg == WM_XBUTTONUP)
+                index = GET_XBUTTON_WPARAM(wparam) == XBUTTON1 ? ST_MOUSE_X1 : ST_MOUSE_X2;
+
+            window->mouse.state[index].curr = 0;
+            break;
         }
+
     }
 
     return DefWindowProc(hwnd, msg, wparam, lparam);

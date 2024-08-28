@@ -35,6 +35,16 @@
         global_engine_context->impl.f(__VA_ARGS__); \
     } while (0)
 
+#define ST_MOUSE_LEFT   0
+#define ST_MOUSE_RIGHT  1
+#define ST_MOUSE_MIDDLE 2
+#define ST_MOUSE_X1     3
+#define ST_MOUSE_X2     4
+
+#define ST_MOUSE_FIRST  ST_MOUSE_LEFT
+#define ST_MOUSE_LAST   ST_MOUSE_X2
+#define ST_MOUSE_COUNT  (ST_MOUSE_LAST + 1)
+
 typedef struct StCamera
 {
     vec3 position;
@@ -49,9 +59,14 @@ typedef struct StLight
 typedef struct StWindow
 {
     struct {
-        ivec2 position;
+        ivec2 position, delta;
+        struct {
+            unsigned char curr : 1;
+            unsigned char prev : 1;
+        } state[ST_MOUSE_COUNT];
+        float wheel;
     } mouse;
-    
+
     bool is_open;
 
 #ifdef ST_PLATFORM_LINUX
@@ -120,6 +135,13 @@ void window_get_pos(int *x, int *y);
 
 void poll_events(void);
 void swap_buffers(void);
+
+void mouse_get_pos(int *x, int *y);
+void mouse_get_delta(int *x, int *y);
+float mouse_get_wheel(void);
+bool mouse_down(int button);
+bool mouse_press(int button);
+bool mouse_release(int button);
 
 void renderer_init(StCamera *camera, StLight *light);
 void renderer_destroy(void);

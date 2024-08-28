@@ -73,6 +73,20 @@ void poll_events(void)
     StWindow *window = global_engine_context->window;
     assert(window);
 
+    // reset mouse wheel delta
+    window->mouse.wheel = 0.0f;
+
+    // update mouse button states
+    for (int i = 0; i < ST_MOUSE_COUNT; i++)
+        window->mouse.state[i].prev = window->mouse.state[i].curr;
+
+    // update mouse position delta
+    static ivec2 prev_position = {0, 0};
+    window->mouse.delta[0] = window->mouse.position[0] - prev_position[0];
+    window->mouse.delta[1] = window->mouse.position[1] - prev_position[1];
+    prev_position[0] = window->mouse.position[0];
+    prev_position[1] = window->mouse.position[1];
+
     call_impl(poll_events, window);
 }
 
