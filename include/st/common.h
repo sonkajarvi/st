@@ -133,6 +133,7 @@ typedef struct StEngine
         
         void (*context_create)(StWindow *);
         void (*context_destroy)(StWindow *);
+        void (*window_vsync)(StWindow *, bool);
     
         void (*renderer_init)(StCamera *, StLight *);
         void (*renderer_destroy)(void);
@@ -156,6 +157,7 @@ void window_get_pos(int *x, int *y);
 double window_time(void);
 int window_fps(void);
 float window_deltatime(void);
+void window_vsync(bool value);
 
 void poll_events(void);
 void swap_buffers(void);

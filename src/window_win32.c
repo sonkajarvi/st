@@ -280,7 +280,6 @@ void impl_wgl_context_create(StWindow *window)
     assert(window->win32.window);
 
     PFNWGLCREATECONTEXTATTRIBSARBPROC wglCreateContextAttribsARB;
-    PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
     HDC dc;
     HGLRC tmp, cx;
     int format;
@@ -326,9 +325,6 @@ void impl_wgl_context_create(StWindow *window)
     wglMakeCurrent(dc, cx);
 
     ReleaseDC(window->win32.window, dc);
-
-    ignore_diagnostic("-Wcast-function-type", wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT"));
-    wglSwapIntervalEXT(0);
 }
 
 void impl_wgl_context_destroy(StWindow *window)
@@ -338,4 +334,15 @@ void impl_wgl_context_destroy(StWindow *window)
     
     wglMakeCurrent(NULL, NULL);
     wglDeleteContext(wglGetCurrentContext());
+}
+
+void impl_wgl_window_vsync(StWindow *window, bool value)
+{
+    assert(window);
+    assert(window->win32.window);
+    
+    static PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT;
+    ignore_diagnostic("-Wcast-function-type", wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT"));
+
+    wglSwapIntervalEXT(value);
 }

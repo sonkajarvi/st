@@ -94,6 +94,15 @@ float window_deltatime(void)
     return window->deltatime;
 }
 
+void window_vsync(bool value)
+{
+    assert(global_engine_context);
+    StWindow *window = global_engine_context->window;
+    assert(window);
+
+    call_impl(window_vsync, window, value);
+}
+
 void poll_events(void)
 {
     assert(global_engine_context);

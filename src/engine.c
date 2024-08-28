@@ -40,6 +40,7 @@ static void impl_for_win32(void)
 
     global_engine_context->impl.poll_events = impl_win32_poll_events;
     global_engine_context->impl.swap_buffers = impl_wgl_swap_buffers;
+    global_engine_context->impl.window_vsync = impl_wgl_window_vsync;
 
     global_engine_context->impl.context_create = impl_wgl_context_create;
     global_engine_context->impl.context_destroy = impl_wgl_context_destroy;

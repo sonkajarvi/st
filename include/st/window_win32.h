@@ -16,5 +16,6 @@ void impl_wgl_swap_buffers(StWindow *);
 
 void impl_wgl_context_create(StWindow *);
 void impl_wgl_context_destroy(StWindow *);
+void impl_wgl_window_vsync(StWindow *, bool value);
 
 #endif // WINDOW_WIN32_H
