@@ -11,7 +11,7 @@ add_executable(example main.c)
 add_subdirectory(.. rendertest)
 
 target_include_directories(example PRIVATE
-    ..
+    ../include
     ../thirdparty/cglm/include
     ../thirdparty/glad/include
 )

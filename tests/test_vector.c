@@ -1,7 +1,7 @@
 #include "test.h"
 
-#include <attr.h>
-#include <vector.h>
+#include <st/attr.h>
+#include <st/vector.h>
 
 test_case(vector_is_empty)
 {

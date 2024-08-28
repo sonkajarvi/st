@@ -1,4 +1,4 @@
-#include "parse.h"
+#include <st/parse.h>
 
 char consume(StParser *parser, FILE *fp)
 {

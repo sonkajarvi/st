@@ -1,4 +1,4 @@
-#include "renderer_gl.h"
+#include <st/renderer_gl.h>
 
 #include <assert.h>
 #include <math.h>
@@ -11,9 +11,8 @@
 #include <cglm/cam.h>
 #include <cglm/affine.h>
 
-#include "cglm/vec3.h"
-#include "common.h"
-#include "util.h"
+#include <st/common.h>
+#include <st/util.h>
 
 #define INDEX_COUNT 65536
 

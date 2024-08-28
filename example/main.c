@@ -4,9 +4,9 @@
 #include <cglm/vec2.h>
 #include <cglm/vec4.h>
 
-#include <common.h>
-#include <glad_loader.h>
-#include <vector.h>
+#include <st/common.h>
+#include <st/glad_loader.h>
+#include <st/vector.h>
 
 int main(void)
 {

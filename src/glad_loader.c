@@ -1,4 +1,4 @@
-#include "glad_loader.h"
+#include <st/glad_loader.h>
 
 #include <assert.h>
 #include <stdbool.h>

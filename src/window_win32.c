@@ -1,4 +1,4 @@
-#include "window_win32.h"
+#include <st/window_win32.h>
 
 #include <assert.h>
 
@@ -8,8 +8,8 @@
 #define WGL_WGLEXT_PROTOTYPES
 #include <GL/wglext.h>
 
-#include "attr.h"
-#include "common.h"
+#include <st/attr.h>
+#include <st/common.h>
 
 static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {

@@ -1,15 +1,14 @@
-#include "common.h"
-
 #include <stdlib.h>
 #include <string.h>
 
 #ifdef ST_PLATFORM_LINUX
-#include "window_x11.h"
+#include <st/window_x11.h>
 #elif defined(ST_PLATFORM_WINDOWS)
-#include "window_win32.h"
+#include <st/window_win32.h>
 #endif
 
-#include "renderer_gl.h"
+#include <st/common.h>
+#include <st/renderer_gl.h>
 
 StEngine *global_engine_context = NULL;
 

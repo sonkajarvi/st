@@ -7,15 +7,15 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(SOURCES
-    engine.c
-    glad_loader.c
-    model.c
-    parse.c
-    renderer.c
-    renderer_gl.c
-    util.c
-    vector.c
-    window.c
+    src/engine.c
+    src/glad_loader.c
+    src/model.c
+    src/parse.c
+    src/renderer.c
+    src/renderer_gl.c
+    src/util.c
+    src/vector.c
+    src/window.c
 )
 
 set(LIBS glad m)
@@ -24,13 +24,13 @@ if (WIN32)
     message("using Windows")
     add_compile_definitions(ST_PLATFORM_WINDOWS)
     set(LIBS ${LIBS} gdi32 opengl32)
-    set(SOURCES ${SOURCES} window_win32.c)
+    set(SOURCES ${SOURCES} src/window_win32.c)
     
 elseif (UNIX AND NOT APPLE)
     message("using Linux")
     add_compile_definitions(ST_PLATFORM_LINUX)
     set(LIBS ${LIBS} X11)
-    set(SOURCES ${SOURCES} window_x11.c)
+    set(SOURCES ${SOURCES} src/window_x11.c)
 
 endif()
 
@@ -43,6 +43,7 @@ target_compile_definitions(rendertest PUBLIC ST_ASSETS_PATH="${CMAKE_CURRENT_SOU
 add_subdirectory(thirdparty/glad)
 
 target_include_directories(rendertest PRIVATE
+    include
     thirdparty/cglm/include
     thirdparty/glad/include
 )

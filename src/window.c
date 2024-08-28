@@ -1,4 +1,4 @@
-#include "common.h"
+#include <st/common.h>
 
 #include <assert.h>
 #include <stdlib.h>

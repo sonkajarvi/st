@@ -1,5 +1,3 @@
-#include "common.h"
-
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,8 +6,9 @@
 #include <cglm/vec3.h>
 #include <cglm/vec4.h>
 
-#include "parse.h"
-#include "vector.h"
+#include <st/common.h>
+#include <st/parse.h>
+#include <st/vector.h>
 
 #define is_whitespace(c) (c == ' ' || c == '\t' || c == '\n' || c == '\r')
 

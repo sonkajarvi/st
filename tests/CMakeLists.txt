@@ -10,7 +10,7 @@ add_executable(tests
 )
 
 target_include_directories(tests PRIVATE
-    ..
+    ../include
 )
 
 target_link_libraries(tests PRIVATE

@@ -1,7 +1,7 @@
 #ifndef WINDOW_WIN32_H
 #define WINDOW_WIN32_H
 
-#include "common.h"
+#include <st/common.h>
 
 void impl_win32_window_create(StWindow *, const char *, int, int);
 void impl_win32_window_destroy(StWindow *);
