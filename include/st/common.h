@@ -14,6 +14,8 @@
 #include <cglm/vec3.h>
 #include <cglm/vec4.h>
 
+#include <st/keys.h>
+
 /**
  * Platforms and backends:
  * - Windows
@@ -66,6 +68,13 @@ typedef struct StWindow
         } state[ST_MOUSE_COUNT];
         float wheel;
     } mouse;
+
+    struct {
+        struct {
+            unsigned char curr : 1;
+            unsigned char prev : 1;
+        } state[ST_KEY_COUNT];
+    } keyboard;
 
     bool is_open;
 
@@ -142,6 +151,10 @@ float mouse_get_wheel(void);
 bool mouse_down(int button);
 bool mouse_press(int button);
 bool mouse_release(int button);
+
+bool key_down(int key);
+bool key_press(int key);
+bool key_release(int key);
 
 void renderer_init(StCamera *camera, StLight *light);
 void renderer_destroy(void);

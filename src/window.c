@@ -87,6 +87,10 @@ void poll_events(void)
     prev_position[0] = window->mouse.position[0];
     prev_position[1] = window->mouse.position[1];
 
+    // update keyboard key states
+    for (int i = 0; i < ST_KEY_COUNT; i++)
+        window->keyboard.state[i].prev = window->keyboard.state[i].curr;
+
     call_impl(poll_events, window);
 }
 

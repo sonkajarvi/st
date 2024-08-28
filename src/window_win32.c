@@ -1,15 +1,92 @@
 #include <st/window_win32.h>
 
 #include <assert.h>
+#include <stdio.h>
+#include <winuser.h>
 
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <GL/gl.h>
-#include <wingdi.h>
 #define WGL_WGLEXT_PROTOTYPES
 #include <GL/wglext.h>
 
 #include <st/attr.h>
 #include <st/common.h>
+#include <st/keys.h>
+
+static int vk_to_key(int vk)
+{
+    switch (vk) {
+    // alphabet
+    case 'A': return ST_KEY_A;
+    case 'B': return ST_KEY_B;
+    case 'C': return ST_KEY_C;
+    case 'D': return ST_KEY_D;
+    case 'E': return ST_KEY_E;
+    case 'F': return ST_KEY_F;
+    case 'G': return ST_KEY_G;
+    case 'H': return ST_KEY_H;
+    case 'I': return ST_KEY_I;
+    case 'J': return ST_KEY_J;
+    case 'K': return ST_KEY_K;
+    case 'L': return ST_KEY_L;
+    case 'M': return ST_KEY_M;
+    case 'N': return ST_KEY_N;
+    case 'O': return ST_KEY_O;
+    case 'P': return ST_KEY_P;
+    case 'Q': return ST_KEY_Q;
+    case 'R': return ST_KEY_R;
+    case 'S': return ST_KEY_S;
+    case 'T': return ST_KEY_T;
+    case 'U': return ST_KEY_U;
+    case 'V': return ST_KEY_V;
+    case 'W': return ST_KEY_W;
+    case 'X': return ST_KEY_X;
+    case 'Y': return ST_KEY_Y;
+    case 'Z': return ST_KEY_Z;
+
+    // numbers
+    case '0': return ST_KEY_0;
+    case '1': return ST_KEY_1;
+    case '2': return ST_KEY_2;
+    case '3': return ST_KEY_3;
+    case '4': return ST_KEY_4;
+    case '5': return ST_KEY_5;
+    case '6': return ST_KEY_6;
+    case '7': return ST_KEY_7;
+    case '8': return ST_KEY_8;
+    case '9': return ST_KEY_9;
+
+    // arrow keys
+    case VK_UP: return ST_KEY_UP;
+    case VK_DOWN: return ST_KEY_DOWN;
+    case VK_LEFT: return ST_KEY_LEFT;
+    case VK_RIGHT: return ST_KEY_RIGHT;
+    
+    // special keys
+    case VK_ESCAPE: return ST_KEY_ESCAPE;
+    case VK_SHIFT: return ST_KEY_SHIFT;
+    case VK_CONTROL: return ST_KEY_CTRL;
+    case VK_SPACE: return ST_KEY_SPACE;
+    case ST_KEY_ENTER: return ST_KEY_ENTER;
+
+    // function keys
+    case VK_F1: return ST_KEY_F1;
+    case VK_F2: return ST_KEY_F2;
+    case VK_F3: return ST_KEY_F3;
+    case VK_F4: return ST_KEY_F4;
+    case VK_F5: return ST_KEY_F5;
+    case VK_F6: return ST_KEY_F6;
+    case VK_F7: return ST_KEY_F7;
+    case VK_F8: return ST_KEY_F8;
+    case VK_F9: return ST_KEY_F9;
+    case VK_F10: return ST_KEY_F10;
+    case VK_F11: return ST_KEY_F11;
+    case VK_F12: return ST_KEY_F12;
+
+    default: return ST_KEY_UNKNOWN;
+    }
+}
 
 static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
@@ -18,6 +95,7 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
     assert(window);
 
     int index = -1;
+    int vk, key, c;
 
     if (window->win32.window) {
         switch (msg) {
@@ -58,6 +136,18 @@ static LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpar
                 index = GET_XBUTTON_WPARAM(wparam) == XBUTTON1 ? ST_MOUSE_X1 : ST_MOUSE_X2;
 
             window->mouse.state[index].curr = 0;
+            break;
+        
+        case WM_KEYUP:
+        case WM_KEYDOWN:
+            key = vk_to_key((vk = (int)wparam));
+            if (key == ST_KEY_UNKNOWN) {
+                c = MapVirtualKey(vk, MAPVK_VK_TO_CHAR);
+                printf("unknown key: (0x%x) %c\n", vk, c);
+                break;
+            }
+
+            window->keyboard.state[key].curr = msg == WM_KEYDOWN;
             break;
         }
 

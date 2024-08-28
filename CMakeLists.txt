@@ -9,6 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(SOURCES
     src/engine.c
     src/glad_loader.c
+    src/keyboard.c
     src/model.c
     src/mouse.c
     src/parse.c
