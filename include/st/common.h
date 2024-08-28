@@ -37,6 +37,12 @@
         global_engine_context->impl.f(__VA_ARGS__); \
     } while (0)
 
+#define return_impl(f, ...) \
+    do { \
+        assert(global_engine_context->impl.f); \
+        return global_engine_context->impl.f(__VA_ARGS__); \
+    } while (0)
+
 #define ST_MOUSE_LEFT   0
 #define ST_MOUSE_RIGHT  1
 #define ST_MOUSE_MIDDLE 2
