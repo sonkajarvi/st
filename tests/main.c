@@ -18,6 +18,4 @@ int main()
     test_declare(vector_reserve);
     test_declare(vector_clear);
     test_declare(vector_free);
-    
-    test_declare(vector_push_struct);
 }

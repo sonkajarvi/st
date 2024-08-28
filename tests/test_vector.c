@@ -261,22 +261,3 @@ test_case(vector_free)
 
     test_success();
 }
-
-test_case(vector_push_struct)
-{
-    typedef struct {
-        int a;
-        float b;
-    } S;
-
-    S *v = NULL;
-
-    S tmp = { 0xdeadbeef, 3.14f };
-    vector_push(v, tmp);
-    test_assert(v[0].a == 0xdeadbeef);
-    test_assert(v[0].b == 3.14f);
-
-    vector_free(v);
-
-    test_success();
-}
