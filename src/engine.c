@@ -77,3 +77,8 @@ void engine_destroy(void)
 {
     free(global_engine_context);
 }
+
+StEngine *engine_context(void)
+{
+    return global_engine_context;
+}

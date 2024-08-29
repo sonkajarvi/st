@@ -33,14 +33,18 @@
 
 #define call_impl(f, ...) \
     do { \
-        assert(global_engine_context->impl.f); \
-        global_engine_context->impl.f(__VA_ARGS__); \
+        const StEngine *const e = engine_context(); \
+        assert(e); \
+        assert(e->impl.f); \
+        e->impl.f(__VA_ARGS__); \
     } while (0)
 
 #define return_impl(f, ...) \
     do { \
-        assert(global_engine_context->impl.f); \
-        return global_engine_context->impl.f(__VA_ARGS__); \
+        const StEngine *const e = engine_context(); \
+        assert(e); \
+        assert(e->impl.f); \
+        return e->impl.f(__VA_ARGS__); \
     } while (0)
 
 #define ST_MOUSE_LEFT   0
@@ -142,11 +146,12 @@ typedef struct StEngine
         void (*renderer_push_mesh)(const StVertex *, const size_t, const unsigned int *, const size_t);
     } impl;
 } StEngine;
-
 extern StEngine *global_engine_context;
+
 
 void engine_init(void);
 void engine_destroy(void);
+StEngine *engine_context(void);
 
 void window_create(const char *title, int width, int height);
 void window_destroy(void);
