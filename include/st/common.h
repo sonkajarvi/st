@@ -60,6 +60,7 @@
 typedef struct StCamera
 {
     vec3 position;
+    float fov;
 } StCamera;
 
 typedef struct StLight

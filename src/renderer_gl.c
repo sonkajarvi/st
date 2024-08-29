@@ -119,14 +119,14 @@ static void flush(void)
     vec3 axis = {0.0f, 1.0f, 0.0f};
     static float angle = 0.0f;
     glm_rotate(model, glm_rad(angle), axis);
-    angle -= 0.01f;
+    angle -= 40.0f * window_deltatime();
     
     mat4 view = GLM_MAT4_IDENTITY_INIT;
     glm_translate(view, renderer.camera->position);
 
     mat4 projection = GLM_MAT4_IDENTITY_INIT;
     const float ratio = (float)width / (float)height;
-    glm_perspective(glm_rad(45.0f), ratio, 0.1f, 100.0f, projection);
+    glm_perspective(glm_rad(renderer.camera->fov), ratio, 0.1f, 100.0f, projection);
 
     glUniformMatrix4fv(glGetUniformLocation(renderer.shader, "u_View"),
         1, GL_FALSE, *view);
