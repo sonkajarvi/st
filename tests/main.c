@@ -8,6 +8,7 @@ int main()
     test_declare(vector_capacity);
     test_declare(vector_front_ref);
     test_declare(vector_back_ref);
+    test_declare(vector_at);
 
     test_declare(vector_push);
     test_declare(vector_pop);

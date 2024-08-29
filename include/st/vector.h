@@ -7,6 +7,7 @@
  * vector_capacity
  * vector_front_ref
  * vector_back_ref
+ * vector_at
  *
  * vector_push
  * vector_pop
@@ -32,45 +33,56 @@
  *
  * @param v vector
  *
- * @note returns 1, if v is null
+ * @returns true if vector is empty or null, otherwise false
  */
-#define vector_is_empty(v)  ((v) ? vector_length((v)) == 0 : 1)
+#define vector_is_empty(v) ((v) ? vector_length((v)) == 0 : 1)
 
 /**
- * @brief get length of a vector
+ * @brief get length
  *
  * @param v vector
  *
- * @note returns 0, if v is null
+ * @returns vector length or 0, if v is null
  */
-#define vector_length(v)    ((v) ? (size_t)__vector_header((v))->length : (size_t)0)
+#define vector_length(v) ((v) ? (size_t)__vector_header((v))->length : (size_t)0)
 
 /**
- * @brief get capacity of a vector
+ * @brief get capacity
  *
  * @param v vector
  *
- * @note returns 0, if v is null
+ * @returns vector capacity or 0, if v is null
  */
-#define vector_capacity(v)  ((v) ? __vector_header((v))->capacity : 0)
+#define vector_capacity(v) ((v) ? __vector_header((v))->capacity : 0)
 
 /**
- * @brief get a reference to first element of a vector
+ * @brief get a reference to first element
  *
  * @param v vector
  *
- * @note returns null, if v is null (this probably isn't needed)
+ * @returns a pointer to first element in vector, or null
  */
 #define vector_front_ref(v)  (v)
 
 /**
- * @brief get a reference to last element of a vector
+ * @brief get a reference to last element
  *
  * @param v vector
  *
- * @note returns null, if v is null
+ * @returns a pointer to last element in vector, or null
  */
 #define vector_back_ref(v)   ((v) ? (v) + vector_length((v)) - 1 : NULL)
+
+/**
+ * @brief get a reference to element at index
+ *
+ * @param v vector
+ * @param index index
+ *
+ * @returns a pointer to element at index, or null
+ */
+#define vector_at(v, index) \
+    ((v) && (index) < vector_length((v)) ? (v) + (index) : NULL)
 
 
 /**

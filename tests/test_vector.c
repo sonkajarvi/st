@@ -6,13 +6,13 @@
 test_case(vector_is_empty)
 {
     int *v = NULL;
-    test_assert(vector_is_empty(v));
+    test_assert(vector_is_empty(v) == 1);
 
     vector_push(v, 1);
-    test_assert(!vector_is_empty(v));
+    test_assert(vector_is_empty(v) == 0);
 
     vector_free(v);
-    test_assert(vector_is_empty(v));
+    test_assert(vector_is_empty(v) == 1);
 
     test_success();
 }
@@ -69,6 +69,20 @@ test_case(vector_back_ref)
 
     vector_free(v);
     test_assert(vector_back_ref(v) == NULL);
+
+    test_success();
+}
+
+test_case(vector_at)
+{
+    int *v = NULL;
+    test_assert(vector_at(v, 0) == NULL);
+
+    vector_push(v, 1);
+    test_assert(*vector_at(v, 0) == 1);
+    test_assert(vector_at(v, 1) == NULL);
+
+    vector_free(v);
 
     test_success();
 }
