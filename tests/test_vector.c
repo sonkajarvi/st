@@ -45,30 +45,30 @@ test_case(vector_capacity)
     test_success();
 }
 
-test_case(vector_front_ref)
+test_case(vector_front)
 {
     int *v = NULL;
-    test_assert(vector_front_ref(v) == NULL);
+    test_assert(vector_front(v) == NULL);
 
     vector_push(v, 1);
-    test_assert(vector_front_ref(v) == &v[0]);
+    test_assert(vector_front(v) == &v[0]);
 
     vector_free(v);
-    test_assert(vector_front_ref(v) == NULL);
+    test_assert(vector_front(v) == NULL);
 
     test_success();
 }
 
-test_case(vector_back_ref)
+test_case(vector_back)
 {
     int *v = NULL;
-    test_assert(vector_back_ref(v) == NULL);
+    test_assert(vector_back(v) == NULL);
 
     vector_push(v, 1);
-    test_assert(vector_back_ref(v) == &v[0]);
+    test_assert(vector_back(v) == &v[0]);
 
     vector_free(v);
-    test_assert(vector_back_ref(v) == NULL);
+    test_assert(vector_back(v) == NULL);
 
     test_success();
 }

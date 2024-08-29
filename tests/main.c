@@ -6,8 +6,8 @@ int main()
     test_declare(vector_is_empty);
     test_declare(vector_length);
     test_declare(vector_capacity);
-    test_declare(vector_front_ref);
-    test_declare(vector_back_ref);
+    test_declare(vector_front);
+    test_declare(vector_back);
     test_declare(vector_at);
 
     test_declare(vector_push);

@@ -5,8 +5,8 @@
  * vector_is_empty
  * vector_length
  * vector_capacity
- * vector_front_ref
- * vector_back_ref
+ * vector_front
+ * vector_back
  * vector_at
  *
  * vector_push
@@ -62,7 +62,7 @@
  *
  * @returns a pointer to first element in vector, or null
  */
-#define vector_front_ref(v)  (v)
+#define vector_front(v) (v)
 
 /**
  * @brief get a reference to last element
@@ -71,7 +71,7 @@
  *
  * @returns a pointer to last element in vector, or null
  */
-#define vector_back_ref(v)   ((v) ? (v) + vector_length((v)) - 1 : NULL)
+#define vector_back(v) ((v) ? (v) + vector_length((v)) - 1 : NULL)
 
 /**
  * @brief get a reference to element at index
