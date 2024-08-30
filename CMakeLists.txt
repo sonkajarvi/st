@@ -65,6 +65,5 @@ target_compile_options(rendertest PRIVATE
 )
 
 # tests
-include(CTest)
 enable_testing()
 add_subdirectory(tests)
