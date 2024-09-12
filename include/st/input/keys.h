@@ -1,7 +1,9 @@
-#ifndef KEYS_H
-#define KEYS_H
+#ifndef ST_INPUT_KEYS_H
+#define ST_INPUT_KEYS_H
 
-// alphabet
+#define ST_KEY_UNKNOWN  -1
+
+// Alphabet
 #define ST_KEY_A        0
 #define ST_KEY_B        1
 #define ST_KEY_C        2
@@ -29,7 +31,7 @@
 #define ST_KEY_Y        24
 #define ST_KEY_Z        25
 
-// numbers
+// Numbers
 #define ST_KEY_0        26
 #define ST_KEY_1        27
 #define ST_KEY_2        28
@@ -41,20 +43,20 @@
 #define ST_KEY_8        34
 #define ST_KEY_9        35
 
-// arrow keys
+// Arrow keys
 #define ST_KEY_UP       36
 #define ST_KEY_DOWN     37
 #define ST_KEY_LEFT     38
 #define ST_KEY_RIGHT    39
 
-// special keys
+// Special keys
 #define ST_KEY_ESCAPE   40
 #define ST_KEY_SHIFT    41
 #define ST_KEY_CTRL     42
 #define ST_KEY_SPACE    43
 #define ST_KEY_ENTER    44
 
-// function keys
+// Function keys
 #define ST_KEY_F1       45
 #define ST_KEY_F2       46
 #define ST_KEY_F3       47
@@ -68,9 +70,8 @@
 #define ST_KEY_F11      55
 #define ST_KEY_F12      56
 
-#define ST_KEY_UNKNOWN  -1
-#define ST_KEY_FIRST    ST_KEY_A
-#define ST_KEY_LAST     ST_KEY_F12
-#define ST_KEY_COUNT    (ST_KEY_LAST + 1)
+#define __ST_KEY_FIRST    ST_KEY_A
+#define __ST_KEY_LAST     ST_KEY_F12
+#define __ST_KEY_COUNT    (__ST_KEY_LAST + 1)
 
-#endif // KEYS_H
+#endif // ST_INPUT_KEYS_H
