@@ -17,7 +17,7 @@ typedef struct StWindow
 {
     StMouse mouse;
     StKeyboard keyboard;
-    
+
     bool is_open;
     float deltatime;
 
@@ -46,7 +46,7 @@ void window_get_size(int *width, int *height);
 void window_get_pos(int *x, int *y);
 
 double window_time(void);
-int window_fps(void);
+// int window_fps(void);
 float window_deltatime(void);
 
 void window_vsync(bool value);

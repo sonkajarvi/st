@@ -83,15 +83,15 @@ double window_time(void)
     return_impl(engine_time, window);
 }
 
-int window_fps(void)
-{
-    StEngine *e = engine_context();
-    assert(e);
-    StWindow *window = e->window;
-    assert(window);
+// int window_fps(void)
+// {
+//     StEngine *e = engine_context();
+//     assert(e);
+//     StWindow *window = e->window;
+//     assert(window);
 
-    return window->fps;
-}
+//     return window->fps;
+// }
 
 float window_deltatime(void)
 {
@@ -121,21 +121,21 @@ void poll_events(void)
     assert(window);
 
     // update time
-    static int frames = 0;
-    static double elapsed = 0.0;
+    // static int frames = 0;
+    // static double elapsed = 0.0;
     static double last = 0.0;
 
     double now = window_time();
     window->deltatime = (float)(now - last);
-    elapsed += now - last;
+    // elapsed += now - last;
     last = now;
 
-    if (elapsed >= 1.0) {
-        elapsed = 0.0;
-        window->fps = frames;
-        frames = 0;
-    }
-    frames++;
+    // if (elapsed >= 1.0) {
+    //     elapsed = 0.0;
+    //     window->fps = frames;
+    //     frames = 0;
+    // }
+    // frames++;
 
     // reset mouse wheel delta
     window->mouse.wheel = 0.0f;
