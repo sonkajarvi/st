@@ -11,8 +11,8 @@
 #include <cglm/cam.h>
 #include <cglm/affine.h>
 
-#include <st/common.h>
 #include <st/util.h>
+#include <st/window.h>
 
 #define INDEX_COUNT 65536
 
