@@ -1,13 +1,14 @@
-#include <st/common.h>
-
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <st/engine.h>
+
 void window_create(const char *title, int width, int height)
 {
-    assert(global_engine_context);
-    StWindow **window = &global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow **window = &e->window;
 
     *window = malloc(sizeof(**window));
     assert(*window);
@@ -19,8 +20,9 @@ void window_create(const char *title, int width, int height)
 
 void window_destroy(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(context_destroy, window);
@@ -31,8 +33,9 @@ void window_destroy(void)
 
 void window_show(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(window_show, window);
@@ -42,8 +45,9 @@ void window_show(void)
 
 bool window_should_close(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     return !window->is_open;    
@@ -51,8 +55,9 @@ bool window_should_close(void)
 
 void window_get_size(int *width, int *height)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(window_get_size, window, width, height);
@@ -60,8 +65,9 @@ void window_get_size(int *width, int *height)
 
 void window_get_pos(int *x, int *y)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(window_get_pos, window, x, y);    
@@ -69,8 +75,9 @@ void window_get_pos(int *x, int *y)
 
 double window_time(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     return_impl(engine_time, window);
@@ -78,8 +85,9 @@ double window_time(void)
 
 int window_fps(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     return window->fps;
@@ -87,8 +95,9 @@ int window_fps(void)
 
 float window_deltatime(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     return window->deltatime;
@@ -96,8 +105,9 @@ float window_deltatime(void)
 
 void window_vsync(bool value)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(window_vsync, window, value);
@@ -105,8 +115,9 @@ void window_vsync(bool value)
 
 void poll_events(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     // update time
@@ -130,8 +141,8 @@ void poll_events(void)
     window->mouse.wheel = 0.0f;
 
     // update mouse button states
-    for (int i = 0; i < ST_MOUSE_COUNT; i++)
-        window->mouse.state[i].prev = window->mouse.state[i].curr;
+    for (int i = 0; i < __ST_MOUSE_COUNT; i++)
+        window->mouse.state[i].previous = window->mouse.state[i].current;
 
     // update mouse position delta
     static ivec2 prev_position = {0, 0};
@@ -141,16 +152,17 @@ void poll_events(void)
     prev_position[1] = window->mouse.position[1];
 
     // update keyboard key states
-    for (int i = 0; i < ST_KEY_COUNT; i++)
-        window->keyboard.state[i].prev = window->keyboard.state[i].curr;
+    for (int i = 0; i < __ST_KEY_COUNT; i++)
+        window->keyboard.state[i].previous = window->keyboard.state[i].current;
 
     call_impl(poll_events, window);
 }
 
 void swap_buffers(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(swap_buffers, window);
