@@ -7,7 +7,7 @@
 #include <st/window_win32.h>
 #endif
 
-#include <st/common.h>
+#include <st/engine.h>
 #include <st/renderer_gl.h>
 
 StEngine *global_engine_context = NULL;

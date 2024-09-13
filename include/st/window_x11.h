@@ -1,7 +1,7 @@
 #ifndef WINDOW_X11_H
 #define WINDOW_X11_H
 
-#include <st/common.h>
+#include <st/window.h>
 
 void impl_x11_window_create(StWindow *, const char *, int, int);
 void impl_x11_window_destroy(StWindow *);

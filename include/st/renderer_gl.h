@@ -1,7 +1,8 @@
 #ifndef RENDERER_GL_H
 #define RENDERER_GL_H
 
-#include <st/common.h>
+#include <st/camera.h>
+#include <st/renderer.h>
 
 void impl_gl_renderer_init(StCamera *camera, StLight *light);
 void impl_gl_renderer_destroy(void);
