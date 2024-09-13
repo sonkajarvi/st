@@ -1,11 +1,14 @@
 #include <assert.h>
 
-#include <st/common.h>
+#include <st/engine.h>
+#include <st/input/mouse.h>
+#include <st/window.h>
 
 void mouse_get_pos(int *x, int *y)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     if (x)
@@ -16,8 +19,9 @@ void mouse_get_pos(int *x, int *y)
 
 void mouse_get_delta(int *x, int *y)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     if (x)
@@ -28,8 +32,9 @@ void mouse_get_delta(int *x, int *y)
 
 float mouse_get_wheel(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     return window->mouse.wheel;
@@ -37,30 +42,33 @@ float mouse_get_wheel(void)
 
 bool mouse_down(int button)
 {
-    assert(button >= ST_MOUSE_FIRST && button <= ST_MOUSE_LAST);
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    assert(button >= __ST_MOUSE_FIRST && button <= __ST_MOUSE_LAST);
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
-    return window->mouse.state[button].curr;
+    return window->mouse.state[button].current;
 }
 
 bool mouse_press(int button)
 {
-    assert(button >= ST_MOUSE_FIRST && button <= ST_MOUSE_LAST);
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    assert(button >= __ST_MOUSE_FIRST && button <= __ST_MOUSE_LAST);
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
-    return mouse_down(button) && !window->mouse.state[button].prev;
+    return mouse_down(button) && !window->mouse.state[button].previous;
 }
 
 bool mouse_release(int button)
 {
-    assert(button >= ST_MOUSE_FIRST && button <= ST_MOUSE_LAST);
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    assert(button >= __ST_MOUSE_FIRST && button <= __ST_MOUSE_LAST);
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
-    return !mouse_down(button) && window->mouse.state[button].prev;
+    return !mouse_down(button) && window->mouse.state[button].previous;
 }
