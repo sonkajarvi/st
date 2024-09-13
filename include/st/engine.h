@@ -6,6 +6,37 @@
 #include <st/renderer.h>
 #include <st/window.h>
 
+/**
+ * Platforms and backends:
+ * - Windows
+ *     - OpenGL (wgl)
+ *     - Vulkan
+ *     - DirectX (d11, d12)
+ * - Linux (X11 and Wayland)
+ *     - OpenGL (glx, egl)
+ *     - Vulkan
+ * - MacOS
+ *     - OpenGL (cgl)
+ *     - Vulkan
+ *     - Metal
+ */
+
+#define call_impl(f, ...) \
+    do { \
+        const StEngine *const e = engine_context(); \
+        assert(e); \
+        assert(e->impl.f); \
+        e->impl.f(__VA_ARGS__); \
+    } while (0)
+
+#define return_impl(f, ...) \
+    do { \
+        const StEngine *const e = engine_context(); \
+        assert(e); \
+        assert(e->impl.f); \
+        return e->impl.f(__VA_ARGS__); \
+    } while (0)
+
 typedef struct StEngine
 {
     StWindow *window;
