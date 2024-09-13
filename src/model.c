@@ -6,7 +6,7 @@
 #include <cglm/vec3.h>
 #include <cglm/vec4.h>
 
-#include <st/common.h>
+#include <st/model.h>
 #include <st/parse.h>
 #include <st/vector.h>
 
