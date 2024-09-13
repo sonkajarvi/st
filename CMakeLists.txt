@@ -8,6 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(SOURCES
     src/engine.c
+    src/camera.c
     src/glad_loader.c
     src/keyboard.c
     src/model.c
