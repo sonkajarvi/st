@@ -10,8 +10,14 @@
 #include <windows.h>
 #endif
 
+#include <st/input/keyboard.h>
+#include <st/input/mouse.h>
+
 typedef struct StWindow
 {
+    StMouse mouse;
+    StKeyboard keyboard;
+    
     bool is_open;
     float deltatime;
 
