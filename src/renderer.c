@@ -1,11 +1,14 @@
-#include <st/common.h>
-
 #include <assert.h>
+
+#include <st/engine.h>
+#include <st/camera.h>
+#include <st/renderer.h>
 
 void renderer_init(StCamera *camera, StLight *light)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(renderer_init, camera, light);
@@ -13,8 +16,9 @@ void renderer_init(StCamera *camera, StLight *light)
 
 void renderer_destroy(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(renderer_destroy);
@@ -22,8 +26,9 @@ void renderer_destroy(void)
 
 void renderer_begin(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(renderer_begin);
@@ -31,8 +36,9 @@ void renderer_begin(void)
 
 void renderer_end(void)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(renderer_end);
@@ -41,8 +47,9 @@ void renderer_end(void)
 void renderer_push_mesh(const StVertex *vertices,
     const size_t vertex_count, const unsigned int *indices, const size_t index_count)
 {
-    assert(global_engine_context);
-    StWindow *window = global_engine_context->window;
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
     assert(window);
 
     call_impl(renderer_push_mesh, vertices, vertex_count, indices, index_count);
