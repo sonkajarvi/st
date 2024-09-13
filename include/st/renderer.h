@@ -18,5 +18,6 @@ void renderer_begin(void);
 void renderer_end(void);
 void renderer_push_mesh(const StVertex *vertices,
     const size_t vertex_count, const unsigned int *indices, const size_t index_count);
+void renderer_draw_model(StModel *model, mat4 *model_matrix, vec4 color, StCamera *camera, StLight *light);
 
 #endif // ST_RENDERER_H

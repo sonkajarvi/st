@@ -54,6 +54,7 @@ static void impl_for_gl(void)
     global_engine_context->impl.renderer_begin = impl_gl_renderer_begin;
     global_engine_context->impl.renderer_end = impl_gl_renderer_end;
     global_engine_context->impl.renderer_push_mesh = impl_gl_renderer_push_mesh;
+    global_engine_context->impl.renderer_push_model = impl_gl_renderer_draw_model;
 }
 
 void engine_init(void)

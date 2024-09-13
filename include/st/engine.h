@@ -60,6 +60,7 @@ typedef struct StEngine
         void (*renderer_begin)(void);
         void (*renderer_end)(void);
         void (*renderer_push_mesh)(const StVertex *, const size_t, const unsigned int *, const size_t);
+        void (*renderer_push_model)(StModel *, mat4 *, vec4, StCamera *, StLight *);
     } impl;
 } StEngine;
 

@@ -54,3 +54,13 @@ void renderer_push_mesh(const StVertex *vertices,
 
     call_impl(renderer_push_mesh, vertices, vertex_count, indices, index_count);
 }
+
+void renderer_draw_model(StModel *model, mat4 *model_matrix, vec4 color, StCamera *camera, StLight *light)
+{
+    StEngine *e = engine_context();
+    assert(e);
+    StWindow *window = e->window;
+    assert(window);
+
+    call_impl(renderer_push_model, model, model_matrix, color, camera, light);
+}

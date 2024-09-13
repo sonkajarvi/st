@@ -1,7 +1,6 @@
 #include <st/renderer_gl.h>
 
 #include <assert.h>
-#include <math.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <string.h>
@@ -12,6 +11,7 @@
 #include <cglm/affine.h>
 
 #include <st/util.h>
+#include <st/vector.h>
 #include <st/window.h>
 
 #define INDEX_COUNT 65536
@@ -256,4 +256,58 @@ void impl_gl_renderer_push_mesh(const StVertex *vertices,
 
     renderer.vertex_count += vertex_count;
     renderer.mesh_count++;
+}
+
+void impl_gl_renderer_draw_model(StModel *model, mat4 *model_matrix, vec4 color, StCamera *camera, StLight *light)
+{
+    assert(camera);
+    assert(light);
+
+    int width, height;
+    window_get_size(&width, &height);
+    glViewport(0, 0, width, height);
+
+    mat4 model_mat = GLM_MAT4_IDENTITY_INIT;
+    if (model_matrix)
+        glm_mat4_copy(*model_matrix, model_mat);
+
+    glUniformMatrix4fv(glGetUniformLocation(renderer.shader, "u_Model"),
+        1, GL_FALSE, *model_mat);
+    glUniformMatrix4fv(glGetUniformLocation(renderer.shader, "u_View"),
+        1, GL_FALSE, *camera->view_mat);
+    glUniformMatrix4fv(glGetUniformLocation(renderer.shader, "u_Projection"),
+        1, GL_FALSE, *camera->proj_mat);
+
+    glUniform3f(glGetUniformLocation(renderer.shader, "u_LightPos"),
+        renderer.light->position[0],
+        renderer.light->position[1],
+        renderer.light->position[2]);
+
+    glUniform3f(glGetUniformLocation(renderer.shader, "u_LightColor"),
+        renderer.light->color[0],
+        renderer.light->color[1],
+        renderer.light->color[2]);
+
+    for (size_t i = 0; i < vector_length(model->vertices); i++) {
+        renderer.vertex_buffer_ptr->position[0] = model->vertices->position[0];
+        renderer.vertex_buffer_ptr->position[1] = model->vertices->position[1];
+        renderer.vertex_buffer_ptr->position[2] = model->vertices->position[2];
+
+        renderer.vertex_buffer_ptr->color[0] = color[0];
+        renderer.vertex_buffer_ptr->color[1] = color[1];
+        renderer.vertex_buffer_ptr->color[2] = color[2];
+        renderer.vertex_buffer_ptr->color[3] = color[3];
+
+        renderer.vertex_buffer_ptr->normal[0] = model->vertices->normal[0];
+        renderer.vertex_buffer_ptr->normal[1] = model->vertices->normal[1];
+        renderer.vertex_buffer_ptr->normal[2] = model->vertices->normal[2];
+    }
+
+    glBindVertexArray(renderer.vao);
+    glBindBuffer(GL_ARRAY_BUFFER, renderer.vbo);
+    const size_t offset = renderer.vertex_buffer_ptr - renderer.vertex_buffer;
+    glBufferSubData(GL_ARRAY_BUFFER, 0, offset * sizeof(StVertex), renderer.vertex_buffer);
+
+    glDrawArrays(GL_TRIANGLES, 0, offset);
+    renderer.vertex_buffer_ptr = renderer.vertex_buffer;
 }
