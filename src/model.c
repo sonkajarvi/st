@@ -249,5 +249,5 @@ void model_destroy(StModel *model)
 {
     assert(model);
 
-    free(model->vertices);
+    vector_free(model->vertices);
 }
