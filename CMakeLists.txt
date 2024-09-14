@@ -14,6 +14,7 @@ set(SOURCES
     src/model.c
     src/mouse.c
     src/parse.c
+    src/print.c
     src/renderer.c
     src/renderer_gl.c
     src/util.c
