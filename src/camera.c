@@ -54,10 +54,10 @@ void camera_add_position(StCamera *camera, float x, float y, float z)
     glm_vec3_scale(cross, x, tmp);
     glm_vec3_add(camera->position, tmp, camera->position);
 
-    glm_vec3_scale(cam_front, y, tmp);
+    glm_vec3_scale(cam_up, y, tmp);
     glm_vec3_add(camera->position, tmp, camera->position);
 
-    glm_vec3_scale(cam_up, z, tmp);
+    glm_vec3_scale(cam_front, z, tmp);
     glm_vec3_add(camera->position, tmp, camera->position);
 
     recalculate_view(camera);
