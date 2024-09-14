@@ -2,9 +2,10 @@
 
 #include <assert.h>
 #include <stdbool.h>
-#include <stdio.h>
 
 #include <glad/glad.h>
+
+#include <st/print.h>
 
 void glad_init(void)
 {
@@ -13,5 +14,5 @@ void glad_init(void)
 
     assert(gladLoadGL());
     glad_initialized = true;
-    printf("glad: %d.%d\n", GLVersion.major, GLVersion.minor);
+    st_log("glad: %d.%d\n", GLVersion.major, GLVersion.minor);
 }

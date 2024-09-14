@@ -176,7 +176,7 @@ void impl_glx_context_create(StWindow *window)
 
     int major, minor;
     glXQueryVersion(window->x11.display, &major, &minor);
-    printf("GLX version: %d.%d\n", major, minor);
+    st_log("GLX version: %d.%d\n", major, minor);
 }
 
 void impl_glx_context_destroy(StWindow *window)

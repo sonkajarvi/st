@@ -1,13 +1,12 @@
 #include <assert.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #include <cglm/vec3.h>
 #include <cglm/vec4.h>
 
 #include <st/model.h>
 #include <st/parse.h>
+#include <st/print.h>
 #include <st/vector.h>
 
 #define is_whitespace(c) (c == ' ' || c == '\t' || c == '\n' || c == '\r')
@@ -196,11 +195,11 @@ void model_from_obj(StModel *model, const char *path)
     {
         switch (c) {
         case '\n':
-            parser_printf(parser, "empty line\n");
+            st_debug("skipped empty line\n");
             break;
 
         case '#':
-            parser_printf(parser, "comment\n");
+            st_debug("skipped comment\n");
             skip_until_newline(&parser, fp);
             break;
 
@@ -208,35 +207,32 @@ void model_from_obj(StModel *model, const char *path)
             c = consume(&parser, fp);
             switch (c) {
             case ' ':
-                // parser_printf(parser, "vertex\n");
                 parse_vertex(model, &parser, fp, &buffer);
                 break;
             
             case 'n':
-                // parser_printf(parser, "normal\n");
                 parse_normal(model, &parser, fp, &buffer);
                 break;
             
             default:
-                parser_printf(parser, "unknown token: '%c' (0x%x)\n", c, c);
+                st_error("unknown token: '%c' (0x%x)\n", c, c);
                 goto end;
             }
             break;
         
         case 'f':
-            // parser_printf(parser, "face\n");
             parse_face(model, &parser, fp, &buffer);
             break;
         
         default:
-            parser_printf(parser, "unknown token: '%c' (0x%x)\n", c, c);
+            st_error("unknown token: '%c' (0x%x)\n", c, c);
             goto end;
         }
     }
 
-    printf("finished parsing '%s'\n", path);
-    printf("vertices: %zu\n", vector_length(buffer.vertices));
-    printf("normals: %zu\n", vector_length(buffer.normals));
+    st_log("finished parsing '%s'\n", path);
+    st_debug("vertices=%zu, normals=%zu\n",
+        vector_length(buffer.vertices), vector_length(buffer.normals));
 
 end:
     fclose(fp);
