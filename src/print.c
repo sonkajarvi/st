@@ -11,11 +11,11 @@ void __do_print(FILE *fp, const char *pre, const char *func, const int line, con
     // time
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
-    fprintf(fp, "["ST_ESC_BLUE_B"%02d:%02d:%02d"ST_ESC_RESET"]",
+    fprintf(fp, "["ST_ESC_BOLD ST_ESC_GREEN_B"%02d:%02d:%02d"ST_ESC_RESET"]",
         tm->tm_hour, tm->tm_min, tm->tm_sec);
 
     // file and line
-    fprintf(fp, "["ST_ESC_BLUE_B"%s:%d"ST_ESC_RESET"] ", func, line);
+    fprintf(fp, "["ST_ESC_BOLD ST_ESC_BLUE_B"%s:%d"ST_ESC_RESET"] ", func, line);
 
     // level
     fprintf(fp, "%s", pre);
