@@ -26,5 +26,7 @@ void __do_print(FILE *fp, const char *pre, const char *func, const int line, con
     vfprintf(fp, fmt, args);
     va_end(args);
 
+#ifdef ST_HAS_ESCAPE_CODES
     fprintf(fp, ST_ESC_RESET);
+#endif
 }
