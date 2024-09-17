@@ -9,10 +9,9 @@
 #define __func(x) __func_##x
 #define __name(x) __name_##x
 
-#define __ESC "\033"
-#define __RESET __ESC "[0m"
-#define __RED __ESC "[31m"
-#define __GREEN __ESC "[32m"
+#define __RESET     "\033[0m"
+#define __RED       "\033[1;91m"
+#define __GREEN     "\033[1;92m"
 
 #ifdef ST_TESTS_EXIT_ON_ERROR
 #define __RET return r.result;
