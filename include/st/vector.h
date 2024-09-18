@@ -140,6 +140,19 @@
             : 0)
 
 /**
+ * @brief remove a value at index by swapping with the last element
+ *
+ * @param v vector
+ * @param index index
+ */
+#define vector_remove_swap(v, index) \
+    ((index) == vector_length((v)) - 1 \
+        ? vector_pop((v)) \
+        : (index) < vector_length((v)) - 1 \
+            ? ((v)[(index)] = *vector_back((v)), __vector_header((v))->length--, 0) \
+            : 0)
+
+/**
  * @brief push a range of values to a vector
  *
  * @param v vector
