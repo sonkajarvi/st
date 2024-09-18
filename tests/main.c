@@ -14,6 +14,7 @@ int main()
     test_declare(vector_pop);
     test_declare(vector_insert);
     test_declare(vector_remove);
+    test_declare(vector_remove_swap);
     test_declare(vector_push_range);
     test_declare(vector_push_copy);
     test_declare(vector_reserve);

@@ -182,6 +182,32 @@ test_case(vector_remove)
     test_success();
 }
 
+test_case(vector_remove_swap)
+{
+    int *v = NULL;
+
+    vector_push(v, 1);
+    vector_push(v, 2);
+    vector_push(v, 3);
+
+    vector_remove_swap(v, 0);
+    test_assert(vector_length(v) == 2);
+    test_assert(v[0] == 3);
+    test_assert(v[1] == 2);
+
+    vector_remove_swap(v, 1);
+    test_assert(vector_length(v) == 1);
+    test_assert(v[0] == 3);
+
+    vector_remove_swap(v, 1);
+    test_assert(vector_length(v) == 1);
+    test_assert(v[0] == 3);
+
+    vector_free(v);
+
+    test_success();
+}
+
 test_case(vector_push_range)
 {
     int *v = NULL;
