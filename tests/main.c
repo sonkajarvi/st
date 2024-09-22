@@ -35,6 +35,16 @@ int main()
     test_declare(args_long_option_args);
     test_declare(args_fixed);
 
+    test_declare(args_short_option_args_array);
+    test_declare(args_short_option_args_array_combined);
+    test_declare(args_short_option_args_array_next);
+    test_declare(args_short_option_args_array_trailing);
+    test_declare(args_long_option_args_array);
+    test_declare(args_long_option_args_array_next);
+
+    test_declare(args_array_escaped_separator);
+    test_declare(args_array_escaped_separators);
+    test_declare(args_array_escaped_separator_end);
     test_declare(args_empty);
     test_declare(args_short_option_no_id);
     test_declare(args_long_option_no_id);
