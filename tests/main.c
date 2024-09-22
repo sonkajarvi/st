@@ -1,3 +1,5 @@
+#include <stdio.h> // IWYU pragma: keep
+
 #include "test.h"
 
 int main()
