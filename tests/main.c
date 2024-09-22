@@ -2,7 +2,7 @@
 
 int main()
 {
-    // vector
+    // Vector
     test_declare(vector_is_empty);
     test_declare(vector_length);
     test_declare(vector_capacity);
@@ -23,4 +23,20 @@ int main()
     test_declare(vector_reserve);
     test_declare(vector_clear);
     test_declare(vector_free);
+
+    // Args parser
+    test_declare(args_short_option);
+    test_declare(args_short_option_combined);
+    test_declare(args_short_option_args);
+    test_declare(args_short_option_args_combined);
+    test_declare(args_long_option);
+    test_declare(args_long_option_args);
+    test_declare(args_fixed);
+
+    test_declare(args_empty);
+    test_declare(args_short_option_no_id);
+    test_declare(args_long_option_no_id);
+    test_declare(args_short_option_args_no_args);
+    test_declare(args_long_option_args_no_args);
+    test_declare(args_long_option_args_no_args2);
 }
