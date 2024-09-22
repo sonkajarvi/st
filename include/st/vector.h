@@ -84,6 +84,25 @@
 #define vector_at(v, index) \
     ((v) && (index) < vector_length((v)) ? (v) + (index) : NULL)
 
+/**
+ * @brief iterate over a vector
+ *
+ * @param v vector
+ * @param type iterator type
+ * @param name iterator name
+ */
+#define vector_for(v, type, name) \
+    for (type *name = vector_front((v)); name < ((v) ? vector_back((v)) + 1 : NULL); name++)
+
+/**
+ * @brief iterate over a vector, in reverse
+ *
+ * @param v vector
+ * @param type iterator type
+ * @param name iterator name
+ */
+#define vector_rof(v, type, name) \
+    for (type *name = vector_back((v)); name > ((v) ? vector_front((v)) - 1 : NULL); name--)
 
 /**
  * @brief push a value to a vector
