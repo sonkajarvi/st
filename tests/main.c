@@ -13,6 +13,7 @@ int main()
     test_declare(vector_rof);
 
     test_declare(vector_push);
+    test_declare(vector_push_1000000);
     test_declare(vector_pop);
     test_declare(vector_insert);
     test_declare(vector_remove);

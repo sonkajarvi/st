@@ -155,6 +155,25 @@ test_case(vector_push)
     test_success();
 }
 
+test_case(vector_push_1000000)
+{
+    int *v = NULL;
+
+    for (int i = 0; i < 1000000; i++) {
+        vector_push(v, i);
+    }
+
+    test_assert(vector_length(v) == 1000000);
+    int count = 0;
+    vector_for(v, int, i) {
+        test_assert(v[count++] == *i);
+    }
+
+    vector_free(v);
+
+    test_success();
+}
+
 test_case(vector_pop)
 {
     int *v = NULL;
