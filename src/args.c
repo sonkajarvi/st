@@ -22,6 +22,54 @@ static char consume_ch(void) {
     return p.argv[p.arg_index][p.str_index++];
 }
 
+// arg_index and str_index set by caller
+static int parse_option_args(StArgsOption *opt)
+{
+    char c;
+    for (;;) {
+        bool should_continue = false;
+
+        if (peek_ch() == '\0') {
+            if (p.arg_index == p.argc - 1)
+                return ARGS_OK;
+
+            p.arg_index++;
+            p.str_index = 0;
+        }
+
+        int start = p.str_index;
+        for (;;) {
+            c = consume_ch();
+
+            if (c == '\0')
+                break;
+            if (c == ',') {
+                p.argv[p.arg_index][p.str_index - 1] = '\0';
+                should_continue = true;
+                break;
+            }
+            if (c == '\\' && peek_ch() == ',') {
+                char *ps = &p.argv[p.arg_index][start];
+                memmove(ps + 1, ps, p.str_index - start - 1);
+                start++;
+                consume_ch();
+            }
+        }
+
+        if (start - p.str_index == 0)
+            return p.arg_index;
+
+        char *tmp = &p.argv[p.arg_index][start];
+        vector_push(*opt->out.args.arr, tmp);
+        (*opt->out.args.len)++;
+
+        if (!should_continue)
+            break;
+    }
+
+    return ARGS_OK;
+}
+
 static StArgsOption *find_short(StArgsParser *parser, char id)
 {
     vector_for(parser->options, StArgsOption, opt) {
@@ -50,22 +98,12 @@ static int parse_short(StArgsParser *parser)
         if (peek_ch() == '\0') {
             if (p.arg_index == p.argc - 1)
                 return p.arg_index;
+
             p.arg_index++;
             p.str_index = 0;
         }
 
-        int start = p.str_index;
-        while (consume_ch())
-            ;
-
-        if (start - p.str_index == 0)
-            return p.arg_index;
-
-        char *tmp = &p.argv[p.arg_index][start];
-        vector_push(*opt->out.args.arr, tmp);
-        (*opt->out.args.len)++;
-
-        break;
+        return parse_option_args(opt);
     }
 
     return ARGS_OK;
@@ -113,20 +151,12 @@ static int parse_long(StArgsParser *parser)
 
     else if (peek_ch() == '=') {
         consume_ch();
+
+        if (peek_ch() == '\0')
+            return p.arg_index;
     }
 
-    start = p.str_index;
-    while (peek_ch())
-        consume_ch();
-
-    if (p.str_index - start == 0)
-        return p.arg_index;
-
-    char *arg = &p.argv[p.arg_index][start];
-    vector_push(*opt->out.args.arr, arg);
-    (*opt->out.args.len)++;
-
-    return ARGS_OK;
+    return parse_option_args(opt);
 }
 
 static int parse_fixed(StArgsParser *parser)
@@ -194,7 +224,7 @@ int args_parse(StArgsParser *parser, int argc, char **argv)
 
 void args_free(StArgsParser *parser)
 {
-    if (!parser || !parser->options)
+    if (!parser)
         return;
 
     vector_for(parser->options, StArgsOption, opt)
@@ -202,7 +232,8 @@ void args_free(StArgsParser *parser)
             vector_free(*opt->out.args.arr);
     vector_free(parser->options);
 
-    vector_free(parser->fixed_out);
+    if (parser->fixed_out)
+        vector_free(*parser->fixed_out);
 }
 
 void args_add_option(StArgsParser *parser, char short_id, char *long_id, bool *out)
