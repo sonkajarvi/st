@@ -87,6 +87,52 @@ test_case(vector_at)
     test_success();
 }
 
+test_case(vector_for)
+{
+    int *v = NULL;
+
+    vector_for(v, int, i) {
+        test_assert(0);
+    }
+
+    vector_push(v, 1);
+    vector_push(v, 2);
+    vector_push(v, 3);
+
+    int count = 0;
+    vector_for(v, int, i) {
+        test_assert(v[count++] == *i);
+    }
+    test_assert(count == 3);
+
+    vector_free(v);
+
+    test_success();
+}
+
+test_case(vector_rof)
+{
+    int *v = NULL;
+
+    vector_for(v, int, i) {
+        test_assert(0);
+    }
+
+    vector_push(v, 1);
+    vector_push(v, 2);
+    vector_push(v, 3);
+
+    int count = 3;
+    vector_rof(v, int, i) {
+        test_assert(v[(count--) - 1] == *i);
+    }
+    test_assert(count == 0);
+
+    vector_free(v);
+
+    test_success();
+}
+
 test_case(vector_push)
 {
     int *v = NULL;

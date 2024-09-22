@@ -9,6 +9,8 @@ int main()
     test_declare(vector_front);
     test_declare(vector_back);
     test_declare(vector_at);
+    test_declare(vector_for);
+    test_declare(vector_rof);
 
     test_declare(vector_push);
     test_declare(vector_pop);
