@@ -289,18 +289,10 @@ void impl_gl_renderer_draw_model(StModel *model, mat4 *model_matrix, vec4 color,
         renderer.light->color[2]);
 
     for (size_t i = 0; i < vector_length(model->vertices); i++) {
-        renderer.vertex_buffer_ptr->position[0] = model->vertices->position[0];
-        renderer.vertex_buffer_ptr->position[1] = model->vertices->position[1];
-        renderer.vertex_buffer_ptr->position[2] = model->vertices->position[2];
-
-        renderer.vertex_buffer_ptr->color[0] = color[0];
-        renderer.vertex_buffer_ptr->color[1] = color[1];
-        renderer.vertex_buffer_ptr->color[2] = color[2];
-        renderer.vertex_buffer_ptr->color[3] = color[3];
-
-        renderer.vertex_buffer_ptr->normal[0] = model->vertices->normal[0];
-        renderer.vertex_buffer_ptr->normal[1] = model->vertices->normal[1];
-        renderer.vertex_buffer_ptr->normal[2] = model->vertices->normal[2];
+        glm_vec3_copy(model->vertices[i].position, renderer.vertex_buffer_ptr->position);
+        glm_vec4_copy(color, renderer.vertex_buffer_ptr->color);
+        glm_vec3_copy(model->vertices[i].normal, renderer.vertex_buffer_ptr->normal);
+        renderer.vertex_buffer_ptr++;
     }
 
     glBindVertexArray(renderer.vao);
