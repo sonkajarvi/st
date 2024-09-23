@@ -13,3 +13,4 @@ build.ninja
 
 CTestTestfile.cmake
 Testing
+tests/tests*
