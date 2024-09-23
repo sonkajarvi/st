@@ -49,6 +49,8 @@ double window_time(void);
 // int window_fps(void);
 float window_deltatime(void);
 
+void window_poll_events(void);
+void window_swap_buffers(void);
 void window_vsync(bool value);
 
 #endif // ST_WINDOW_H

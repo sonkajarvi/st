@@ -113,7 +113,7 @@ void window_vsync(bool value)
     call_impl(window_vsync, window, value);
 }
 
-void poll_events(void)
+void window_poll_events(void)
 {
     StEngine *e = engine_context();
     assert(e);
@@ -158,7 +158,7 @@ void poll_events(void)
     call_impl(poll_events, window);
 }
 
-void swap_buffers(void)
+void window_swap_buffers(void)
 {
     StEngine *e = engine_context();
     assert(e);
