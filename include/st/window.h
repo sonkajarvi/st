@@ -27,6 +27,7 @@ typedef struct StWindow
         GLXContext context;
         GLXFBConfig fbc;
         Window root, window;
+        uint64_t offset;
     } x11;
 #elif defined(ST_PLATFORM_WINDOWS)
     struct {
