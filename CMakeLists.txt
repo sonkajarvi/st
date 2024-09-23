@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(rendertest LANGUAGES C)
+project(st LANGUAGES C)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -40,22 +40,22 @@ elseif (UNIX AND NOT APPLE)
 endif()
 
 
-add_library(rendertest ${SOURCES})
+add_library(st ${SOURCES})
 
 # Absolute assets path
-target_compile_definitions(rendertest PUBLIC ST_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets")
+target_compile_definitions(st PUBLIC ST_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets")
 
 add_subdirectory(thirdparty/glad)
 
-target_include_directories(rendertest PRIVATE
+target_include_directories(st PRIVATE
     include
     thirdparty/cglm/include
     thirdparty/glad/include
 )
 
-target_link_libraries(rendertest PRIVATE ${LIBS})
+target_link_libraries(st PRIVATE ${LIBS})
 
-target_compile_options(rendertest PRIVATE
+target_compile_options(st PRIVATE
     -g
     -O2
     -Wall
