@@ -60,7 +60,7 @@ static void impl_for_gl(void)
     global_engine_context->impl.renderer_push_model = impl_gl_renderer_draw_model;
 }
 
-void engine_init(void)
+void st_engine_init(void)
 {
     global_engine_context = malloc(sizeof(*global_engine_context));
     if (!global_engine_context)
@@ -77,12 +77,12 @@ void engine_init(void)
     impl_for_gl();
 }
 
-void engine_destroy(void)
+void st_engine_destroy(void)
 {
     free(global_engine_context);
 }
 
-StEngine *engine_context(void)
+StEngine *st_engine_context(void)
 {
     return global_engine_context;
 }

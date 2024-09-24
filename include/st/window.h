@@ -38,20 +38,20 @@ typedef struct StWindow
 #endif
 } StWindow;
 
-void window_create(const char *title, int width, int height);
-void window_destroy(void);
-void window_show(void);
-bool window_should_close(void);
+void st_window_create(const char *title, int width, int height);
+void st_window_destroy(void);
+void st_window_show(void);
+bool st_window_should_close(void);
 
-void window_get_size(int *width, int *height);
-void window_get_pos(int *x, int *y);
+void st_window_get_size(int *width, int *height);
+void st_window_get_pos(int *x, int *y);
 
-double window_time(void);
+double st_window_time(void);
 // int window_fps(void);
-float window_deltatime(void);
+float st_window_deltatime(void);
 
-void window_poll_events(void);
-void window_swap_buffers(void);
-void window_vsync(bool value);
+void st_window_poll_events(void);
+void st_window_swap_buffers(void);
+void st_window_vsync(bool value);
 
 #endif // ST_WINDOW_H

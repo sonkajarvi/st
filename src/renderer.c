@@ -6,7 +6,7 @@
 
 void renderer_init(StCamera *camera, StLight *light)
 {
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);
@@ -16,7 +16,7 @@ void renderer_init(StCamera *camera, StLight *light)
 
 void renderer_destroy(void)
 {
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);
@@ -26,7 +26,7 @@ void renderer_destroy(void)
 
 void renderer_begin(void)
 {
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);
@@ -36,7 +36,7 @@ void renderer_begin(void)
 
 void renderer_end(void)
 {
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);
@@ -47,7 +47,7 @@ void renderer_end(void)
 void renderer_push_mesh(const StVertex *vertices,
     const size_t vertex_count, const unsigned int *indices, const size_t index_count)
 {
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);
@@ -57,7 +57,7 @@ void renderer_push_mesh(const StVertex *vertices,
 
 void renderer_draw_model(StModel *model, mat4 *model_matrix, vec4 color, StCamera *camera, StLight *light)
 {
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);

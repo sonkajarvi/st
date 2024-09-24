@@ -105,7 +105,7 @@ end:
 static void flush(void)
 {
     int width, height;
-    window_get_size(&width, &height);
+    st_window_get_size(&width, &height);
     glViewport(0, 0, width, height);
 
     // we may have multiple draw calls,
@@ -119,7 +119,7 @@ static void flush(void)
     vec3 axis = {0.0f, 1.0f, 0.0f};
     static float angle = 0.0f;
     glm_rotate(model, glm_rad(angle), axis);
-    angle -= 40.0f * window_deltatime();
+    angle -= 40.0f * st_window_deltatime();
     
     mat4 view = GLM_MAT4_IDENTITY_INIT;
     glm_translate(view, renderer.camera->position);
@@ -264,7 +264,7 @@ void impl_gl_renderer_draw_model(StModel *model, mat4 *model_matrix, vec4 color,
     assert(light);
 
     int width, height;
-    window_get_size(&width, &height);
+    st_window_get_size(&width, &height);
     glViewport(0, 0, width, height);
 
     mat4 model_mat = GLM_MAT4_IDENTITY_INIT;

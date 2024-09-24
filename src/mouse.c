@@ -6,7 +6,7 @@
 
 void mouse_get_pos(int *x, int *y)
 {
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);
@@ -19,7 +19,7 @@ void mouse_get_pos(int *x, int *y)
 
 void mouse_get_delta(int *x, int *y)
 {
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);
@@ -32,7 +32,7 @@ void mouse_get_delta(int *x, int *y)
 
 float mouse_get_wheel(void)
 {
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);
@@ -43,7 +43,7 @@ float mouse_get_wheel(void)
 bool mouse_down(int button)
 {
     assert(button >= __ST_MOUSE_FIRST && button <= __ST_MOUSE_LAST);
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);
@@ -54,7 +54,7 @@ bool mouse_down(int button)
 bool mouse_press(int button)
 {
     assert(button >= __ST_MOUSE_FIRST && button <= __ST_MOUSE_LAST);
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);
@@ -65,7 +65,7 @@ bool mouse_press(int button)
 bool mouse_release(int button)
 {
     assert(button >= __ST_MOUSE_FIRST && button <= __ST_MOUSE_LAST);
-    StEngine *e = engine_context();
+    StEngine *e = st_engine_context();
     assert(e);
     StWindow *window = e->window;
     assert(window);

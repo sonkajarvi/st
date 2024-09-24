@@ -26,7 +26,7 @@ static void recalculate_view(StCamera *camera)
 static void recalculate_projection(StCamera *camera)
 {
     int width, height;
-    window_get_size(&width, &height);
+    st_window_get_size(&width, &height);
     const float ratio = (float)width / (float)height;
     glm_perspective(glm_rad(camera->fov), ratio, 0.1f, 100.0f, camera->proj_mat);
 }

@@ -23,7 +23,7 @@
 
 #define call_impl(f, ...) \
     do { \
-        const StEngine *const e = engine_context(); \
+        const StEngine *const e = st_engine_context(); \
         assert(e); \
         assert(e->impl.f); \
         e->impl.f(__VA_ARGS__); \
@@ -31,7 +31,7 @@
 
 #define return_impl(f, ...) \
     do { \
-        const StEngine *const e = engine_context(); \
+        const StEngine *const e = st_engine_context(); \
         assert(e); \
         assert(e->impl.f); \
         return e->impl.f(__VA_ARGS__); \
@@ -66,8 +66,8 @@ typedef struct StEngine
 
 extern StEngine *__global_engine_context;
 
-void engine_init(void);
-void engine_destroy(void);
-StEngine *engine_context(void);
+void st_engine_init(void);
+void st_engine_destroy(void);
+StEngine *st_engine_context(void);
 
 #endif // ST_ENGINE_H
