@@ -60,8 +60,6 @@ typedef struct StEngine
     } impl;
 } StEngine;
 
-extern StEngine *__global_engine_context;
-
 void st_engine_init(void);
 void st_engine_destroy(void);
 StEngine *st_engine_context(void);
