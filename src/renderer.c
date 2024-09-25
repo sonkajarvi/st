@@ -11,7 +11,7 @@ void renderer_init(StCamera *camera, StLight *light)
     StWindow *window = e->window;
     assert(window);
 
-    call_impl(renderer_init, camera, light);
+    call_impl(e, renderer_init, camera, light);
 }
 
 void renderer_destroy(void)
@@ -21,7 +21,7 @@ void renderer_destroy(void)
     StWindow *window = e->window;
     assert(window);
 
-    call_impl(renderer_destroy);
+    call_impl(e, renderer_destroy);
 }
 
 void renderer_begin(void)
@@ -31,7 +31,7 @@ void renderer_begin(void)
     StWindow *window = e->window;
     assert(window);
 
-    call_impl(renderer_begin);
+    call_impl(e, renderer_begin);
 }
 
 void renderer_end(void)
@@ -41,7 +41,7 @@ void renderer_end(void)
     StWindow *window = e->window;
     assert(window);
 
-    call_impl(renderer_end);
+    call_impl(e, renderer_end);
 }
 
 void renderer_push_mesh(const StVertex *vertices,
@@ -52,7 +52,7 @@ void renderer_push_mesh(const StVertex *vertices,
     StWindow *window = e->window;
     assert(window);
 
-    call_impl(renderer_push_mesh, vertices, vertex_count, indices, index_count);
+    call_impl(e, renderer_push_mesh, vertices, vertex_count, indices, index_count);
 }
 
 void renderer_draw_model(StModel *model, mat4 *model_matrix, vec4 color, StCamera *camera, StLight *light)
@@ -62,5 +62,5 @@ void renderer_draw_model(StModel *model, mat4 *model_matrix, vec4 color, StCamer
     StWindow *window = e->window;
     assert(window);
 
-    call_impl(renderer_push_model, model, model_matrix, color, camera, light);
+    call_impl(e, renderer_push_model, model, model_matrix, color, camera, light);
 }
