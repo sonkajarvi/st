@@ -21,13 +21,9 @@
  *     - Metal
  */
 
-#define call_impl(f, ...) \
-    do { \
-        const StEngine *const e = st_engine_context(); \
-        assert(e); \
-        assert(e->impl.f); \
-        e->impl.f(__VA_ARGS__); \
-    } while (0)
+// note: caller validates engine context
+#define call_impl(engine, callback, ...) \
+    engine->impl.callback(__VA_ARGS__)
 
 #define return_impl(f, ...) \
     do { \
