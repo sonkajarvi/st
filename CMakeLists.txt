@@ -35,7 +35,7 @@ elseif (UNIX AND NOT APPLE)
     message("using Linux")
     add_compile_definitions(ST_PLATFORM_LINUX)
     set(LIBS ${LIBS} X11)
-    set(SOURCES ${SOURCES} src/window_x11.c)
+    set(SOURCES ${SOURCES} src/impl/window_x11.c)
 
 endif()
 
