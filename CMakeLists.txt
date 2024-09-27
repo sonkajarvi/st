@@ -60,8 +60,6 @@ target_compile_options(st PRIVATE
     -Wall
     -Wextra
     -Werror
-    -pedantic
-    # -Wconversion
     -Wstrict-prototypes
     -Wno-gnu-zero-variadic-macro
 )
