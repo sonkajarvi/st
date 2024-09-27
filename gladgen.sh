@@ -20,7 +20,7 @@ OUT_DIR=$(dirname $(realpath "$0"))/thirdparty/glad
 
 # Generate files for:
 # GL
-$GLAD_BIN --out-path=$OUT_DIR --api=$GL_API --extensions="$GL_EXTS" c
+$GLAD_BIN --out-path=$OUT_DIR --api=$GL_API --extensions="$GL_EXTS" c --loader
 
 # GLX
-$GLAD_BIN --out-path=$OUT_DIR --api=$GLX_API --extensions="$GLX_EXTS" c
+$GLAD_BIN --out-path=$OUT_DIR --api=$GLX_API --extensions="$GLX_EXTS" c --loader
