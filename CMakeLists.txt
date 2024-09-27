@@ -10,7 +10,6 @@ set(SOURCES
     src/args.c
     src/camera.c
     src/engine.c
-    src/glad_loader.c
     src/keyboard.c
     src/model.c
     src/mouse.c
