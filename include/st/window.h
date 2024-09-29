@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #ifdef ST_PLATFORM_LINUX
-#include <glad/glad_glx.h>
+#include <glad/glx.h>
 #elif defined(ST_PLATFORM_WINDOWS)
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -15,18 +15,20 @@
 
 typedef struct StWindow
 {
-    StMouse mouse;
-    StKeyboard keyboard;
+    // StMouse mouse;
+    // StKeyboard keyboard;
 
-    bool is_open;
+    bool visible;
     float deltatime;
 
 #ifdef ST_PLATFORM_LINUX
     struct {
+        // todo: separate glx from x11
         Display *display;
         GLXContext context;
         GLXFBConfig fbc;
-        Window root, window;
+        Window root;
+        Window window;
         uint64_t offset;
     } x11;
 #elif defined(ST_PLATFORM_WINDOWS)

@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <glad/glad_glx.h>
+#include <glad/glx.h>
 #include <cglm/mat4.h>
 #include <cglm/cam.h>
 #include <cglm/affine.h>

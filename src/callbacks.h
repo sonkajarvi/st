@@ -10,6 +10,7 @@
 
 #ifdef ST_PLATFORM_LINUX
 #include "impl/window_x11.h"
+#include "impl/context_glx.h"
 #endif // ST_PLATFORM_LINUX
 
 // called once, at program start up
@@ -43,8 +44,6 @@ static inline void set_graphics_callbacks(StEngine *const e, int type)
         e->impl.renderer_push_model     = impl_gl_renderer_draw_model;
 
 #ifdef ST_PLATFORM_LINUX
-        e->impl.context_create          = impl_glx_context_create;
-        e->impl.context_destroy         = impl_glx_context_destroy;
         e->impl.swap_buffers            = impl_glx_swap_buffers;
         e->impl.window_vsync            = impl_glx_window_vsync;
 #endif // ST_PLATFORM_LINUX

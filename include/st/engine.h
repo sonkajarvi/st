@@ -43,13 +43,10 @@ typedef struct StEngine
         void (*window_show)(StWindow *);
         void (*window_get_size)(StWindow *, int *, int *);
         void (*window_get_pos)(StWindow *, int *, int *);
+        void (*window_vsync)(StWindow *, bool);
 
         void (*poll_events)(StWindow *);
         void (*swap_buffers)(StWindow *);
-        
-        void (*context_create)(StWindow *);
-        void (*context_destroy)(StWindow *);
-        void (*window_vsync)(StWindow *, bool);
     
         void (*renderer_init)(StCamera *, StLight *);
         void (*renderer_destroy)(void);
