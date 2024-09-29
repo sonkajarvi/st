@@ -6,10 +6,10 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED on)
 set(CMAKE_EXPORT_COMPILE_COMMANDS on)
 
-set(SOURCES src/glad.c)
+set(SOURCES src/gl.c)
 
 if (UNIX AND NOT APPLE)
-    set(SOURCES ${SOURCES} src/glad_glx.c)
+    set(SOURCES ${SOURCES} src/glx.c)
 endif()
 
 add_library(glad STATIC ${SOURCES})

@@ -8,12 +8,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(SOURCES
     src/args.c
-    src/camera.c
+    # src/camera.c
     src/engine.c
-    src/keyboard.c
-    src/model.c
-    src/mouse.c
-    src/parse.c
+    # src/keyboard.c
+    # src/model.c
+    # src/mouse.c
+    # src/parse.c
     src/print.c
     src/renderer.c
     src/renderer_gl.c
@@ -25,16 +25,17 @@ set(SOURCES
 set(LIBS glad m)
 
 if (WIN32)
-    message("using Windows")
+    message("st: Building for Windows")
     add_compile_definitions(ST_PLATFORM_WINDOWS)
     set(LIBS ${LIBS} gdi32 opengl32)
     set(SOURCES ${SOURCES} src/window_win32.c)
-    
+
 elseif (UNIX AND NOT APPLE)
-    message("using Linux")
+    message("st: Building for Linux")
     add_compile_definitions(ST_PLATFORM_LINUX)
     set(LIBS ${LIBS} X11)
     set(SOURCES ${SOURCES} src/impl/window_x11.c)
+    set(SOURCES ${SOURCES} src/impl/context_glx.c)
 
 endif()
 
