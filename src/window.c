@@ -158,22 +158,22 @@ void st_window_poll_events(void)
     // frames++;
 
     // reset mouse wheel delta
-    // window->mouse.wheel = 0.0f;
+    window->mouse.wheel = 0.0f;
 
     // update mouse button states
-    // for (int i = 0; i < __ST_MOUSE_COUNT; i++)
-    //     window->mouse.state[i].previous = window->mouse.state[i].current;
+    for (int i = 0; i < __ST_MOUSE_COUNT; i++)
+        window->mouse.state[i].previous = window->mouse.state[i].current;
 
     // update mouse position delta
-    // static ivec2 prev_position = {0, 0};
-    // window->mouse.delta[0] = window->mouse.position[0] - prev_position[0];
-    // window->mouse.delta[1] = window->mouse.position[1] - prev_position[1];
-    // prev_position[0] = window->mouse.position[0];
-    // prev_position[1] = window->mouse.position[1];
+    static ivec2 prev_position = {0, 0};
+    window->mouse.delta[0] = window->mouse.position[0] - prev_position[0];
+    window->mouse.delta[1] = window->mouse.position[1] - prev_position[1];
+    prev_position[0] = window->mouse.position[0];
+    prev_position[1] = window->mouse.position[1];
 
     // update keyboard key states
-    // for (int i = 0; i < __ST_KEY_COUNT; i++)
-    //     window->keyboard.state[i].previous = window->keyboard.state[i].current;
+    for (int i = 0; i < __ST_KEY_COUNT; i++)
+        window->keyboard.state[i].previous = window->keyboard.state[i].current;
 
     call_impl(e, poll_events, window);
 }

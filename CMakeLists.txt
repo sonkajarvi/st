@@ -10,9 +10,9 @@ set(SOURCES
     src/args.c
     src/camera.c
     src/engine.c
-    # src/keyboard.c
+    src/keyboard.c
     # src/model.c
-    # src/mouse.c
+    src/mouse.c
     # src/parse.c
     src/print.c
     src/renderer2d.c

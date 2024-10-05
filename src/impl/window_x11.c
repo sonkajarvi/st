@@ -26,79 +26,79 @@ static uint64_t get_time(void)
     return (uint64_t)ts.tv_sec * 1000000000 + (uint64_t)ts.tv_nsec;
 }
 
-// static int keysym_to_key(int code)
-// {
-//     switch (code) {
-//     // alphabet
-//     case XK_a: return ST_KEY_A;
-//     case XK_b: return ST_KEY_B;
-//     case XK_c: return ST_KEY_C;
-//     case XK_d: return ST_KEY_D;
-//     case XK_e: return ST_KEY_E;
-//     case XK_f: return ST_KEY_F;
-//     case XK_g: return ST_KEY_G;
-//     case XK_h: return ST_KEY_H;
-//     case XK_i: return ST_KEY_I;
-//     case XK_j: return ST_KEY_J;
-//     case XK_k: return ST_KEY_K;
-//     case XK_l: return ST_KEY_L;
-//     case XK_m: return ST_KEY_M;
-//     case XK_n: return ST_KEY_N;
-//     case XK_o: return ST_KEY_O;
-//     case XK_p: return ST_KEY_P;
-//     case XK_q: return ST_KEY_Q;
-//     case XK_r: return ST_KEY_R;
-//     case XK_s: return ST_KEY_S;
-//     case XK_t: return ST_KEY_T;
-//     case XK_u: return ST_KEY_U;
-//     case XK_v: return ST_KEY_V;
-//     case XK_w: return ST_KEY_W;
-//     case XK_x: return ST_KEY_X;
-//     case XK_y: return ST_KEY_Y;
-//     case XK_z: return ST_KEY_Z;
+static int keysym_to_key(int code)
+{
+    switch (code) {
+    // alphabet
+    case XK_a: return ST_KEY_A;
+    case XK_b: return ST_KEY_B;
+    case XK_c: return ST_KEY_C;
+    case XK_d: return ST_KEY_D;
+    case XK_e: return ST_KEY_E;
+    case XK_f: return ST_KEY_F;
+    case XK_g: return ST_KEY_G;
+    case XK_h: return ST_KEY_H;
+    case XK_i: return ST_KEY_I;
+    case XK_j: return ST_KEY_J;
+    case XK_k: return ST_KEY_K;
+    case XK_l: return ST_KEY_L;
+    case XK_m: return ST_KEY_M;
+    case XK_n: return ST_KEY_N;
+    case XK_o: return ST_KEY_O;
+    case XK_p: return ST_KEY_P;
+    case XK_q: return ST_KEY_Q;
+    case XK_r: return ST_KEY_R;
+    case XK_s: return ST_KEY_S;
+    case XK_t: return ST_KEY_T;
+    case XK_u: return ST_KEY_U;
+    case XK_v: return ST_KEY_V;
+    case XK_w: return ST_KEY_W;
+    case XK_x: return ST_KEY_X;
+    case XK_y: return ST_KEY_Y;
+    case XK_z: return ST_KEY_Z;
 
-//     // numbers
-//     case XK_0: return ST_KEY_0;
-//     case XK_1: return ST_KEY_1;
-//     case XK_2: return ST_KEY_2;
-//     case XK_3: return ST_KEY_3;
-//     case XK_4: return ST_KEY_4;
-//     case XK_5: return ST_KEY_5;
-//     case XK_6: return ST_KEY_6;
-//     case XK_7: return ST_KEY_7;
-//     case XK_8: return ST_KEY_8;
-//     case XK_9: return ST_KEY_9;
+    // numbers
+    case XK_0: return ST_KEY_0;
+    case XK_1: return ST_KEY_1;
+    case XK_2: return ST_KEY_2;
+    case XK_3: return ST_KEY_3;
+    case XK_4: return ST_KEY_4;
+    case XK_5: return ST_KEY_5;
+    case XK_6: return ST_KEY_6;
+    case XK_7: return ST_KEY_7;
+    case XK_8: return ST_KEY_8;
+    case XK_9: return ST_KEY_9;
 
-//     // arrow keys
-//     case XK_Up: return ST_KEY_UP;
-//     case XK_Down: return ST_KEY_DOWN;
-//     case XK_Left: return ST_KEY_LEFT;
-//     case XK_Right: return ST_KEY_RIGHT;
+    // arrow keys
+    case XK_Up: return ST_KEY_UP;
+    case XK_Down: return ST_KEY_DOWN;
+    case XK_Left: return ST_KEY_LEFT;
+    case XK_Right: return ST_KEY_RIGHT;
 
-//     // special keys
-//     case XK_Escape: return ST_KEY_ESCAPE;
-//     case XK_Shift_L: return ST_KEY_SHIFT;
-//     case XK_Control_L: return ST_KEY_CTRL;
-//     case XK_space: return ST_KEY_SPACE;
-//     case XK_Return: return ST_KEY_ENTER;
+    // special keys
+    case XK_Escape: return ST_KEY_ESCAPE;
+    case XK_Shift_L: return ST_KEY_SHIFT;
+    case XK_Control_L: return ST_KEY_CTRL;
+    case XK_space: return ST_KEY_SPACE;
+    case XK_Return: return ST_KEY_ENTER;
 
-//     // function keys
-//     case XK_F1: return ST_KEY_F1;
-//     case XK_F2: return ST_KEY_F2;
-//     case XK_F3: return ST_KEY_F3;
-//     case XK_F4: return ST_KEY_F4;
-//     case XK_F5: return ST_KEY_F5;
-//     case XK_F6: return ST_KEY_F6;
-//     case XK_F7: return ST_KEY_F7;
-//     case XK_F8: return ST_KEY_F8;
-//     case XK_F9: return ST_KEY_F9;
-//     case XK_F10: return ST_KEY_F10;
-//     case XK_F11: return ST_KEY_F11;
-//     case XK_F12: return ST_KEY_F12;
+    // function keys
+    case XK_F1: return ST_KEY_F1;
+    case XK_F2: return ST_KEY_F2;
+    case XK_F3: return ST_KEY_F3;
+    case XK_F4: return ST_KEY_F4;
+    case XK_F5: return ST_KEY_F5;
+    case XK_F6: return ST_KEY_F6;
+    case XK_F7: return ST_KEY_F7;
+    case XK_F8: return ST_KEY_F8;
+    case XK_F9: return ST_KEY_F9;
+    case XK_F10: return ST_KEY_F10;
+    case XK_F11: return ST_KEY_F11;
+    case XK_F12: return ST_KEY_F12;
 
-//     default: return ST_KEY_UNKNOWN;
-//     }
-// }
+    default: return ST_KEY_UNKNOWN;
+    }
+}
 
 // todo: return a status code
 void impl_x11_window_create(StWindow *window, const char *title, int width, int height)
@@ -210,7 +210,7 @@ void impl_x11_poll_events(StWindow *window)
     while (QLength(window->x11.display)) {
         XNextEvent(window->x11.display, &event);
 
-        // int keycode, keysym, key;
+        int keycode, keysym, key;
 
         switch (event.type) {
         case ClientMessage:
@@ -220,19 +220,19 @@ void impl_x11_poll_events(StWindow *window)
             }
             break;
 
-        // case KeyPress:
-        // case KeyRelease:
-        //     keycode = event.xkey.keycode;
-        //     keysym = XkbKeycodeToKeysym(window->x11.display, keycode, 0, 0);
-        //     key = keysym_to_key(keysym);
+        case KeyPress:
+        case KeyRelease:
+            keycode = event.xkey.keycode;
+            keysym = XkbKeycodeToKeysym(window->x11.display, keycode, 0, 0);
+            key = keysym_to_key(keysym);
 
-        //     if (key == ST_KEY_UNKNOWN) {
-        //         printf("unknown key: code=%d, sym=%d\n", keycode, keysym);
-        //         break;
-        //     }
+            if (key == ST_KEY_UNKNOWN) {
+                printf("unknown key: code=%d, sym=%d\n", keycode, keysym);
+                break;
+            }
 
-        //     window->keyboard.state[key].current = event.type == KeyPress;
-        //     break;
+            window->keyboard.state[key].current = event.type == KeyPress;
+            break;
         }
     }
 

@@ -15,8 +15,8 @@
 
 typedef struct StWindow
 {
-    // StMouse mouse;
-    // StKeyboard keyboard;
+    StMouse mouse;
+    StKeyboard keyboard;
 
     bool visible;
     float deltatime;
