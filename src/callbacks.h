@@ -6,7 +6,6 @@
 
 #include <st/engine.h>
 #include <st/print.h>
-#include <st/renderer_gl.h>
 
 #ifdef ST_PLATFORM_LINUX
 #include "impl/window_x11.h"
@@ -36,13 +35,6 @@ static inline void set_graphics_callbacks(StEngine *const e, int type)
 {
     switch (type) {
     case ST_GRAPHICS_OPENGL:
-        e->impl.renderer_init           = impl_gl_renderer_init;
-        e->impl.renderer_destroy        = impl_gl_renderer_destroy;
-        e->impl.renderer_begin          = impl_gl_renderer_begin;
-        e->impl.renderer_end            = impl_gl_renderer_end;
-        e->impl.renderer_push_mesh      = impl_gl_renderer_push_mesh;
-        e->impl.renderer_push_model     = impl_gl_renderer_draw_model;
-
 #ifdef ST_PLATFORM_LINUX
         e->impl.swap_buffers            = impl_glx_swap_buffers;
         e->impl.window_vsync            = impl_glx_window_vsync;

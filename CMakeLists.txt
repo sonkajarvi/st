@@ -15,9 +15,7 @@ set(SOURCES
     # src/mouse.c
     # src/parse.c
     src/print.c
-    # src/renderer.c
     src/renderer2d.c
-    # src/renderer_gl.c
     src/util.c
     src/vector.c
     src/window.c

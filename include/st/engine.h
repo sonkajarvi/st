@@ -1,9 +1,6 @@
 #ifndef ST_ENGINE_H
 #define ST_ENGINE_H
 
-#include <st/camera.h>
-#include <st/model.h>
-#include <st/renderer.h>
 #include <st/window.h>
 
 /**
@@ -47,13 +44,6 @@ typedef struct StEngine
 
         void (*poll_events)(StWindow *);
         void (*swap_buffers)(StWindow *);
-    
-        void (*renderer_init)(StCamera *, StLight *);
-        void (*renderer_destroy)(void);
-        void (*renderer_begin)(void);
-        void (*renderer_end)(void);
-        void (*renderer_push_mesh)(const StVertex *, const size_t, const unsigned int *, const size_t);
-        void (*renderer_push_model)(StModel *, mat4 *, vec4, StCamera *, StLight *);
     } impl;
 } StEngine;
 
