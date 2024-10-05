@@ -8,15 +8,16 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(SOURCES
     src/args.c
-    # src/camera.c
+    src/camera.c
     src/engine.c
     # src/keyboard.c
     # src/model.c
     # src/mouse.c
     # src/parse.c
     src/print.c
-    src/renderer.c
-    src/renderer_gl.c
+    # src/renderer.c
+    src/renderer2d.c
+    # src/renderer_gl.c
     src/util.c
     src/vector.c
     src/window.c

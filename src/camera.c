@@ -4,7 +4,8 @@
 #include <cglm/vec3.h>
 #include <cglm/cam.h>
 
-#include <st/camera.h>
+#include <st/gfx/camera.h>
+#include <st/print.h>
 #include <st/window.h>
 
 static vec3 cam_front;
@@ -21,14 +22,43 @@ static void recalculate_view(StCamera *camera)
     glm_vec3_add(camera->position, cam_front, pos_and_front);
 
     glm_lookat(camera->position, pos_and_front, cam_up, camera->view_mat);
+
+    st_debug("camera: recalculated view matrix\n");
 }
 
 static void recalculate_projection(StCamera *camera)
 {
+    float ratio;
+
     int width, height;
     st_window_get_size(&width, &height);
-    const float ratio = (float)width / (float)height;
-    glm_perspective(glm_rad(camera->fov), ratio, 0.1f, 100.0f, camera->proj_mat);
+
+    switch (camera->projection_type) {
+    case ST_CAMERA_PERSPECTIVE:
+        ratio = (float)width / (float)height;
+        glm_perspective(glm_rad(camera->fov), ratio, ST_CAMERA_NEAR, ST_CAMERA_FAR, camera->proj_mat);
+        break;
+
+    case ST_CAMERA_ORTHO:
+        glm_ortho(0, width, 0, height, ST_CAMERA_NEAR, ST_CAMERA_FAR, camera->proj_mat);
+        break;
+
+    default:
+        st_error("camera: unknown projection type: %d\n", camera->projection_type);
+        return;
+    }
+
+    st_debug("camera: recalculated projection matrix\n");
+}
+
+void camera_set_projection(StCamera *camera, int type)
+{
+    assert(camera);
+
+    // todo: validate type
+    camera->projection_type = type;
+
+    recalculate_projection(camera);
 }
 
 void camera_set_position(StCamera *camera, float x, float y, float z)
