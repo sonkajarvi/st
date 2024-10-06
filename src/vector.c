@@ -1,6 +1,6 @@
-#include <st/vector.h>
-
 #include <stdlib.h>
+
+#include <st/utils/vector.h>
 
 size_t __vector_calc_cap(void *v, const size_t add_len)
 {

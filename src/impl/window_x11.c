@@ -10,7 +10,7 @@
 
 #include <st/engine.h>
 #include <st/input/keys.h>
-#include <st/print.h>
+#include <st/utils/print.h>
 #include <st/window.h>
 
 #include "context_glx.h"

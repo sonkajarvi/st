@@ -5,7 +5,7 @@
 #define ST_GRAPHICS_OPENGL 1
 
 #include <st/engine.h>
-#include <st/print.h>
+#include <st/utils/print.h>
 
 #ifdef ST_PLATFORM_LINUX
 #include "impl/window_x11.h"

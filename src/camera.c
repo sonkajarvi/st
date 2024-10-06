@@ -5,7 +5,7 @@
 #include <cglm/cam.h>
 
 #include <st/gfx/camera.h>
-#include <st/print.h>
+#include <st/utils/print.h>
 #include <st/window.h>
 
 static vec3 cam_front;

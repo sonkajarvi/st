@@ -4,8 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/args.h>
-#include <st/vector.h>
+#include <st/utils/args.h>
+#include <st/utils/vector.h>
 
 static struct {
     int argc;

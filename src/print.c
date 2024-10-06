@@ -3,7 +3,7 @@
 #include <time.h>
 
 #include <st/escape_codes.h>
-#include <st/print.h>
+#include <st/utils/print.h>
 
 void __do_print(FILE *fp, const char *pre, const char *func, const int line, const char *fmt, ...)
 {

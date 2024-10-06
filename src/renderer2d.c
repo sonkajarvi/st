@@ -8,12 +8,12 @@
 #include <glad/gl.h>
 
 #include <st/engine.h>
-#include <st/print.h>
-#include <st/vector.h>
 #include <st/gfx/camera.h>
 #include <st/gfx/renderer2d.h>
+#include <st/utils/print.h>
+#include <st/utils/util.h>
+#include <st/utils/vector.h>
 
-#include <st/util.h>
 
 static GLuint create_shader(const char *vertex_path, const char *fragment_path)
 {
