@@ -12,4 +12,10 @@
         pragma(GCC diagnostic pop);          \
     } while (0)
 
+#define st_lambda(__type, __args, __body) ({ \
+    __type __id __args \
+    __body \
+    &__id; \
+})
+
 #endif // ST_UTILS_COMPILER_H
