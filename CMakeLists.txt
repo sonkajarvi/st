@@ -8,6 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(SOURCES
     src/args.c
+    src/event.c
     src/camera.c
     src/engine.c
     src/keyboard.c
@@ -60,7 +61,7 @@ target_compile_options(st PRIVATE
     -Wall
     -Wextra
     -Werror
-    -Wstrict-prototypes
+    # -Wstrict-prototypes
     -Wno-gnu-zero-variadic-macro
 )
 

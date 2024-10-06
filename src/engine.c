@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include <st/engine.h>
+#include <st/event.h>
 #include <st/utils/print.h>
 
 #include "callbacks.h"
@@ -36,6 +37,10 @@ void st_engine_destroy(void)
         st_error("Failed to destroy engine. No context found\n");
         return;
     }
+
+    // Clear event listeners
+    for (int i = 0; i < ST_EVENT_LENGTH; i++)
+        st_event_clear(i);
 
     free(ST_INTERNAL_engine_context);
     ST_INTERNAL_engine_context = NULL;
