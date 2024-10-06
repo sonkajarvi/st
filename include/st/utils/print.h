@@ -1,5 +1,5 @@
-#ifndef ST_PRINT_H
-#define ST_PRINT_H
+#ifndef ST_UTILS_PRINT_H
+#define ST_UTILS_PRINT_H
 
 #include <stdio.h>
 
@@ -12,4 +12,4 @@
 
 void __do_print(FILE *fp, const char *pre, const char *func, const int line, const char *fmt, ...);
 
-#endif // ST_PRINT_H
+#endif // ST_UTILS_PRINT_H

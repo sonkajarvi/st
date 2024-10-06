@@ -1,5 +1,5 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef ST_UTILS_VECTOR_H
+#define ST_UTILS_VECTOR_H
 
 /*
  * vector_is_empty
@@ -263,4 +263,4 @@ typedef struct StVectorHeader
 size_t __vector_calc_cap(void *, const size_t);
 void *__vector_realloc(void *, const size_t, const size_t);
 
-#endif // VECTOR_H
+#endif // ST_UTILS_VECTOR_H

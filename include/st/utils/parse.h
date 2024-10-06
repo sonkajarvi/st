@@ -1,5 +1,5 @@
-#ifndef PARSE_H
-#define PARSE_H
+#ifndef ST_UTILS_PARSE_H
+#define ST_UTILS_PARSE_H
 
 #include <stdio.h>
 
@@ -11,4 +11,4 @@ typedef struct StParser
 char consume(StParser *parser, FILE *fp);
 char peek(FILE *fp);
 
-#endif // PARSE_H
+#endif // ST_UTILS_PARSE_H
