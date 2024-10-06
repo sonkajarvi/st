@@ -1,10 +1,10 @@
-#ifndef ATTR_H
-#define ATTR_H
+#ifndef ST_UTILS_COMPILER_H
+#define ST_UTILS_COMPILER_H
 
 #define pragma_helper(x) _Pragma(#x)
 #define pragma(x) pragma_helper(x)
 
-#define ignore_diagnostic(rule, expr)        \
+#define st_ignore_diagnostic(rule, expr)     \
     do {                                     \
         pragma(GCC diagnostic push);         \
         pragma(GCC diagnostic ignored rule); \
@@ -12,4 +12,4 @@
         pragma(GCC diagnostic pop);          \
     } while (0)
 
-#endif // ATTR_H
+#endif // ST_UTILS_COMPILER_H

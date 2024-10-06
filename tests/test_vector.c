@@ -1,6 +1,6 @@
 #include "test.h"
 
-#include <st/utils/attr.h>
+#include <st/utils/compiler.h>
 #include <st/utils/vector.h>
 
 test_case(vector_is_empty)
@@ -278,8 +278,8 @@ test_case(vector_push_range)
     int *v = NULL;
     static int arr[] = { 1, 2, 3, 4, 5 };
 
-    // compiler complains about NULL on linux
-    ignore_diagnostic("-Wnonnull", vector_push_range(v, NULL, 0));
+    // note: compiler complains about NULL on Linux
+    st_ignore_diagnostic("-Wnonnull", vector_push_range(v, NULL, 0));
     test_assert(!v);
     
     vector_push_range(v, arr, 0);
