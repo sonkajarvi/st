@@ -9,6 +9,7 @@
 #include <X11/Xutil.h>
 
 #include <st/engine.h>
+#include <st/event.h>
 #include <st/input/keys.h>
 #include <st/utils/print.h>
 #include <st/window.h>
@@ -207,10 +208,10 @@ double impl_x11_window_time(StWindow *window)
 void impl_x11_poll_events(StWindow *window)
 {
     XEvent event;
+    int keycode, keysym, key;
+
     while (QLength(window->x11.display)) {
         XNextEvent(window->x11.display, &event);
-
-        int keycode, keysym, key;
 
         switch (event.type) {
         case ClientMessage:
@@ -218,6 +219,11 @@ void impl_x11_poll_events(StWindow *window)
                 window->visible = false;
                 return;
             }
+            break;
+
+        case ConfigureNotify:
+            st_event_trigger(ST_EVENT_WINDOW_RESIZE,
+                event.xconfigure.width, event.xconfigure.height);
             break;
 
         case KeyPress:
