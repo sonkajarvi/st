@@ -51,6 +51,7 @@ target_include_directories(st PRIVATE
     include
     thirdparty/cglm/include
     thirdparty/glad/include
+    thirdparty/stb/include
 )
 
 target_link_libraries(st PRIVATE ${LIBS})
