@@ -10,7 +10,7 @@ StEvent *st_event_add_listener(int type, void (*callback)())
     if (!callback)
         return NULL;
 
-    StEventList *list = st_event_list_from_type(type);
+    StEventList *list = _st_event_list_from_type(type);
     assert(list);
 
     StEvent *event = malloc(sizeof(*event));
@@ -34,7 +34,7 @@ void st_event_remove_listener(StEvent *event)
     if (!event)
         return;
 
-    StEventList *list = st_event_list_from_type(event->hint);
+    StEventList *list = _st_event_list_from_type(event->hint);
     assert(list);
 
     StEvent **tmp = &list->head;
@@ -45,7 +45,7 @@ void st_event_remove_listener(StEvent *event)
 
 void st_event_clear(int type)
 {
-    StEventList *list = st_event_list_from_type(type);
+    StEventList *list = _st_event_list_from_type(type);
     assert(list);
 
     StEvent *curr = list->head, *next = NULL;
@@ -60,7 +60,7 @@ void st_event_clear(int type)
     st_debug("Cleared event listeners (type=%d)\n", type);
 }
 
-StEventList *st_event_list_from_type(int type)
+StEventList *_st_event_list_from_type(int type)
 {
     StEngine *engine = st_engine_context();
     if (!engine)

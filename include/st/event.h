@@ -8,13 +8,13 @@
 #define ST_EVENT_LAST ST_EVENT_WINDOW_RESIZE
 #define ST_EVENT_LENGTH (ST_EVENT_WINDOW_RESIZE + 1)
 
-#define st_event_trigger(type, ...) ({ \
-    StEngine *engine = st_engine_context(); \
-    assert(engine); \
-    StEventList *list = st_event_list_from_type((type)); \
-    assert(list); \
-    for (StEvent *event = list->head; event; event = event->next) \
-        event->callback(__VA_ARGS__); \
+#define st_event_trigger(___type, ...) ({ \
+    StEngine *___engine = st_engine_context(); \
+    assert(___engine); \
+    StEventList *___list = _st_event_list_from_type((___type)); \
+    assert(___list); \
+    for (StEvent *___event = ___list->head; ___event; ___event = ___event->next) \
+        ___event->callback(__VA_ARGS__); \
 })
 
 // Event list node
@@ -36,6 +36,6 @@ StEvent *st_event_add_listener(int type, void (*callback)());
 void st_event_remove_listener(StEvent *event);
 void st_event_clear(int type);
 
-StEventList *st_event_list_from_type(int type);
+StEventList *_st_event_list_from_type(int type);
 
 #endif // ST_EVENT_H
