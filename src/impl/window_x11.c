@@ -222,8 +222,9 @@ void impl_x11_poll_events(StWindow *window)
             break;
 
         case ConfigureNotify:
-            st_event_trigger(ST_EVENT_WINDOW_RESIZE,
-                event.xconfigure.width, event.xconfigure.height);
+            st_event_trigger(ST_EVENT_WINDOW_RESIZE,  (StEventData){{
+                event.xconfigure.width, event.xconfigure.height
+            }});
             break;
 
         case KeyPress:

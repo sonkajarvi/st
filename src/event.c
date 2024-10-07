@@ -60,6 +60,15 @@ void st_event_clear(int type)
     st_debug("Cleared event listeners (type=%d)\n", type);
 }
 
+void st_event_trigger(int type, StEventData data)
+{
+    StEventList *list = _st_event_list_from_type(type);
+    assert(list);
+
+    for (StEvent *event = list->head; event; event = event->next)
+        event->callback(&data);
+}
+
 StEventList *_st_event_list_from_type(int type)
 {
     StEngine *engine = st_engine_context();
