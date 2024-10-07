@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#include <st/escape_codes.h>
+#include <st/utils/escape_codes.h>
 
 #define st_debug(fmt, ...)  __do_print(stdout, ST_ESC_BLACK_B"DEBUG: ", __func__, __LINE__, fmt, ##__VA_ARGS__)
 #define st_log(fmt, ...)    __do_print(stdout, ST_ESC_RESET"LOG: ", __func__, __LINE__, fmt, ##__VA_ARGS__)
