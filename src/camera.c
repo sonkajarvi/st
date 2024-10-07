@@ -11,19 +11,21 @@
 static vec3 cam_front;
 static vec3 cam_up = {0.0f, 1.0f, 0.0f};
 
-static void recalculate_view(StCamera *camera)
+static void recalculate_view(StCamera *camera, bool rotated)
 {
-    cam_front[0] = cosf(glm_rad(camera->rotation[1])) * cosf(glm_rad(camera->rotation[0]));
-    cam_front[1] = sinf(glm_rad(camera->rotation[0]));
-    cam_front[2] = sinf(glm_rad(camera->rotation[1])) * cosf(glm_rad(camera->rotation[0]));
-    glm_normalize(cam_front);
+    if (rotated) {
+        cam_front[0] = cosf(glm_rad(camera->rotation[1])) * cosf(glm_rad(camera->rotation[0]));
+        cam_front[1] = sinf(glm_rad(camera->rotation[0]));
+        cam_front[2] = sinf(glm_rad(camera->rotation[1])) * cosf(glm_rad(camera->rotation[0]));
+        glm_normalize(cam_front);
+    }
 
     vec3 pos_and_front;
     glm_vec3_add(camera->position, cam_front, pos_and_front);
 
     glm_lookat(camera->position, pos_and_front, cam_up, camera->view_mat);
 
-    st_debug("camera: recalculated view matrix\n");
+    // st_debug("camera: recalculated view matrix\n");
 }
 
 static void recalculate_projection(StCamera *camera)
@@ -48,7 +50,7 @@ static void recalculate_projection(StCamera *camera)
         return;
     }
 
-    st_debug("camera: recalculated projection matrix\n");
+    // st_debug("camera: recalculated projection matrix\n");
 }
 
 void camera_set_projection(StCamera *camera, int type)
@@ -70,7 +72,7 @@ void camera_set_position(StCamera *camera, float x, float y, float z)
     camera->position[1] = y;
     camera->position[2] = z;
 
-    recalculate_view(camera);
+    recalculate_view(camera, false);
 }
 
 void camera_add_position(StCamera *camera, float x, float y, float z)
@@ -90,7 +92,7 @@ void camera_add_position(StCamera *camera, float x, float y, float z)
     glm_vec3_scale(cam_front, z, tmp);
     glm_vec3_add(camera->position, tmp, camera->position);
 
-    recalculate_view(camera);
+    recalculate_view(camera, false);
 }
 
 void camera_set_rotation(StCamera *camera, float x, float y, float z)
@@ -101,7 +103,7 @@ void camera_set_rotation(StCamera *camera, float x, float y, float z)
     camera->rotation[1] = y;
     camera->rotation[2] = z;
 
-    recalculate_view(camera);
+    recalculate_view(camera, true);
 }
 
 void camera_add_rotation(StCamera *camera, float x, float y, float z)
@@ -112,7 +114,7 @@ void camera_add_rotation(StCamera *camera, float x, float y, float z)
     camera->rotation[1] += y;
     camera->rotation[2] += z;
 
-    recalculate_view(camera);
+    recalculate_view(camera, true);
 }
 
 void camera_set_fov(StCamera *camera, float fov)
