@@ -313,21 +313,21 @@ void st_renderer2d_draw_textured_quad(StRenderer2d *renderer, vec3 position,
     const float index = (float)index_from_id(renderer, texture->gl.id);
 
     StVertex2d vertices[] = {
-        {{1.0f, 1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 1.0f}, index}, // top right
-        {{1.0f, 0.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
-        {{0.0f, 1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}, // top left
+        {{ 5.0f,  5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 1.0f}, index}, // top right
+        {{ 5.0f, -5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
+        {{-5.0f,  5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}, // top left
 
-        {{1.0f, 0.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
-        {{0.0f, 0.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, index}, // bottom left
-        {{0.0f, 1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}  // top left
+        {{ 5.0f, -5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
+        {{-5.0f, -5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, index}, // bottom left
+        {{-5.0f,  5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}  // top left
     };
 
     mat4 model = GLM_MAT4_IDENTITY_INIT;
     glm_translate(model, position);
-    glm_scale(model, scale);
     glm_rotate(model, glm_rad(rotation[0]), (vec3){1.0f, 0.0f, 0.0f});
     glm_rotate(model, glm_rad(rotation[1]), (vec3){0.0f, 1.0f, 0.0f});
     glm_rotate(model, glm_rad(rotation[2]), (vec3){0.0f, 0.0f, 1.0f});
+    glm_scale(model, scale);
 
     for (int i = 0; i < 6; i++) {
         glm_mat4_mulv3(model, vertices[i].position, 1.0f, vertices[i].position);
