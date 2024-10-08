@@ -6,6 +6,8 @@
 #include <cglm/vec3.h>
 #include <cglm/vec4.h>
 #include <glad/gl.h>
+#define STB_IMAGE_IMPLEMENTATION
+#include <stb/stb_image.h>
 
 #include <st/engine.h>
 #include <st/gfx/camera.h>
@@ -99,6 +101,16 @@ static void gl_init(StRenderer2d *renderer)
         sizeof(StVertex2d), (void *)offsetof(StVertex2d, color));
     glEnableVertexAttribArray(1);
 
+    // Texture coordinates
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+        sizeof(StVertex2d), (void *)offsetof(StVertex2d, tex_coords));
+    glEnableVertexAttribArray(2);
+
+    // Texture index
+    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE,
+        sizeof(StVertex2d), (void *)offsetof(StVertex2d, tex_index));
+    glEnableVertexAttribArray(3);
+
     const char *vertex_path = ST_ASSETS_PATH "/shaders/vertex_2d.glsl";
     const char *fragment_path = ST_ASSETS_PATH "/shaders/fragment_2d.glsl";
     renderer->gl.program = create_shader(vertex_path, fragment_path);
@@ -114,6 +126,9 @@ static void gl_destroy(StRenderer2d *renderer)
     glDeleteBuffers(1, &renderer->gl.vbo);
     glDeleteVertexArrays(1, &renderer->gl.vao);
     glDeleteProgram(renderer->gl.program);
+
+    vector_for(renderer->textures, StTexture *, texture)
+        glDeleteTextures(1, &(*texture)->gl.id);
 }
 
 static void gl_begin(StRenderer2d *renderer)
@@ -125,6 +140,13 @@ static void gl_begin(StRenderer2d *renderer)
     glClear(GL_COLOR_BUFFER_BIT);
 
     glUseProgram(renderer->gl.program);
+
+    const GLint array[] = {0, 1, 2, 3};
+    glUniform1iv(glGetUniformLocation(renderer->gl.program, "u_textures"),
+        4, array);
+
+    for (size_t i = 0; i < vector_length(renderer->textures); i++)
+        glBindTextureUnit(i, renderer->textures[i]->gl.id);
 
     glUniformMatrix4fv(glGetUniformLocation(renderer->gl.program, "u_view_mat"),
         1, GL_FALSE, *renderer->camera->view_mat);
@@ -145,6 +167,36 @@ static void gl_flush(StRenderer2d *renderer)
     renderer->vertex_pointer = renderer->vertex_buffer;
 }
 
+static void gl_init_texture(StTexture *texture)
+{
+    glGenTextures(1, &texture->gl.id);
+    glBindTexture(GL_TEXTURE_2D, texture->gl.id);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    unsigned char *data;
+    if (texture->from_file) {
+        int channels;
+
+        stbi_set_flip_vertically_on_load(1);
+        data = stbi_load(texture->data.path,
+            &texture->width, &texture->height, &channels, 4);
+        assert(data);
+    } else {
+        data = texture->data.bytes;
+    }
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width,
+        texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    if (texture->from_file)
+        stbi_image_free(data);
+}
+
 void st_renderer2d_init(StRenderer2d *renderer, StCamera *camera)
 {
     assert(renderer);
@@ -163,6 +215,12 @@ void st_renderer2d_init(StRenderer2d *renderer, StCamera *camera)
 
     gl_init(renderer);
 
+    // 1x1 white texture
+    static StTexture white = {0};
+    unsigned char bytes[] = {0xff, 0xff, 0xff, 0xff};
+    st_texture_from_bytes(&white, bytes, 1, 1);
+    st_renderer2d_add_texture(renderer, &white);
+
     st_debug("2D renderer created\n");
 }
 
@@ -175,7 +233,24 @@ void st_renderer2d_destroy(StRenderer2d *renderer)
 
     gl_destroy(renderer);
 
+    vector_for(renderer->textures, StTexture *, texture)
+        st_texture_destroy(*texture);
+
     st_debug("2D renderer destroyed\n");
+}
+
+void st_renderer2d_add_texture(StRenderer2d *renderer, StTexture *texture)
+{
+    assert(renderer);
+    assert(texture);
+    assert(vector_length(renderer->textures) <= 4);
+
+    vector_push(renderer->textures, texture);
+
+    gl_init_texture(texture);
+
+    st_debug("Texture added (id=%d, width=%d, height=%d)\n",
+        texture->gl.id, texture->width, texture->height);
 }
 
 void st_renderer2d_begin(StRenderer2d *renderer)
@@ -219,16 +294,34 @@ void st_renderer2d_draw(StRenderer2d *renderer, StVertex2d *vertices, int count)
 void st_renderer2d_draw_quad(StRenderer2d *renderer, vec3 position,
     vec3 rotation, vec3 scale, vec4 color)
 {
-    StVertex2d vertices[] = {
-        {{1.0f, 1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}},
-        {{1.0f, 0.0f, 0.0f}, {color[0], color[1], color[2], color[3]}},
-        {{0.0f, 1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}},
+    st_renderer2d_draw_textured_quad(renderer, position, rotation, scale, color,
+        renderer->textures[0]);
+}
 
-        {{1.0f, 0.0f, 0.0f}, {color[0], color[1], color[2], color[3]}},
-        {{0.0f, 0.0f, 0.0f}, {color[0], color[1], color[2], color[3]}},
-        {{0.0f, 1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}}
+static int index_from_id(StRenderer2d *renderer, GLuint id)
+{
+    for (size_t i = 0; i < vector_length(renderer->textures); i++) {
+        if (renderer->textures[i]->gl.id == id)
+            return (int)i;
+    }
+    return -1;
+}
+
+void st_renderer2d_draw_textured_quad(StRenderer2d *renderer, vec3 position,
+    vec3 rotation, vec3 scale, vec4 color, StTexture *texture)
+{
+    const float index = (float)index_from_id(renderer, texture->gl.id);
+
+    StVertex2d vertices[] = {
+        {{1.0f, 1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 1.0f}, index}, // top right
+        {{1.0f, 0.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
+        {{0.0f, 1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}, // top left
+
+        {{1.0f, 0.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
+        {{0.0f, 0.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, index}, // bottom left
+        {{0.0f, 1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}  // top left
     };
-    
+
     mat4 model = GLM_MAT4_IDENTITY_INIT;
     glm_translate(model, position);
     glm_scale(model, scale);
@@ -241,4 +334,4 @@ void st_renderer2d_draw_quad(StRenderer2d *renderer, vec3 position,
     }
 
     st_renderer2d_draw(renderer, vertices, 6);
-} 
+}
