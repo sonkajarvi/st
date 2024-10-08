@@ -119,6 +119,9 @@ static void gl_init(StRenderer2d *renderer)
     st_debug("Created shader: (id=%d)\n", renderer->gl.program);
     st_debug("- vert: '%s'\n", vertex_path);
     st_debug("- frag: '%s'\n", fragment_path);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 static void gl_destroy(StRenderer2d *renderer)
