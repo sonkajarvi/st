@@ -39,8 +39,12 @@ void st_texture_destroy(StTexture *texture)
 {
     assert(texture);
 
-    if (texture->from_file)
-        free(texture->data.path);
+    bool did_free = false;
 
-    st_debug("Texture destroyed (texture=%p)\n", texture);
+    if (texture->from_file) {
+        free(texture->data.path);
+        did_free = true;
+    }
+
+    st_debug("Texture destroyed (texture=%p, free=%d)\n", texture, did_free);
 }
