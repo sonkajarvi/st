@@ -25,21 +25,13 @@ set(SOURCES
 
 set(LIBS glad m)
 
-if (WIN32)
-    message("st: Building for Windows")
-    add_compile_definitions(ST_PLATFORM_WINDOWS)
-    set(LIBS ${LIBS} gdi32 opengl32)
-    set(SOURCES ${SOURCES} src/window_win32.c)
-
-elseif (UNIX AND NOT APPLE)
+if (UNIX AND NOT APPLE)
     message("st: Building for Linux")
     add_compile_definitions(ST_PLATFORM_LINUX)
     set(LIBS ${LIBS} X11)
     set(SOURCES ${SOURCES} src/impl/window_x11.c)
     set(SOURCES ${SOURCES} src/impl/context_glx.c)
-
 endif()
-
 
 add_library(st ${SOURCES})
 
