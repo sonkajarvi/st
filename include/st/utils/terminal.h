@@ -1,7 +1,7 @@
 #ifndef ST_ESCAPE_CODES_H
 #define ST_ESCAPE_CODES_H
 
-#ifdef ST_HAS_ESCAPE_CODES
+#ifdef ST_CONFIG_COLORFUL_OUTPUT
 
 #define ST_ESC_BOLD             "\033[1m"
 #define ST_ESC_ITALIC           "\033[3m"
@@ -54,54 +54,54 @@
 
 #else
 
-#define ST_ESC_BOLD
-#define ST_ESC_ITALIC
-#define ST_ESC_UNDERLINE
-#define ST_ESC_REVERSE
-#define ST_ESC_STRIKE
+#define ST_ESC_BOLD             ""
+#define ST_ESC_ITALIC           ""
+#define ST_ESC_UNDERLINE        ""
+#define ST_ESC_REVERSE          ""
+#define ST_ESC_STRIKE           ""
 
-#define ST_ESC_RESET
-#define ST_ESC_RESET_BOLD
-#define ST_ESC_RESET_ITALIC
-#define ST_ESC_RESET_UNDERLINE
-#define ST_ESC_RESET_REVERSE
-#define ST_ESC_RESET_STRIKE
+#define ST_ESC_RESET            ""
+#define ST_ESC_RESET_BOLD       ""
+#define ST_ESC_RESET_ITALIC     ""
+#define ST_ESC_RESET_UNDERLINE  ""
+#define ST_ESC_RESET_REVERSE    ""
+#define ST_ESC_RESET_STRIKE     ""
 
-#define ST_ESC_BLACK
-#define ST_ESC_RED
-#define ST_ESC_GREEN
-#define ST_ESC_YELLOW
-#define ST_ESC_BLUE
-#define ST_ESC_MAGENTA
-#define ST_ESC_CYAN
-#define ST_ESC_WHITE
+#define ST_ESC_BLACK            ""
+#define ST_ESC_RED              ""
+#define ST_ESC_GREEN            ""
+#define ST_ESC_YELLOW           ""
+#define ST_ESC_BLUE             ""
+#define ST_ESC_MAGENTA          ""
+#define ST_ESC_CYAN             ""
+#define ST_ESC_WHITE            ""
 
-#define ST_ESC_BG_BLACK
-#define ST_ESC_BG_RED
-#define ST_ESC_BG_GREEN
-#define ST_ESC_BG_YELLOW
-#define ST_ESC_BG_BLUE
-#define ST_ESC_BG_MAGENTA
-#define ST_ESC_BG_CYAN
-#define ST_ESC_BG_WHITE
+#define ST_ESC_BG_BLACK         ""
+#define ST_ESC_BG_RED           ""
+#define ST_ESC_BG_GREEN         ""
+#define ST_ESC_BG_YELLOW        ""
+#define ST_ESC_BG_BLUE          ""
+#define ST_ESC_BG_MAGENTA       ""
+#define ST_ESC_BG_CYAN          ""
+#define ST_ESC_BG_WHITE         ""
 
-#define ST_ESC_BLACK_B
-#define ST_ESC_RED_B
-#define ST_ESC_GREEN_B
-#define ST_ESC_YELLOW_B
-#define ST_ESC_BLUE_B
-#define ST_ESC_MAGENTA_B
-#define ST_ESC_CYAN_B
-#define ST_ESC_WHITE_B
+#define ST_ESC_BLACK_B          ""
+#define ST_ESC_RED_B            ""
+#define ST_ESC_GREEN_B          ""
+#define ST_ESC_YELLOW_B         ""
+#define ST_ESC_BLUE_B           ""
+#define ST_ESC_MAGENTA_B        ""
+#define ST_ESC_CYAN_B           ""
+#define ST_ESC_WHITE_B          ""
 
-#define ST_ESC_BG_BLACK_B
-#define ST_ESC_BG_RED_B
-#define ST_ESC_BG_GREEN_B
-#define ST_ESC_BG_YELLOW_B
-#define ST_ESC_BG_BLUE_B
-#define ST_ESC_BG_MAGENTA_B
-#define ST_ESC_BG_CYAN_B
-#define ST_ESC_BG_WHITE_B
+#define ST_ESC_BG_BLACK_B       ""
+#define ST_ESC_BG_RED_B         ""
+#define ST_ESC_BG_GREEN_B       ""
+#define ST_ESC_BG_YELLOW_B      ""
+#define ST_ESC_BG_BLUE_B        ""
+#define ST_ESC_BG_MAGENTA_B     ""
+#define ST_ESC_BG_CYAN_B        ""
+#define ST_ESC_BG_WHITE_B       ""
 
 #endif
 
