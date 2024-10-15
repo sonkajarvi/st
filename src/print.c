@@ -2,28 +2,49 @@
 #include <stdio.h>
 #include <time.h>
 
-#include <st/utils/escape_codes.h>
+#include <st/utils/terminal.h>
 #include <st/utils/print.h>
 
-void __do_print(FILE *fp, const char *pre, const char *func, const int line, const char *fmt, ...)
+void _st_fprintf(FILE *fp, const int level,
+    const char *function, const int line, const char *fmt, ...)
 {
-    // time
+    // timestamp
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
     struct timespec ts;
     clock_gettime(CLOCK_REALTIME, &ts);
 
-    fprintf(fp, "[" ST_ESC_BOLD ST_ESC_GREEN_B "%02d:%02d:%02d.%03ld" ST_ESC_RESET "]",
+    fprintf(fp, ST_ESC_GREEN "[%02d:%02d:%02d.%03ld] " ST_ESC_RESET,
         tm->tm_hour,
         tm->tm_min,
         tm->tm_sec,
         ((ts.tv_sec * 1000) + (ts.tv_nsec / 1000)) % 1000);
 
-    // file and line
-    fprintf(fp, "[" ST_ESC_BOLD ST_ESC_BLUE_B "%s:%d" ST_ESC_RESET "] ", func, line);
+    // function and line
+    fprintf(fp, ST_ESC_YELLOW "%s:%d: " ST_ESC_RESET, function, line);
 
     // level
-    fprintf(fp, "%s", pre);
+    switch (level) {
+    case ST_LEVEL_DEBUG:
+        fprintf(fp, ST_ESC_BLACK_B "debug: ");
+        break;
+
+    case ST_LEVEL_LOG:
+        fprintf(fp, "log: ");
+        break;
+
+    case ST_LEVEL_WARN:
+        fprintf(fp, ST_ESC_YELLOW_B "warn: ");
+        break;
+
+    case ST_LEVEL_ERROR:
+        fprintf(fp, ST_ESC_RED_B "*error*: ");
+        break;
+
+    default:
+        fprintf(fp, "*unknown*: ");
+        break;
+    }
 
     // message
     va_list args;
@@ -31,7 +52,5 @@ void __do_print(FILE *fp, const char *pre, const char *func, const int line, con
     vfprintf(fp, fmt, args);
     va_end(args);
 
-#ifdef ST_HAS_ESCAPE_CODES
-    fprintf(fp, ST_ESC_RESET);
-#endif
+    fprintf(fp, "%s", ST_ESC_RESET);
 }

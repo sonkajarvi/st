@@ -3,13 +3,19 @@
 
 #include <stdio.h>
 
-#include <st/utils/escape_codes.h>
+#include <st/utils/terminal.h>
 
-#define st_debug(fmt, ...)  __do_print(stdout, ST_ESC_BLACK_B"DEBUG: ", __func__, __LINE__, fmt, ##__VA_ARGS__)
-#define st_log(fmt, ...)    __do_print(stdout, ST_ESC_RESET"LOG: ", __func__, __LINE__, fmt, ##__VA_ARGS__)
-#define st_warn(fmt, ...)   __do_print(stderr, ST_ESC_YELLOW_B"WARN: ", __func__, __LINE__, fmt, ##__VA_ARGS__)
-#define st_error(fmt, ...)  __do_print(stderr, ST_ESC_RED_B"ERROR: ", __func__, __LINE__, fmt, ##__VA_ARGS__)
+#define ST_LEVEL_DEBUG 0
+#define ST_LEVEL_LOG 1
+#define ST_LEVEL_WARN 2
+#define ST_LEVEL_ERROR 3
 
-void __do_print(FILE *fp, const char *pre, const char *func, const int line, const char *fmt, ...);
+#define st_debug(fmt, ...) _st_fprintf(stdout, ST_LEVEL_DEBUG, __func__, __LINE__, fmt, ##__VA_ARGS__)
+#define st_log(fmt, ...) _st_fprintf(stdout, ST_LEVEL_LOG, __func__, __LINE__, fmt, ##__VA_ARGS__)
+#define st_warn(fmt, ...) _st_fprintf(stdout, ST_LEVEL_WARN, __func__, __LINE__, fmt, ##__VA_ARGS__)
+#define st_error(fmt, ...) _st_fprintf(stdout, ST_LEVEL_ERROR, __func__, __LINE__, fmt, ##__VA_ARGS__)
+
+void _st_fprintf(FILE *fp, const int level,
+    const char *function, const int line, const char *fmt, ...);
 
 #endif // ST_UTILS_PRINT_H
