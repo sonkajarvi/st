@@ -1,25 +1,25 @@
 #ifndef ST_WINDOW_H
 #define ST_WINDOW_H
 
+#include <assert.h>
 #include <stdbool.h>
 
 #ifdef ST_PLATFORM_LINUX
 #include <glad/glx.h>
-#elif defined(ST_PLATFORM_WINDOWS)
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #endif
 
+#include <st/gfx/camera.h>
 #include <st/input/keyboard.h>
 #include <st/input/mouse.h>
 
 typedef struct StWindow
 {
-    StMouse mouse;
-    StKeyboard keyboard;
-
     bool visible;
     float deltatime;
+
+    StMouse mouse;
+    StKeyboard keyboard;
+    StCamera camera;
 
 #ifdef ST_PLATFORM_LINUX
     struct {
@@ -55,5 +55,11 @@ float st_window_deltatime(void);
 void st_window_poll_events(StWindow *window);
 void st_window_swap_buffers(StWindow *window);
 void st_window_set_vsync(StWindow *window, bool value);
+
+static inline StCamera *st_window_camera(StWindow *const window)
+{
+    assert(window);
+    return &window->camera;
+}
 
 #endif // ST_WINDOW_H
