@@ -40,10 +40,10 @@ typedef struct StWindow
 #endif
 } StWindow;
 
-void st_window_create(const char *title, int width, int height);
-void st_window_destroy(void);
-void st_window_show(void);
-bool st_window_should_close(void);
+StWindow *st_window_create(const char *title, int width, int height);
+void st_window_destroy(StWindow *window);
+void st_window_show(StWindow *window);
+bool st_window_should_close(StWindow *window);
 
 void st_window_get_size(int *width, int *height);
 void st_window_get_pos(int *x, int *y);
@@ -52,8 +52,8 @@ double st_window_time(void);
 // int window_fps(void);
 float st_window_deltatime(void);
 
-void st_window_poll_events(void);
-void st_window_swap_buffers(void);
-void st_window_vsync(bool value);
+void st_window_poll_events(StWindow *window);
+void st_window_swap_buffers(StWindow *window);
+void st_window_set_vsync(StWindow *window, bool value);
 
 #endif // ST_WINDOW_H

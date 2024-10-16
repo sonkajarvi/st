@@ -6,41 +6,45 @@
 #include <st/utils/print.h>
 
 // todo: return a status code
-void st_window_create(const char *title, int width, int height)
+StWindow *st_window_create(const char *title, int width, int height)
 {
-    StEngine *engine = st_engine_context();
-    if (!engine) {
-        st_error("No engine context\n");
-        return;
+    St *st = st_instance();
+    if (!st) {
+        st_error("Failed to create window. No instance found\n");
+        return NULL;
     }
 
-    if (engine->window) {
-        st_error("Window already initialized\n");
-        return;
+    if (st->window) {
+        st_error("Failed to create window. Window already exists\n");
+        return NULL;
     }
 
     StWindow *window = malloc(sizeof(*window));
     if (!window) {
-        st_error("Failed to allocate memory for window struct\n");
-        return;
+        st_error("Failed to allocate memory for window\n");
+        return NULL;
     }
 
     memset(window, 0, sizeof(*window));
-    call_impl(engine, window_create, window, title, width, height);
-    engine->window = window;
+    call_impl(st, window_create, window, title, width, height);
+    st->window = window;
 
-    st_debug("Window created (\"%s\", %d, %d)\n", title, width, height);
+    st_debug("Window created\n");
+    st_debug("... title: '%s'\n", title);
+    st_debug("... width: %d\n", width);
+    st_debug("... height: %d\n", height);
+
+    return window;
 }
 
-void st_window_destroy(void)
+void st_window_destroy(StWindow *window)
 {
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
     assert(window);
+    St *st = st_instance();
+    assert(st);
 
     // call_impl(e, context_destroy, window);
-    call_impl(e, window_destroy, window);
+    call_impl(st, window_destroy, window);
 
     // todo: destroy the graphics context
 
@@ -49,62 +53,60 @@ void st_window_destroy(void)
     st_debug("Window destroyed\n");
 }
 
-void st_window_show(void)
+void st_window_show(StWindow *window)
 {
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
     assert(window);
+    St *st = st_instance();
+    assert(st);
 
-    call_impl(e, window_show, window);
+    call_impl(st, window_show, window);
 
     window->visible = true;
 }
 
-bool st_window_should_close(void)
+bool st_window_should_close(StWindow *window)
 {
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
     assert(window);
+    St *st = st_instance();
+    assert(st);
 
     return !window->visible;
 }
 
 void st_window_get_size(int *width, int *height)
 {
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
+    St *st = st_instance();
+    assert(st);
+    StWindow *window = st->window;
     assert(window);
 
-    call_impl(e, window_get_size, window, width, height);
+    call_impl(st, window_get_size, window, width, height);
 }
 
 void st_window_get_pos(int *x, int *y)
 {
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
+    St *st = st_instance();
+    assert(st);
+    StWindow *window = st->window;
     assert(window);
 
-    call_impl(e, window_get_pos, window, x, y);
+    call_impl(st, window_get_pos, window, x, y);
 }
 
 double st_window_time(void)
 {
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
+    St *st = st_instance();
+    assert(st);
+    StWindow *window = st->window;
     assert(window);
 
     // return_impl(engine_time, window);
-    return call_impl(e, engine_time, window);
+    return call_impl(st, engine_time, window);
 }
 
 // int window_fps(void)
 // {
-//     StEngine *e = st_engine_context();
+//     StEngine *e = st_instance();
 //     assert(e);
 //     StWindow *window = e->window;
 //     assert(window);
@@ -114,31 +116,27 @@ double st_window_time(void)
 
 float st_window_deltatime(void)
 {
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
+    St *st = st_instance();
+    assert(st);
+    StWindow *window = st->window;
     assert(window);
 
     return window->deltatime;
 }
 
-void st_window_vsync(bool value)
+void st_window_set_vsync(StWindow *window, bool value)
 {
-    (void)value;
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
     assert(window);
+    St *st = st_instance();
+    assert(st);
 
-    call_impl(e, window_vsync, window, value);
+    call_impl(st, window_vsync, window, value);
 }
 
-void st_window_poll_events(void)
+void st_window_poll_events(StWindow *window)
 {
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
-    assert(window);
+    St *st = st_instance();
+    assert(st);
 
     // update time
     // static int frames = 0;
@@ -175,15 +173,13 @@ void st_window_poll_events(void)
     for (int i = 0; i < __ST_KEY_COUNT; i++)
         window->keyboard.state[i].previous = window->keyboard.state[i].current;
 
-    call_impl(e, poll_events, window);
+    call_impl(st, poll_events, window);
 }
 
-void st_window_swap_buffers(void)
+void st_window_swap_buffers(StWindow *window)
 {
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
-    assert(window);
+    St *st = st_instance();
+    assert(st);
 
-    call_impl(e, swap_buffers, window);
+    call_impl(st, swap_buffers, window);
 }
