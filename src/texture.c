@@ -17,7 +17,8 @@ void st_texture_from_file(StTexture *texture, const char *path)
 
     texture->gl.id = 0;
 
-    st_debug("Texture initialized from file (path='%s')\n", texture->data.path);
+    st_debug("Texture initialized from file\n");
+    st_debug("... path: '%s'\n", texture->data.path);
 }
 
 void st_texture_from_bytes(StTexture *texture, unsigned char *bytes, int width, int height)
@@ -32,7 +33,9 @@ void st_texture_from_bytes(StTexture *texture, unsigned char *bytes, int width, 
 
     texture->gl.id = 0;
 
-    st_debug("Texture initialized from bytes (bytes=%p, width=%d, height=%d)\n", bytes, width, height);
+    st_debug("Texture initialized from bytes\n");
+    st_debug("... bytes: %p\n", bytes);
+    st_debug("... size: %dx%d\n", width, height);
 }
 
 void st_texture_destroy(StTexture *texture)
@@ -46,5 +49,7 @@ void st_texture_destroy(StTexture *texture)
         did_free = true;
     }
 
-    st_debug("Texture destroyed (texture=%p, free=%d)\n", texture, did_free);
+    st_debug("Texture destroyed\n");
+    st_debug("... texture: %p\n", texture);
+    st_debug("... freed: %d\n", did_free);
 }

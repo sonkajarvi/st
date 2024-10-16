@@ -31,8 +31,7 @@ StWindow *st_window_create(const char *title, int width, int height)
 
     st_debug("Window created\n");
     st_debug("... title: '%s'\n", title);
-    st_debug("... width: %d\n", width);
-    st_debug("... height: %d\n", height);
+    st_debug("... size: %dx%d\n", width, height);
 
     return window;
 }

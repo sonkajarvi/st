@@ -116,9 +116,10 @@ static void gl_init(StRenderer2d *renderer)
     renderer->gl.program = create_shader(vertex_path, fragment_path);
     assert(renderer->gl.program);
 
-    st_debug("Created shader: (id=%d)\n", renderer->gl.program);
-    st_debug("- vert: '%s'\n", vertex_path);
-    st_debug("- frag: '%s'\n", fragment_path);
+    st_debug("Shader created\n");
+    st_debug("... id: %d\n", renderer->gl.program);
+    st_debug("... vertex: '%s'\n", vertex_path);
+    st_debug("... fragment: '%s'\n", fragment_path);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -212,7 +213,7 @@ void st_renderer2d_init(StRenderer2d *renderer, StCamera *camera)
     assert(renderer->vertex_buffer);
     renderer->vertex_pointer = renderer->vertex_buffer;
 
-    st_debug("Vertex buffer capacity: %d vertices, %d bytes\n",
+    st_debug("Vertex buffer created (capacity: %d vertices, %d bytes)\n",
         vector_capacity(renderer->vertex_buffer), 
         vector_capacity(renderer->vertex_buffer) * sizeof(StVertex2d));
 
@@ -252,8 +253,9 @@ void st_renderer2d_add_texture(StRenderer2d *renderer, StTexture *texture)
 
     gl_init_texture(texture);
 
-    st_debug("Texture added (id=%d, width=%d, height=%d)\n",
-        texture->gl.id, texture->width, texture->height);
+    st_debug("Texture added to 2D renderer\n");
+    st_debug("... id: %d\n", texture->gl.id);
+    st_debug("... size: %dx%d\n", texture->width, texture->height);
 }
 
 void st_renderer2d_begin(StRenderer2d *renderer)
