@@ -19,9 +19,9 @@
  *     - Metal
  */
 
-// note: caller validates engine context
-#define call_impl(engine, callback, ...) \
-    engine->impl.callback(__VA_ARGS__)
+// note: caller validates instance
+#define call_impl(instance, callback, ...) \
+    instance->impl.callback(__VA_ARGS__)
 
 #define return_impl(f, ...) \
     do { \
@@ -31,10 +31,14 @@
         return e->impl.f(__VA_ARGS__); \
     } while (0)
 
-typedef struct StEngine
+typedef struct St
 {
+    bool initialized;
+
     StWindow *window;
+
     StEventHandler event_handler;
+
     struct {
         double (*engine_time)(StWindow *);
         void (*window_create)(StWindow *, const char *, int, int);
@@ -47,10 +51,10 @@ typedef struct StEngine
         void (*poll_events)(StWindow *);
         void (*swap_buffers)(StWindow *);
     } impl;
-} StEngine;
+} St;
 
-void st_engine_init(void);
-void st_engine_destroy(void);
-StEngine *st_engine_context(void);
+void st_hello(void);
+void st_goodbye(void);
+St *st_instance(void);
 
 #endif // ST_ENGINE_H

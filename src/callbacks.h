@@ -14,7 +14,7 @@
 
 // called once, at program start up
 // note: caller validates engine context
-static inline void set_platform_callbacks(StEngine *const e)
+static inline void set_platform_callbacks(St *const e)
 {
 #ifdef ST_PLATFORM_LINUX
     e->impl.window_create               = impl_x11_window_create;
@@ -31,7 +31,7 @@ static inline void set_platform_callbacks(StEngine *const e)
 
 // called at least once, at program start up and after
 // note: caller validates engine context
-static inline void set_graphics_callbacks(StEngine *const e, int type)
+static inline void set_graphics_callbacks(St *const e, int type)
 {
     switch (type) {
     case ST_GRAPHICS_OPENGL:

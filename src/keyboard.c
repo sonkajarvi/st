@@ -7,9 +7,9 @@
 bool key_down(int key)
 {
     assert(key >= __ST_KEY_FIRST && key <= __ST_KEY_LAST);
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
+    St *st = st_instance();
+    assert(st);
+    StWindow *window = st->window;
     assert(window);
 
     return window->keyboard.state[key].current;
@@ -18,9 +18,9 @@ bool key_down(int key)
 bool key_press(int key)
 {
     assert(key >= __ST_KEY_FIRST && key <= __ST_KEY_LAST);
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
+    St *st = st_instance();
+    assert(st);
+    StWindow *window = st->window;
     assert(window);
 
     return key_down(key) && !window->keyboard.state[key].previous;
@@ -29,9 +29,9 @@ bool key_press(int key)
 bool key_release(int key)
 {
     assert(key >= __ST_KEY_FIRST && key <= __ST_KEY_LAST);
-    StEngine *e = st_engine_context();
-    assert(e);
-    StWindow *window = e->window;
+    St *st = st_instance();
+    assert(st);
+    StWindow *window = st->window;
     assert(window);
 
     return !key_down(key) && window->keyboard.state[key].previous;

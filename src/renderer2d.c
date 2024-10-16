@@ -274,13 +274,13 @@ void st_renderer2d_draw(StRenderer2d *renderer, StVertex2d *vertices, int count)
     assert(vertices);
     assert(count > 0);
 
-    StEngine *engine = st_engine_context();
-    if (!engine) {
+    St *st = st_instance();
+    if (!st) {
         st_error("No engine context\n");
         return;
     }
 
-    if (!engine->window) {
+    if (!st->window) {
         st_error("No window found\n");
         return;
     }

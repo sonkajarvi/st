@@ -7,34 +7,29 @@
 
 #include "callbacks.h"
 
-static StEngine *ST_INTERNAL_engine_context = NULL;
+static St __st = { 0 };
 
-void st_engine_init(void)
+void st_hello(void)
 {
-    if (ST_INTERNAL_engine_context) {
-        st_warn("Failed to initialize engine context. Engine already initialized\n");
+    if (__st.initialized) {
+        st_warn("Failed to create instance. Instance already exists\n");
         return;
     }
 
-    ST_INTERNAL_engine_context = malloc(sizeof(*ST_INTERNAL_engine_context));
-    if (!ST_INTERNAL_engine_context) {
-        st_error("Failed to allocate memory for engine struct\n");
-        return;
-    }
-
-    memset(ST_INTERNAL_engine_context, 0, sizeof(*ST_INTERNAL_engine_context));
-    set_platform_callbacks(ST_INTERNAL_engine_context);
+    memset(&__st, 0, sizeof(__st));
+    __st.initialized = true;
+    st_debug("Instance created\n");
     
-    // use opengl, as it's the only graphics backend available, for now
-    set_graphics_callbacks(ST_INTERNAL_engine_context, ST_GRAPHICS_OPENGL);
+    set_platform_callbacks(&__st);
 
-    st_debug("Engine context initialized\n");
+    // use opengl, as it's the only graphics backend available, for now
+    set_graphics_callbacks(&__st, ST_GRAPHICS_OPENGL);
 }
 
-void st_engine_destroy(void)
+void st_goodbye(void)
 {
-    if (!ST_INTERNAL_engine_context) {
-        st_error("Failed to destroy engine. No context found\n");
+    if (!__st.initialized) {
+        st_error("Failed to destroy instance. No instance found\n");
         return;
     }
 
@@ -42,13 +37,15 @@ void st_engine_destroy(void)
     for (int i = 0; i < ST_EVENT_LENGTH; i++)
         st_event_clear(i);
 
-    free(ST_INTERNAL_engine_context);
-    ST_INTERNAL_engine_context = NULL;
+    memset(&__st, 0, sizeof(__st));
 
-    st_debug("Engine context destroyed\n");
+    st_debug("Instance destroyed\n");
 }
 
-StEngine *st_engine_context(void)
+St *st_instance(void)
 {
-    return ST_INTERNAL_engine_context;
+    if (!__st.initialized)
+        return NULL;
+
+    return &__st;
 }

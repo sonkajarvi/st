@@ -71,12 +71,12 @@ void st_event_trigger(int type, StEventData data)
 
 StEventList *_st_event_list_from_type(int type)
 {
-    StEngine *engine = st_engine_context();
-    if (!engine)
+    St *st = st_instance();
+    if (!st)
         return NULL;
 
     if (type < ST_EVENT_FIRST || type > ST_EVENT_LAST)
         return NULL;
 
-    return &engine->event_handler[type];
+    return &st->event_handler[type];
 }
