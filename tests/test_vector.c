@@ -1,7 +1,7 @@
-#include "test.h"
-
 #include <st/utils/compiler.h>
 #include <st/utils/vector.h>
+
+#include "test.h"
 
 test_case(vector_is_empty)
 {
@@ -323,14 +323,21 @@ test_case(vector_reserve)
 {
     int *v = NULL;
 
-    vector_reserve(v, 100);
+    // Reserve less than default capacity
+    test_assert(vector_reserve(v, 0) == 1);
     test_assert(vector_length(v) == 0);
-    test_assert(vector_capacity(v) == 100);
-    
-    vector_reserve(v, 50);
+    test_assert(vector_capacity(v) == VECTOR_DEFAULT_CAPACITY);
+    vector_free(v);
+
+    // Reserve more than default capacity
+    test_assert(vector_reserve(v, 100) == 1);
     test_assert(vector_length(v) == 0);
     test_assert(vector_capacity(v) == 100);
 
+    // Reserve less than current capacity
+    test_assert(vector_reserve(v, 50) == 0);
+    test_assert(vector_length(v) == 0);
+    test_assert(vector_capacity(v) == 100);
     vector_free(v);
 
     test_success();

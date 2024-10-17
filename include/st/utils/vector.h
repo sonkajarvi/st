@@ -14,6 +14,7 @@
  * vector_insert
  * vector_remove
  * vector_push_range
+ * vector_push_copy
  * vector_reserve
  * vector_resize (todo)
  * vector_shrink (todo)
@@ -25,6 +26,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include <st/utils/minmax.h>
 
 #define VECTOR_DEFAULT_CAPACITY 2
 
@@ -201,17 +204,21 @@
         __vector_header((v))->length++)
 
 /**
- * @brief reserve capacity for a vector
+ * @brief Reserves capacity for a vector
  *
- * @param v vector
- * @param amount amount to reserve
+ * @param v Vector
+ * @param new_cap New capacity
  *
- * @note does nothing, if amount is less than vector capacity
+ * @returns 1 on success, 0 on failure
+ *
+ * @note If reallocation fails, the original vector is not modified
  */
-#define vector_reserve(v, amount) \
-    ((amount) > vector_capacity((v)) \
-        ? (v) = __vector_realloc((v), (amount), sizeof(*(v))) \
-        : 0)
+#define vector_reserve(v, new_cap) ({                                  \
+    const size_t __new_cap = st_max(new_cap, VECTOR_DEFAULT_CAPACITY); \
+    __typeof__(v) __tmp = NULL;                                        \
+    if (__new_cap > vector_capacity(v))                                \
+        __tmp = __vector_realloc(v, __new_cap, sizeof(*v));            \
+    __tmp ? (v = __tmp, 1) : 0; })
 
 /**
  * @brief clear a vector
