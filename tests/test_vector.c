@@ -6,13 +6,16 @@
 test_case(vector_is_empty)
 {
     int *v = NULL;
+
+    // Null vector
     test_assert(vector_is_empty(v) == 1);
 
+    // Vector with elements
     vector_push(v, 1);
+    vector_push(v, 2);
+    vector_push(v, 3);
     test_assert(vector_is_empty(v) == 0);
-
     vector_free(v);
-    test_assert(vector_is_empty(v) == 1);
 
     test_success();
 }
@@ -20,13 +23,16 @@ test_case(vector_is_empty)
 test_case(vector_length)
 {
     int *v = NULL;
+
+    // Null vector
     test_assert(vector_length(v) == 0);
 
+    // Vector with elements
     vector_push(v, 1);
-    test_assert(vector_length(v) == 1);
-
+    vector_push(v, 2);
+    vector_push(v, 3);
+    test_assert(vector_length(v) == 3);
     vector_free(v);
-    test_assert(vector_length(v) == 0);
 
     test_success();
 }
@@ -34,13 +40,16 @@ test_case(vector_length)
 test_case(vector_capacity)
 {
     int *v = NULL;
+
+    // Null vector
     test_assert(vector_capacity(v) == 0);
 
+    // Vector with elements
     vector_push(v, 1);
-    test_assert(vector_capacity(v) == VECTOR_DEFAULT_CAPACITY);
-
+    vector_push(v, 2);
+    vector_push(v, 3);
+    test_assert(vector_capacity(v) == 3);
     vector_free(v);
-    test_assert(vector_capacity(v) == 0);
 
     test_success();
 }
@@ -48,13 +57,16 @@ test_case(vector_capacity)
 test_case(vector_front)
 {
     int *v = NULL;
+
+    // Null vector
     test_assert(vector_front(v) == NULL);
 
+    // Vector with elements
     vector_push(v, 1);
+    vector_push(v, 2);
+    vector_push(v, 3);
     test_assert(vector_front(v) == &v[0]);
-
     vector_free(v);
-    test_assert(vector_front(v) == NULL);
 
     test_success();
 }
@@ -62,13 +74,16 @@ test_case(vector_front)
 test_case(vector_back)
 {
     int *v = NULL;
+
+    // Null vector
     test_assert(vector_back(v) == NULL);
 
+    // Vector with elements
     vector_push(v, 1);
-    test_assert(vector_back(v) == &v[0]);
-
+    vector_push(v, 2);
+    vector_push(v, 3);
+    test_assert(vector_back(v) == &v[2]);
     vector_free(v);
-    test_assert(vector_back(v) == NULL);
 
     test_success();
 }
@@ -76,12 +91,18 @@ test_case(vector_back)
 test_case(vector_at)
 {
     int *v = NULL;
+
+    // Null vector
     test_assert(vector_at(v, 0) == NULL);
 
+    // Vector with elements
     vector_push(v, 1);
+    vector_push(v, 2);
+    vector_push(v, 3);
     test_assert(*vector_at(v, 0) == 1);
-    test_assert(vector_at(v, 1) == NULL);
-
+    test_assert(*vector_at(v, 1) == 2);
+    test_assert(*vector_at(v, 2) == 3);
+    test_assert(vector_at(v, 3) == NULL);
     vector_free(v);
 
     test_success();

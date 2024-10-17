@@ -32,60 +32,66 @@
 #define VECTOR_DEFAULT_CAPACITY 2
 
 /**
- * @brief check if a vector is empty
+ * @brief Checks if vector is empty
  *
- * @param v vector
+ * @param v Vector
  *
- * @returns true if vector is empty or null, otherwise false
+ * @returns 1 if empty, 0 if not
  */
-#define vector_is_empty(v) ((v) ? vector_length((v)) == 0 : 1)
+#define vector_is_empty(v) \
+    (v ? vector_length(v) == 0 : 1)
 
 /**
- * @brief get length
+ * @brief Returns the length of a vector
  *
- * @param v vector
+ * @param v Vector
  *
- * @returns vector length or 0, if v is null
+ * @returns Vector length, or 0 if vector is NULL
  */
-#define vector_length(v) ((v) ? (size_t)__vector_header((v))->length : (size_t)0)
+#define vector_length(v) \
+    (v ? __vector_header((v))->length : 0)
 
 /**
- * @brief get capacity
+ * @brief Returns the capacity of a vector
  *
- * @param v vector
+ * @param v Vector
  *
- * @returns vector capacity or 0, if v is null
+ * @returns Vector capacity, or 0 if vector is NULL
  */
-#define vector_capacity(v) ((v) ? __vector_header((v))->capacity : 0)
+#define vector_capacity(v) \
+    (v ? __vector_header(v)->capacity : 0)
 
 /**
- * @brief get a reference to first element
+ * @brief Returns the first element of a vector
  *
- * @param v vector
+ * @param v Vector
  *
- * @returns a pointer to first element in vector, or null
+ * @returns Pointer to first element, i.e. the vector itself
  */
-#define vector_front(v) (v)
+#define vector_front(v) v
 
 /**
- * @brief get a reference to last element
+ * @brief Returns the last element of a vector
  *
- * @param v vector
+ * @param v Vector
  *
- * @returns a pointer to last element in vector, or null
+ * @returns Pointer to last element, or NULL if vector is NULL
  */
-#define vector_back(v) ((v) ? (v) + vector_length((v)) - 1 : NULL)
+#define vector_back(v) \
+    (v ? v + vector_length(v) - 1 : NULL)
 
 /**
- * @brief get a reference to element at index
+ * @brief Returns the element at the given index
  *
- * @param v vector
- * @param index index
+ * @param v Vector
+ * @param index Index
  *
- * @returns a pointer to element at index, or null
+ * @returns Pointer to element,
+ *          or NULL if vector is NULL or index is out of bounds
  */
-#define vector_at(v, index) \
-    ((v) && (index) < vector_length((v)) ? (v) + (index) : NULL)
+#define vector_at(v, index) ({ \
+    const size_t __idx = (index); \
+    (v && (__idx) < vector_length(v) ? v + __idx : NULL); })
 
 /**
  * @brief iterate over a vector
@@ -225,7 +231,7 @@
  *
  * @param v Vector
  *
- * @returns 1 on success, 0 if vector is null
+ * @returns 1 on success, 0 if vector is NULL
  */
 #define vector_clear(v) ({ \
     (v ? (__vector_header(v)->length = 0, 1) : 0); })
@@ -235,7 +241,7 @@
  *
  * @param v Vector
  *
- * @returns 1 on success, 0 if vector is null
+ * @returns 1 on success, 0 if vector is NULL
  *
  * @note Sets vector to NULL, if not already
  */
