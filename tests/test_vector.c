@@ -112,20 +112,20 @@ test_case(vector_for)
 {
     int *v = NULL;
 
+    // Iterate null vector
     vector_for(v, int, i) {
         test_assert(0);
     }
 
+    // Iterate vector with elements
     vector_push(v, 1);
     vector_push(v, 2);
     vector_push(v, 3);
 
     int count = 0;
-    vector_for(v, int, i) {
+    vector_for(v, int, i)
         test_assert(v[count++] == *i);
-    }
     test_assert(count == 3);
-
     vector_free(v);
 
     test_success();
@@ -135,20 +135,20 @@ test_case(vector_rof)
 {
     int *v = NULL;
 
+    // Iterate null vector
     vector_for(v, int, i) {
         test_assert(0);
     }
 
+    // Iterate vector with elements
     vector_push(v, 1);
     vector_push(v, 2);
     vector_push(v, 3);
 
     int count = 3;
-    vector_rof(v, int, i) {
+    vector_rof(v, int, i)
         test_assert(v[(count--) - 1] == *i);
-    }
     test_assert(count == 0);
-
     vector_free(v);
 
     test_success();
@@ -156,21 +156,21 @@ test_case(vector_rof)
 
 test_case(vector_push)
 {
-    int *v = NULL;
+    int *v = NULL, *t;
 
     vector_push(v, 1);
     vector_push(v, 2);
     vector_push(v, 3);
     vector_push(v, 4);
-    vector_push(v, 5);
-    
+    t = vector_push(v, 5);
+    test_assert(t == &v[4]);
+
     test_assert(vector_length(v) == 5);
     test_assert(v[0] == 1);
     test_assert(v[1] == 2);
     test_assert(v[2] == 3);
     test_assert(v[3] == 4);
     test_assert(v[4] == 5);
-
     vector_free(v);
 
     test_success();
@@ -180,16 +180,13 @@ test_case(vector_push_1000000)
 {
     int *v = NULL;
 
-    for (int i = 0; i < 1000000; i++) {
+    for (int i = 0; i < 1000000; i++)
         vector_push(v, i);
-    }
 
     test_assert(vector_length(v) == 1000000);
     int count = 0;
-    vector_for(v, int, i) {
+    vector_for(v, int, i)
         test_assert(v[count++] == *i);
-    }
-
     vector_free(v);
 
     test_success();
@@ -199,15 +196,26 @@ test_case(vector_pop)
 {
     int *v = NULL;
 
+    // Pop null vector
+    test_assert(vector_pop(v) == 0);
+
+    // Pop vector without elements
+    vector_reserve(v, 3);
+    test_assert(vector_pop(v) == 0);
+
+    // Pop vector with elements
     vector_push(v, 1);
+    vector_push(v, 2);
+    vector_push(v, 3);
+
+    test_assert(vector_pop(v) == 1);
+    test_assert(vector_length(v) == 2);
+
+    test_assert(vector_pop(v) == 1);
     test_assert(vector_length(v) == 1);
-
-    vector_pop(v);
-    test_assert(vector_length(v) == 0);
     
-    vector_pop(v);
+    test_assert(vector_pop(v) == 1);
     test_assert(vector_length(v) == 0);
-
     vector_free(v);
 
     test_success();
@@ -215,28 +223,53 @@ test_case(vector_pop)
 
 test_case(vector_insert)
 {
-    int *v = NULL;
+    int *v = NULL, *t;
 
-    vector_insert(v, 0, 1);
+    // Insert in null vector
+    t = vector_insert(v, 0, 1);
+    test_assert(t == &v[0]);
     test_assert(vector_length(v) == 1);
-    vector_free(v);
 
-    vector_push(v, 2);
-    vector_push(v, 3);
-    vector_insert(v, 0, 1);
-    
+    // Insert out of bounds
+    t = vector_insert(v, 100, 3);
+    test_assert(t == &v[1]);
+    test_assert(vector_length(v) == 2);
+
+    // Insert between elements
+    t = vector_insert(v, 1, 2);
+    test_assert(t == &v[1]);
     test_assert(vector_length(v) == 3);
+
     test_assert(v[0] == 1);
     test_assert(v[1] == 2);
     test_assert(v[2] == 3);
+    vector_free(v);
 
-    vector_insert(v, 3, 4);
-    test_assert(vector_length(v) == 4);
-    test_assert(v[3] == 4);
+    test_success();
+}
 
-    vector_insert(v, 5, 6);
-    test_assert(vector_length(v) == 4);
+test_case(vector_insert_swap)
+{
+    int *v = NULL, *t;
 
+    // Insert in null vector
+    t = vector_insert_swap(v, 0, 3);
+    test_assert(t == &v[0]);
+    test_assert(vector_length(v) == 1);
+
+    // Insert out of bounds
+    t = vector_insert_swap(v, 100, 2);
+    test_assert(t == &v[1]);
+    test_assert(vector_length(v) == 2);
+
+    // Insert between elements
+    t = vector_insert_swap(v, 0, 1);
+    test_assert(t == &v[0]);
+    test_assert(vector_length(v) == 3);
+
+    test_assert(v[0] == 1);
+    test_assert(v[1] == 2);
+    test_assert(v[2] == 3);
     vector_free(v);
 
     test_success();

@@ -94,62 +94,87 @@
     (v && (__idx) < vector_length(v) ? v + __idx : NULL); })
 
 /**
- * @brief iterate over a vector
+ * @brief Iterates over a vector
  *
- * @param v vector
- * @param type iterator type
- * @param name iterator name
+ * @param v Vector
+ * @param type Iterator type
+ * @param name Iterator name
  */
 #define vector_for(v, type, name) \
-    for (type *name = vector_front((v)); name < ((v) ? vector_back((v)) + 1 : NULL); name++)
+    for (type *name = vector_front(v); name < (v ? vector_back(v) + 1 : NULL); name++)
 
 /**
- * @brief iterate over a vector, in reverse
+ * @brief Iterates over a vector in reverse
  *
- * @param v vector
- * @param type iterator type
- * @param name iterator name
+ * @param v Vector
+ * @param type Iterator type
+ * @param name Iterator name
  */
 #define vector_rof(v, type, name) \
-    for (type *name = vector_back((v)); name > ((v) ? vector_front((v)) - 1 : NULL); name--)
+    for (type *name = vector_back(v); name > (v ? vector_front(v) - 1 : NULL); name--)
 
 /**
- * @brief push a value to a vector
+ * @brief Pushes a value to a vector
  *
- * @param v vector
- * @param value value
+ * @param v Vector
+ * @param value Value
+ *
+ * @returns Pointer to value on success, or NULL
  */
-#define vector_push(v, value) \
-    (__vector_grow((v), 1), (v)[__vector_header((v))->length++] = (value))
+#define vector_push(v, value) ({ \
+    __vector_grow(v, 1); \
+    v[__vector_header(v)->length++] = (value); \
+    vector_back(v); })
 
 /**
- * @brief pop last value from a vector
+ * @brief Pops the last value from a vector
  *
- * @param v vector
+ * @param v Vector
  *
- * @note does nothing, if vector is empty/null
+ * @returns 1 on success, 0 if vector is null or empty
  */
 #define vector_pop(v) \
-    (vector_length((v)) > 0 ? __vector_header((v))->length-- : 0)
+    (vector_length(v) > 0 ? (__vector_header(v)->length--, 1) : 0)
 
 /**
- * @brief insert a value at index in a vector
+ * @brief Inserts a value at the given index
  *
- * @param v vector
- * @param index index
- * @param value value
+ * @param v Vector
+ * @param index Index
+ * @param value Value
  *
- * @note does a push, if index is the back
+ * @returns Pointer to value on success, or NULL
+ *
+ * @note Index greater or equal to length results in a push
  */
-#define vector_insert(v, index, value) \
-    ((index) == vector_length((v)) \
-        ? vector_push((v), (value)) \
-        : (index) < vector_length((v)) \
-            ? (__vector_grow((v), 1), \
-                memmove((v) + (index) + 1, (v) + (index), \
-                    (__vector_header((v))->length++ - (index)) * sizeof(*(v))), \
-                (v)[(index)] = (value)) \
-            : 0)
+#define vector_insert(v, index, value) ({ \
+    const size_t __index = (index); \
+    __index >= vector_length(v) \
+        ? vector_push(v, value) \
+        : (__vector_grow(v, 1), \
+           memmove(v + __index + 1, v + __index, \
+           (__vector_header(v)->length++ - __index) * sizeof(*v)), \
+           v[__index] = value, \
+           v + __index); })
+
+/**
+ * @brief Inserts a value at the given index, by swapping with the last element
+ *
+ * @param v Vector
+ * @param index Index
+ * @param value Value
+ *
+ * @returns Pointer to value on success, or NULL
+ *
+ * @note Index greater or equal to length results in a push
+ */
+#define vector_insert_swap(v, index, value) ({ \
+    const size_t __index = (index); \
+    __index >= vector_length(v) \
+        ? vector_push(v, value) \
+        : (vector_push(v, v[__index]), \
+           v[__index] = value, \
+           v + __index); })
 
 /**
  * @brief remove a value at index from a vector
