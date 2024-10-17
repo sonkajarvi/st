@@ -347,7 +347,7 @@ test_case(vector_clear)
 {
     int *v = NULL;
 
-    // Clear empty vector
+    // Clear null vector
     test_assert(vector_clear(v) == 0);
 
     // Clear vector with elements
@@ -369,13 +369,16 @@ test_case(vector_clear)
 test_case(vector_free)
 {
     int *v = NULL;
-    vector_free(v);
 
+    // Free null vector
+    test_assert(vector_free(v) == 0);
+
+    // Free vector with elements
     vector_push(v, 1);
-    test_assert(v);
-
-    vector_free(v);
-    test_assert(!v);
+    vector_push(v, 2);
+    vector_push(v, 3);
+    test_assert(vector_free(v) == 1);
+    test_assert(v == NULL);
 
     test_success();
 }

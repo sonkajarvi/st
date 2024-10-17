@@ -227,19 +227,20 @@
  *
  * @returns 1 on success, 0 if vector is null
  */
-#define vector_clear(v) \
-    (v ? (__vector_header(v)->length = 0, 1) : 0)
+#define vector_clear(v) ({ \
+    (v ? (__vector_header(v)->length = 0, 1) : 0); })
 
 /**
- * @brief free a vector
+ * @brief Frees a vector
  *
- * @param v vector
+ * @param v Vector
  *
- * @note does nothing, if v is null
+ * @returns 1 on success, 0 if vector is null
+ *
+ * @note Sets vector to NULL, if not already
  */
-#define vector_free(v) \
-    ((v) ? (free(__vector_header((v))), (v) = NULL) : 0)
-
+#define vector_free(v) ({ \
+    (v ? (free(__vector_header(v)), v = NULL, 1) : 0); })
 
 #define __vector_header(v) ((StVectorHeader *)(v) - 1)
 
