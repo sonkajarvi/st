@@ -2,7 +2,7 @@
 #define ST_UTILS_VECTOR_H
 
 /*
- * vector_is_empty
+ * vector_isempty
  * vector_length
  * vector_capacity
  * vector_front
@@ -10,14 +10,20 @@
  * vector_at
  *
  * vector_push
- * vector_pop
- * vector_insert
- * vector_remove
- * vector_push_range
+ * vector_push_range (todo: rename to vector_push_array)
+ * vector_push_vector (todo)
  * vector_push_copy
+ * vector_insert
+ * vector_insert_swap
+ *
+ * vector_pop
+ * vector_remove
+ * vector_remove_range (todo)
+ * vector_remove_swap
+ *
  * vector_reserve
- * vector_resize (todo)
- * vector_shrink (todo)
+ * vector_resize
+ * vector_shrink
  * vector_clear
  * vector_free
  */
@@ -38,7 +44,7 @@
  *
  * @returns 1 if empty, 0 if not
  */
-#define vector_is_empty(v) \
+#define vector_isempty(v) \
     (v ? vector_length(v) == 0 : 1)
 
 /**
@@ -127,16 +133,6 @@
     vector_back(v); })
 
 /**
- * @brief Pops the last value from a vector
- *
- * @param v Vector
- *
- * @returns 1 on success, 0 if vector is null or empty
- */
-#define vector_pop(v) \
-    (vector_length(v) > 0 ? (__vector_header(v)->length--, 1) : 0)
-
-/**
  * @brief Inserts a value at the given index
  *
  * @param v Vector
@@ -175,6 +171,16 @@
         : (vector_push(v, v[__index]), \
            v[__index] = value, \
            v + __index); })
+
+/**
+ * @brief Pops the last value from a vector
+ *
+ * @param v Vector
+ *
+ * @returns 1 on success, 0 if vector is null or empty
+ */
+#define vector_pop(v) \
+    (vector_length(v) > 0 ? (__vector_header(v)->length--, 1) : 0)
 
 /**
  * @brief remove a value at index from a vector
@@ -250,6 +256,37 @@
     if (__new_cap > vector_capacity(v))                                \
         __tmp = __vector_realloc(v, __new_cap, sizeof(*v));            \
     __tmp ? (v = __tmp, 1) : 0; })
+
+/**
+ * @brief Resizes vector to new capacity, ignoring length
+ *
+ * @param v Vector
+ * @param new_cap New capacity
+ *
+ * @returns 1 on success, 0 if vector is NULL
+ *
+ * @note Resizing to 0 frees the vector
+ */
+#define vector_resize(v, new_cap) ({ \
+    const size_t __new_cap = new_cap; \
+    __new_cap == 0 \
+        ? vector_free(v) \
+        : (v = __vector_realloc(v, __new_cap, sizeof(*v)), \
+           __vector_header(v)->capacity = __new_cap, 1); })
+
+/**
+ * @brief Shrinks vector to fit the length
+ *
+ * @param v Vector
+ *
+ * @returns 1 on success, 0 if vector is NULL or length and capacity are equal
+ *
+ * @note Shrinking to 0 frees the vector
+ */
+#define vector_shrink(v) \
+    (vector_capacity(v) > vector_length(v) \
+        ? vector_resize(v, vector_length(v)) \
+        : 0)
 
 /**
  * @brief Clears a vector, i.e. sets the length to 0

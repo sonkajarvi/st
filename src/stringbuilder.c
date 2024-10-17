@@ -20,7 +20,7 @@ char *st_sb_concat(StStringBuilder *sb)
 {
     assert(sb);
 
-    if (vector_is_empty(sb->entries))
+    if (vector_isempty(sb->entries))
         return NULL;
 
     size_t total_len = 0, prev_len = 0;

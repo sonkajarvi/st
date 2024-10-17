@@ -5,7 +5,7 @@
 int main()
 {
     // Vector
-    test_declare(vector_is_empty);
+    test_declare(vector_isempty);
     test_declare(vector_length);
     test_declare(vector_capacity);
     test_declare(vector_front);

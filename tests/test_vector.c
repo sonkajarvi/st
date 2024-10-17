@@ -3,18 +3,18 @@
 
 #include "test.h"
 
-test_case(vector_is_empty)
+test_case(vector_isempty)
 {
     int *v = NULL;
 
     // Null vector
-    test_assert(vector_is_empty(v) == 1);
+    test_assert(vector_isempty(v) == 1);
 
     // Vector with elements
     vector_push(v, 1);
     vector_push(v, 2);
     vector_push(v, 3);
-    test_assert(vector_is_empty(v) == 0);
+    test_assert(vector_isempty(v) == 0);
     vector_free(v);
 
     test_success();
@@ -393,6 +393,55 @@ test_case(vector_reserve)
     test_assert(vector_length(v) == 0);
     test_assert(vector_capacity(v) == 100);
     vector_free(v);
+
+    test_success();
+}
+
+test_case(vector_resize)
+{
+    int *v = NULL;
+
+    // Resize null vector to 0
+    test_assert(vector_resize(v, 0) == 0);
+
+    // Resize null vector
+    test_assert(vector_resize(v, 10) == 1);
+    test_assert(vector_capacity(v) == 10);
+
+    // Resize vector with capacity
+    test_assert(vector_resize(v, 5) == 1);
+    test_assert(vector_capacity(v) == 5);
+
+    // Resize to 0
+    test_assert(vector_resize(v, 0) == 1);
+    test_assert(v == NULL);
+
+    test_success();
+}
+
+test_case(vector_shrink)
+{
+    int *v = NULL;
+
+    // Shrink null vector
+    test_assert(vector_shrink(v) == 0);
+
+    // Resize vector with elements
+    vector_reserve(v, 10);
+    vector_push(v, 1);
+    vector_push(v, 2);
+    vector_push(v, 3);
+    test_assert(vector_shrink(v) == 1);
+    test_assert(vector_capacity(v) == 3);
+
+    // Resize vector with equal length and capacity
+    test_assert(vector_shrink(v) == 0);
+    test_assert(vector_capacity(v) == 3);
+
+    // Resize vector with no elements
+    vector_clear(v);
+    test_assert(vector_shrink(v) == 1);
+    test_assert(v == NULL);
 
     test_success();
 }
