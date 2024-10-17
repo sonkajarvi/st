@@ -19,6 +19,10 @@ target_link_libraries(tests PRIVATE
     st
 )
 
+target_compile_definitions(tests PRIVATE
+    ST_CONFIG_COLORFUL_OUTPUT
+)
+
 add_test(
     NAME tests
     COMMAND tests
