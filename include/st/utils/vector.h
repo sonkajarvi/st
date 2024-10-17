@@ -254,9 +254,6 @@
         printf("\n"); \
     } while (0)
 
-#define __vector_f(x) ((x) + ((x) >> 1) + ((x) >> 3))
-// #define __vector_f(x) (x * 2)
-
 #define __vector_grow(v, add_len) \
     (!(v) || vector_capacity((v)) < vector_length((v)) + (add_len) \
         ? (v) = __vector_realloc((v), __vector_calc_cap((v), (add_len)), sizeof(*(v))) \
