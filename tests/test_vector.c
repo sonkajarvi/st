@@ -346,15 +346,21 @@ test_case(vector_reserve)
 test_case(vector_clear)
 {
     int *v = NULL;
-    vector_clear(v);
 
+    // Clear empty vector
+    test_assert(vector_clear(v) == 0);
+
+    // Clear vector with elements
+    vector_reserve(v, 10);
     vector_push(v, 1);
-    test_assert(vector_length(v) == 1);
-    test_assert(vector_capacity(v) == VECTOR_DEFAULT_CAPACITY);
+    vector_push(v, 2);
+    vector_push(v, 3);
+    test_assert(vector_length(v) == 3);
+    test_assert(vector_capacity(v) == 10);
     
-    vector_clear(v);
-    test_assert(vector_capacity(v) == VECTOR_DEFAULT_CAPACITY);
-
+    test_assert(vector_clear(v) == 1);
+    test_assert(vector_length(v) == 0);
+    test_assert(vector_capacity(v) == 10);
     vector_free(v);
 
     test_success();

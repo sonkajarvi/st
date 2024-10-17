@@ -221,14 +221,14 @@
     __tmp ? (v = __tmp, 1) : 0; })
 
 /**
- * @brief clear a vector
+ * @brief Clears a vector, i.e. sets the length to 0
  *
- * @param v
+ * @param v Vector
  *
- * @note does nothing, if v is null
+ * @returns 1 on success, 0 if vector is null
  */
 #define vector_clear(v) \
-    ((v) ? __vector_header((v))->length = 0 : 0)
+    (v ? (__vector_header(v)->length = 0, 1) : 0)
 
 /**
  * @brief free a vector
