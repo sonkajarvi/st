@@ -8,6 +8,7 @@ add_executable(tests
     main.c
     test_args.c
     test_vector.c
+    test_stringbuilder.c
 )
 
 target_include_directories(tests PRIVATE

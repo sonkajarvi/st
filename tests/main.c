@@ -51,4 +51,8 @@ int main()
     test_declare(args_short_option_args_no_args);
     test_declare(args_long_option_args_no_args);
     test_declare(args_long_option_args_no_args2);
+
+    // String builder
+    test_declare(stringbuilder_concat);
+    test_declare(stringbuilder_concat_empty);
 }

@@ -17,6 +17,7 @@ set(SOURCES
     # src/parse.c
     src/print.c
     src/renderer2d.c
+    src/stringbuilder.c
     src/texture.c
     src/util.c
     src/vector.c
