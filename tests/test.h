@@ -17,12 +17,12 @@
 
 #define __TEST_SUCCESS_FMT \
     ST_ESC_YELLOW "%s:" \
-    ST_ESC_BOLD ST_ESC_GREEN_B " passed\n" ST_ESC_RESET
+    ST_ESC_BOLD ST_ESC_GREEN_B " passed" ST_ESC_RESET "\n"
 
 #define __TEST_FAILURE_FMT \
     ST_ESC_YELLOW "%s:"\
     ST_ESC_BOLD ST_ESC_RED_B " failed" \
-    ST_ESC_RESET ST_ESC_BLACK_B " (assert '%s', in %s:%d)\n" ST_ESC_RESET
+    ST_ESC_RESET ST_ESC_BLACK_B " (assert '%s', in %s:%d)" ST_ESC_RESET "\n"
 
 #define __test_run(test) ({ \
     const StTestResult __result = test.function(); \
