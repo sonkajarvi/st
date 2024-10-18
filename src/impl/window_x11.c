@@ -243,7 +243,7 @@ void impl_x11_poll_events(StWindow *window)
         }
     }
 
-    XFlush(window->x11.display);
+    // XFlush(window->x11.display);
 }
 
 // void impl_glx_swap_buffers(StWindow *window)
