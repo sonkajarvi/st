@@ -3,6 +3,8 @@
 #include <string.h>
 
 #include <st/engine.h>
+#include <st/graphics/camera.h>
+#include <st/graphics/renderer2d.h>
 #include <st/utility/print.h>
 
 // todo: return a status code
@@ -29,6 +31,9 @@ StWindow *st_window_create(const char *title, int width, int height)
     call_impl(st, window_create, window, title, width, height);
     st->window = window;
 
+    st_camera_init(&st->window->camera, ST_CAMERA_ORTHO);
+    st_renderer2d_init(&st->window->renderer, &st->window->camera);
+
     st_debug("Window created\n");
     st_debug("... title: '%s'\n", title);
     st_debug("... size: %dx%d\n", width, height);
@@ -41,6 +46,8 @@ void st_window_destroy(StWindow *window)
     assert(window);
     St *st = st_instance();
     assert(st);
+
+    st_renderer2d_destroy(&window->renderer);
 
     // call_impl(e, context_destroy, window);
     call_impl(st, window_destroy, window);
