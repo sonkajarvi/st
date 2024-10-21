@@ -34,15 +34,15 @@ void _st_fprintf(FILE *fp, const int level,
         break;
 
     case ST_LEVEL_WARN:
-        fprintf(fp, ST_ESC_YELLOW_B "warn: ");
+        fprintf(fp, ST_ESC_YELLOW_B "*warn*: ");
         break;
 
     case ST_LEVEL_ERROR:
-        fprintf(fp, ST_ESC_RED_B "*error*: ");
+        fprintf(fp, ST_ESC_BOLD ST_ESC_RED_B "*ERROR*: ");
         break;
 
     default:
-        fprintf(fp, "*unknown*: ");
+        fprintf(fp, "(unknown): ");
         break;
     }
 
