@@ -4,10 +4,10 @@
 #include <cglm/vec3.h>
 #include <cglm/vec4.h>
 
-typedef struct StVertex2d
+typedef struct StVertex
 {
     vec3 position;
     vec4 color;
-} StVertex2d;
+} StVertex;
 
 #endif // ST_GRAPHICS_VERTEX_H

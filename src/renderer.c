@@ -11,7 +11,7 @@
 
 #include <st/engine.h>
 #include <st/graphics/camera.h>
-#include <st/graphics/renderer2d.h>
+#include <st/graphics/renderer.h>
 #include <st/utility/print.h>
 #include <st/utility/util.h>
 #include <st/utility/vector.h>
@@ -81,34 +81,34 @@ end2:
     return program;
 }
 
-static void gl_init(StRenderer2d *renderer)
+static void gl_init(StRenderer *renderer)
 {
     glGenVertexArrays(1, &renderer->gl.vao);
     glBindVertexArray(renderer->gl.vao);
 
     glGenBuffers(1, &renderer->gl.vbo);
     glBindBuffer(GL_ARRAY_BUFFER, renderer->gl.vbo);
-    glBufferData(GL_ARRAY_BUFFER, vector_capacity(renderer->vertex_buffer) * sizeof(StVertex2d),
+    glBufferData(GL_ARRAY_BUFFER, vector_capacity(renderer->vertex_buffer) * sizeof(StVertex),
         NULL, GL_DYNAMIC_DRAW);
     
     // Position
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
-        sizeof(StVertex2d), (void *)offsetof(StVertex2d, position));
+        sizeof(StVertex), (void *)offsetof(StVertex, position));
     glEnableVertexAttribArray(0);
 
     // Color
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE,
-        sizeof(StVertex2d), (void *)offsetof(StVertex2d, color));
+        sizeof(StVertex), (void *)offsetof(StVertex, color));
     glEnableVertexAttribArray(1);
 
     // Texture coordinates
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
-        sizeof(StVertex2d), (void *)offsetof(StVertex2d, tex_coords));
+        sizeof(StVertex), (void *)offsetof(StVertex, tex_coords));
     glEnableVertexAttribArray(2);
 
     // Texture index
     glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE,
-        sizeof(StVertex2d), (void *)offsetof(StVertex2d, tex_index));
+        sizeof(StVertex), (void *)offsetof(StVertex, tex_index));
     glEnableVertexAttribArray(3);
 
     const char *vertex_path = ST_ASSETS_PATH "/shaders/vertex_2d.glsl";
@@ -125,7 +125,7 @@ static void gl_init(StRenderer2d *renderer)
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-static void gl_destroy(StRenderer2d *renderer)
+static void gl_destroy(StRenderer *renderer)
 {
     glDeleteBuffers(1, &renderer->gl.vbo);
     glDeleteVertexArrays(1, &renderer->gl.vao);
@@ -135,7 +135,7 @@ static void gl_destroy(StRenderer2d *renderer)
         glDeleteTextures(1, &(*texture)->gl.id);
 }
 
-static void gl_begin(StRenderer2d *renderer)
+static void gl_begin(StRenderer *renderer)
 {
     int width, height;
     st_window_get_size(&width, &height);
@@ -158,13 +158,13 @@ static void gl_begin(StRenderer2d *renderer)
         1, GL_FALSE, *renderer->camera->proj_mat);
 }
 
-static void gl_flush(StRenderer2d *renderer)
+static void gl_flush(StRenderer *renderer)
 {
     glBindVertexArray(renderer->gl.vao);
     
     glBindBuffer(GL_ARRAY_BUFFER, renderer->gl.vbo);
     const int offset = renderer->vertex_pointer - renderer->vertex_buffer;
-    glBufferSubData(GL_ARRAY_BUFFER, 0, offset * sizeof(StVertex2d), renderer->vertex_buffer);
+    glBufferSubData(GL_ARRAY_BUFFER, 0, offset * sizeof(StVertex), renderer->vertex_buffer);
 
     glDrawArrays(GL_TRIANGLES, 0, offset);
 
@@ -201,7 +201,7 @@ static void gl_init_texture(StTexture *texture)
         stbi_image_free(data);
 }
 
-void st_renderer2d_init(StRenderer2d *renderer, StCamera *camera)
+void st_renderer_init(StRenderer *renderer, StCamera *camera)
 {
     assert(renderer);
     assert(camera);
@@ -215,7 +215,7 @@ void st_renderer2d_init(StRenderer2d *renderer, StCamera *camera)
 
     st_debug("Vertex buffer created (capacity: %d vertices, %d bytes)\n",
         vector_capacity(renderer->vertex_buffer), 
-        vector_capacity(renderer->vertex_buffer) * sizeof(StVertex2d));
+        vector_capacity(renderer->vertex_buffer) * sizeof(StVertex));
 
     gl_init(renderer);
 
@@ -223,12 +223,12 @@ void st_renderer2d_init(StRenderer2d *renderer, StCamera *camera)
     static StTexture white = {0};
     unsigned char bytes[] = {0xff, 0xff, 0xff, 0xff};
     st_texture_from_bytes(&white, bytes, 1, 1);
-    st_renderer2d_add_texture(renderer, &white);
+    st_renderer_add_texture(renderer, &white);
 
     st_debug("2D renderer created\n");
 }
 
-void st_renderer2d_destroy(StRenderer2d *renderer)
+void st_renderer_destroy(StRenderer *renderer)
 {
     if (!renderer)
         return;
@@ -243,7 +243,7 @@ void st_renderer2d_destroy(StRenderer2d *renderer)
     st_debug("2D renderer destroyed\n");
 }
 
-void st_renderer2d_add_texture(StRenderer2d *renderer, StTexture *texture)
+void st_renderer_add_texture(StRenderer *renderer, StTexture *texture)
 {
     assert(renderer);
     assert(texture);
@@ -258,19 +258,19 @@ void st_renderer2d_add_texture(StRenderer2d *renderer, StTexture *texture)
     st_debug("... size: %dx%d\n", texture->width, texture->height);
 }
 
-void st_renderer2d_begin(StRenderer2d *renderer)
+void st_draw_begin(StWindow *window)
 {
-    assert(renderer);
+    assert(window);
 
-    gl_begin(renderer);
+    gl_begin(&window->renderer);
 }
 
-void st_renderer2d_end(StRenderer2d *renderer)
+void st_draw_end(StWindow *window)
 {
-    gl_flush(renderer);
+    gl_flush(&window->renderer);
 }
 
-void st_renderer2d_draw(StRenderer2d *renderer, StVertex2d *vertices, int count)
+void st_renderer_push(StRenderer *renderer, StVertex *vertices, int count)
 {
     assert(renderer);
     assert(vertices);
@@ -296,14 +296,14 @@ void st_renderer2d_draw(StRenderer2d *renderer, StVertex2d *vertices, int count)
     }
 }
 
-void st_renderer2d_draw_quad(StRenderer2d *renderer, vec3 position,
+void st_draw_quad(StWindow *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color)
 {
-    st_renderer2d_draw_textured_quad(renderer, position, rotation, scale, color,
-        renderer->textures[0]);
+    st_draw_textured_quad(window, position, rotation, scale, color,
+        window->renderer.textures[0]);
 }
 
-static int index_from_id(StRenderer2d *renderer, GLuint id)
+static int index_from_id(StRenderer *renderer, GLuint id)
 {
     for (size_t i = 0; i < vector_length(renderer->textures); i++) {
         if (renderer->textures[i]->gl.id == id)
@@ -312,12 +312,12 @@ static int index_from_id(StRenderer2d *renderer, GLuint id)
     return -1;
 }
 
-void st_renderer2d_draw_textured_quad(StRenderer2d *renderer, vec3 position,
+void st_draw_textured_quad(StWindow *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color, StTexture *texture)
 {
-    const float index = (float)index_from_id(renderer, texture->gl.id);
+    const float index = (float)index_from_id(&window->renderer, texture->gl.id);
 
-    StVertex2d vertices[] = {
+    StVertex vertices[] = {
         {{ 5.0f,  5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 1.0f}, index}, // top right
         {{ 5.0f, -5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
         {{-5.0f,  5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}, // top left
@@ -338,5 +338,5 @@ void st_renderer2d_draw_textured_quad(StRenderer2d *renderer, vec3 position,
         glm_mat4_mulv3(model, vertices[i].position, 1.0f, vertices[i].position);
     }
 
-    st_renderer2d_draw(renderer, vertices, 6);
+    st_renderer_push(&window->renderer, vertices, 6);
 }

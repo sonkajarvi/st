@@ -9,7 +9,7 @@
 #endif
 
 #include <st/graphics/camera.h>
-#include <st/graphics/renderer2d.h>
+#include <st/graphics/renderer.h>
 #include <st/input/keyboard.h>
 #include <st/input/mouse.h>
 
@@ -21,7 +21,7 @@ typedef struct StWindow
     StMouse mouse;
     StKeyboard keyboard;
     StCamera camera;
-    StRenderer2d renderer;
+    StRenderer renderer;
 
 #ifdef ST_PLATFORM_LINUX
     struct {
@@ -64,7 +64,7 @@ static inline StCamera *st_window_camera(StWindow *const window)
     return &window->camera;
 }
 
-static inline StRenderer2d *st_window_renderer(StWindow *const window)
+static inline StRenderer *st_window_renderer(StWindow *const window)
 {
     assert(window);
     return &window->renderer;
