@@ -26,8 +26,8 @@
 #define return_impl(f, ...) \
     do { \
         const StEngine *const e = st_engine_context(); \
-        assert(e); \
-        assert(e->impl.f); \
+        st_assert(e); \
+        st_assert(e->impl.f); \
         return e->impl.f(__VA_ARGS__); \
     } while (0)
 

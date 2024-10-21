@@ -1,16 +1,16 @@
-#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include <st/graphics/texture.h>
+#include <st/utility/assert.h>
 #include <st/utility/print.h>
 
 void st_texture_from_file(StTexture *texture, const char *path)
 {
-    assert(texture);
+    st_assert(texture);
 
     texture->data.path = strdup(path);
-    assert(texture->data.path);
+    st_assert(texture->data.path);
     texture->width = -1;
     texture->height = -1;
     texture->from_file = true;
@@ -23,8 +23,8 @@ void st_texture_from_file(StTexture *texture, const char *path)
 
 void st_texture_from_bytes(StTexture *texture, unsigned char *bytes, int width, int height)
 {
-    assert(texture);
-    assert(bytes);
+    st_assert(texture);
+    st_assert(bytes);
 
     texture->data.bytes = bytes;
     texture->width = width;
@@ -40,7 +40,7 @@ void st_texture_from_bytes(StTexture *texture, unsigned char *bytes, int width, 
 
 void st_texture_destroy(StTexture *texture)
 {
-    assert(texture);
+    st_assert(texture);
 
     bool did_free = false;
 

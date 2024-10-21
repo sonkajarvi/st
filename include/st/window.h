@@ -1,7 +1,6 @@
 #ifndef ST_WINDOW_H
 #define ST_WINDOW_H
 
-#include <assert.h>
 #include <stdbool.h>
 
 #ifdef ST_PLATFORM_LINUX
@@ -12,6 +11,7 @@
 #include <st/graphics/renderer.h>
 #include <st/input/keyboard.h>
 #include <st/input/mouse.h>
+#include <st/utility/assert.h>
 
 typedef struct StWindow
 {
@@ -60,13 +60,13 @@ void st_window_set_vsync(StWindow *window, bool value);
 
 static inline StCamera *st_window_camera(StWindow *const window)
 {
-    assert(window);
+    st_assert(window);
     return &window->camera;
 }
 
 static inline StRenderer *st_window_renderer(StWindow *const window)
 {
-    assert(window);
+    st_assert(window);
     return &window->renderer;
 }
 

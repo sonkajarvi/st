@@ -1,10 +1,10 @@
-#include <assert.h>
 #include <stdbool.h>
 
 #include <cglm/vec3.h>
 #include <cglm/cam.h>
 
 #include <st/graphics/camera.h>
+#include <st/utility/assert.h>
 #include <st/utility/print.h>
 #include <st/window.h>
 
@@ -13,7 +13,7 @@ static vec3 cam_up = {0.0f, 1.0f, 0.0f};
 
 void st_camera_recalculate_view(StCamera *camera, bool rotated)
 {
-    assert(camera);
+    st_assert(camera);
 
     if (rotated) {
         cam_front[0] = cosf(glm_rad(camera->rotation[1])) * cosf(glm_rad(camera->rotation[0]));
@@ -30,7 +30,7 @@ void st_camera_recalculate_view(StCamera *camera, bool rotated)
 
 void st_camera_recalculate_projection(StCamera *camera)
 {
-    assert(camera);
+    st_assert(camera);
 
     float ratio;
     int width, height;
@@ -54,7 +54,7 @@ void st_camera_recalculate_projection(StCamera *camera)
 
 void st_camera_set_projection(StCamera *camera, int type)
 {
-    assert(camera);
+    st_assert(camera);
 
     // todo: validate type
     camera->type = type;
@@ -65,7 +65,7 @@ void st_camera_set_projection(StCamera *camera, int type)
 void st_camera_set_position(StCamera *camera, float x, float y, float z)
 {
     // todo: we could just return here instead
-    assert(camera);
+    st_assert(camera);
 
     camera->position[0] = x;
     camera->position[1] = y;
@@ -76,7 +76,7 @@ void st_camera_set_position(StCamera *camera, float x, float y, float z)
 
 void st_camera_add_position(StCamera *camera, float x, float y, float z)
 {
-    assert(camera);
+    st_assert(camera);
 
     vec3 tmp, cross;
     glm_cross(cam_front, cam_up, cross);
@@ -96,7 +96,7 @@ void st_camera_add_position(StCamera *camera, float x, float y, float z)
 
 void st_camera_set_rotation(StCamera *camera, float x, float y, float z)
 {
-    assert(camera);
+    st_assert(camera);
 
     camera->rotation[0] = x;
     camera->rotation[1] = y;
@@ -107,7 +107,7 @@ void st_camera_set_rotation(StCamera *camera, float x, float y, float z)
 
 void st_camera_add_rotation(StCamera *camera, float x, float y, float z)
 {
-    assert(camera);
+    st_assert(camera);
 
     camera->rotation[0] += x;
     camera->rotation[1] += y;
@@ -118,7 +118,7 @@ void st_camera_add_rotation(StCamera *camera, float x, float y, float z)
 
 void st_camera_set_fov(StCamera *camera, float fov)
 {
-    assert(camera);
+    st_assert(camera);
 
     camera->fov = fov;
 
@@ -127,7 +127,7 @@ void st_camera_set_fov(StCamera *camera, float fov)
 
 void st_camera_add_fov(StCamera *camera, float fov)
 {
-    assert(camera);
+    st_assert(camera);
 
     camera->fov += fov;
 

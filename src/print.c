@@ -5,23 +5,28 @@
 #include <st/utility/terminal.h>
 #include <st/utility/print.h>
 
-void _st_fprintf(FILE *fp, const int level,
-    const char *function, const int line, const char *fmt, ...)
+void _st_print_time(FILE *fp)
 {
-    // timestamp
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
     struct timespec ts;
     clock_gettime(CLOCK_REALTIME, &ts);
 
-    fprintf(fp, ST_ESC_GREEN "[%02d:%02d:%02d.%03ld] " ST_ESC_RESET,
+    fprintf(fp, ST_ESC_RESET ST_ESC_GREEN "[%02d:%02d:%02d.%03ld]" ST_ESC_RESET,
         tm->tm_hour,
         tm->tm_min,
         tm->tm_sec,
         ((ts.tv_sec * 1000) + (ts.tv_nsec / 1000)) % 1000);
+}
+
+void _st_fprintf(FILE *fp, const int level,
+    const char *function, const int line, const char *fmt, ...)
+{
+    // timestamp
+    _st_print_time(fp);
 
     // function and line
-    fprintf(fp, ST_ESC_YELLOW "%s:%d: " ST_ESC_RESET, function, line);
+    fprintf(fp, ST_ESC_YELLOW " %s:%d: " ST_ESC_RESET, function, line);
 
     // level
     switch (level) {

@@ -1,8 +1,8 @@
-#include <assert.h>
 #include <stdlib.h>
 
 #include <st/engine.h>
 #include <st/event.h>
+#include <st/utility/assert.h>
 #include <st/utility/print.h>
 
 StEvent *st_event_add_listener(int type, void (*callback)())
@@ -11,10 +11,10 @@ StEvent *st_event_add_listener(int type, void (*callback)())
         return NULL;
 
     StEventList *list = _st_event_list_from_type(type);
-    assert(list);
+    st_assert(list);
 
     StEvent *event = malloc(sizeof(*event));
-    assert(event);
+    st_assert(event);
 
     event->callback = callback;
     event->hint = type;
@@ -35,7 +35,7 @@ void st_event_remove_listener(StEvent *event)
         return;
 
     StEventList *list = _st_event_list_from_type(event->hint);
-    assert(list);
+    st_assert(list);
 
     StEvent **tmp = &list->head;
     while ((*tmp) != event)
@@ -46,7 +46,7 @@ void st_event_remove_listener(StEvent *event)
 void st_event_clear(int type)
 {
     StEventList *list = _st_event_list_from_type(type);
-    assert(list);
+    st_assert(list);
 
     StEvent *curr = list->head, *next = NULL;
     while (curr) {
@@ -63,7 +63,7 @@ void st_event_clear(int type)
 void st_event_trigger(int type, StEventData data)
 {
     StEventList *list = _st_event_list_from_type(type);
-    assert(list);
+    st_assert(list);
 
     for (StEvent *event = list->head; event; event = event->next)
         event->callback(&data);

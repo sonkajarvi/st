@@ -4,6 +4,8 @@
 #include <cglm/vec3.h>
 #include <cglm/mat4.h>
 
+#include <st/utility/assert.h>
+
 // projection types
 #define ST_CAMERA_PERSPECTIVE   0
 #define ST_CAMERA_ORTHO         1
@@ -40,7 +42,7 @@ void st_camera_add_fov(StCamera *camera, float fov);
 
 static inline void st_camera_init(StCamera *const camera, int type)
 {
-    assert(camera);
+    st_assert(camera);
 
     switch (type) {
     case ST_CAMERA_ORTHO:

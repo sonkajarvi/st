@@ -1,9 +1,9 @@
-#include <assert.h>
 #include <ctype.h>
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <st/utility/assert.h>
 #include <st/utility/args.h>
 #include <st/utility/vector.h>
 
@@ -177,9 +177,9 @@ static int parse_fixed(StArgsParser *parser)
 
 int args_parse(StArgsParser *parser, int argc, char **argv)
 {
-    assert(parser);
-    assert(argc > 0);
-    assert(argv);
+    st_assert(parser);
+    st_assert(argc > 0);
+    st_assert(argv);
 
     p.argc = argc;
     p.argv = argv;
@@ -238,7 +238,7 @@ void args_free(StArgsParser *parser)
 
 void args_add_option(StArgsParser *parser, char short_id, char *long_id, bool *out)
 {
-    assert(parser);
+    st_assert(parser);
 
     *out = false;
 
@@ -254,7 +254,7 @@ void args_add_option(StArgsParser *parser, char short_id, char *long_id, bool *o
 void args_add_option_args(StArgsParser *parser, char short_id, char *long_id,
     char ***out, int *out_len)
 {
-    assert(parser);
+    st_assert(parser);
 
     *out = NULL;
     *out_len = 0;
@@ -271,7 +271,7 @@ void args_add_option_args(StArgsParser *parser, char short_id, char *long_id,
 
 void args_add_fixed(StArgsParser *parser, char ***out, int *out_len)
 {
-    assert(parser);
+    st_assert(parser);
 
     *out = NULL;
     *out_len = 0;

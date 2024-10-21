@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <stdio.h>
 
 #include <cglm/vec3.h>
@@ -6,6 +5,7 @@
 
 #include <st/model.h>
 #include <st/parse.h>
+#include <st/utility/assert.h>
 #include <st/utility/print.h>
 #include <st/vector.h>
 
@@ -115,8 +115,8 @@ static void model_push_vertex(StModel *model, StModel_OBJBuffer *buffer, unsigne
     (void)vertex;
     (void)normal;
 
-    assert(vertex < vector_length(buffer->vertices));
-    assert(normal < vector_length(buffer->normals));
+    st_assert(vertex < vector_length(buffer->vertices));
+    st_assert(normal < vector_length(buffer->normals));
 
     StVertex v;
     v.position[0] = buffer->vertices[vertex][0];
@@ -181,11 +181,11 @@ static void parse_face(StModel *model, StParser *parser, FILE *fp, StModel_OBJBu
 
 void model_from_obj(StModel *model, const char *path)
 {
-    assert(model);
-    assert(path);
+    st_assert(model);
+    st_assert(path);
 
     FILE *fp = fopen(path, "r");
-    assert(fp);
+    st_assert(fp);
 
     StParser parser = {0};
     StModel_OBJBuffer buffer = {0};
@@ -243,7 +243,7 @@ end:
 
 void model_destroy(StModel *model)
 {
-    assert(model);
+    st_assert(model);
 
     vector_free(model->vertices);
 }

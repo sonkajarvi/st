@@ -18,4 +18,9 @@
     &__id; \
 })
 
+#define st_likely(x) __builtin_expect(!!(x), 1)
+#define st_unlikely(x) __builtin_expect(!!(x), 0)
+
+#define ST_NORETURN __attribute__((noreturn))
+
 #endif // ST_UTILITY_COMPILER_H

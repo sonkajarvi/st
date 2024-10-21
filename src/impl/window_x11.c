@@ -1,4 +1,3 @@
-#include <assert.h>
 #include <unistd.h>
 #include <time.h>
 
@@ -11,6 +10,7 @@
 #include <st/engine.h>
 #include <st/event.h>
 #include <st/input/keys.h>
+#include <st/utility/assert.h>
 #include <st/utility/print.h>
 #include <st/window.h>
 
@@ -172,9 +172,9 @@ void impl_x11_window_destroy(StWindow *window)
 
 void impl_x11_window_show(StWindow *window)
 {
-    assert(window);
-    assert(window->x11.display);
-    assert(window->x11.window);
+    st_assert(window);
+    st_assert(window->x11.display);
+    st_assert(window->x11.window);
 
     XMapWindow(window->x11.display, window->x11.window);
 }
@@ -265,7 +265,7 @@ void impl_x11_poll_events(StWindow *window)
 //     };
 
 //     window->x11.context = glxCreateContextAttribsABR(window->x11.display, window->x11.fbc, NULL, True, ctx_attribs);
-//     assert(window->x11.context);
+//     st_assert(window->x11.context);
 
 //     glXMakeCurrent(window->x11.display, window->x11.window, window->x11.context);
 

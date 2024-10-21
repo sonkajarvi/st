@@ -114,7 +114,7 @@ static void gl_init(StRenderer *renderer)
     const char *vertex_path = ST_ASSETS_PATH "/shaders/vertex_2d.glsl";
     const char *fragment_path = ST_ASSETS_PATH "/shaders/fragment_2d.glsl";
     renderer->gl.program = create_shader(vertex_path, fragment_path);
-    assert(renderer->gl.program);
+    st_assert(renderer->gl.program);
 
     st_debug("Shader created\n");
     st_debug("... id: %d\n", renderer->gl.program);
@@ -188,7 +188,7 @@ static void gl_init_texture(StTexture *texture)
         stbi_set_flip_vertically_on_load(1);
         data = stbi_load(texture->data.path,
             &texture->width, &texture->height, &channels, 4);
-        assert(data);
+        st_assert(data);
     } else {
         data = texture->data.bytes;
     }
@@ -203,14 +203,14 @@ static void gl_init_texture(StTexture *texture)
 
 void st_renderer_init(StRenderer *renderer, StCamera *camera)
 {
-    assert(renderer);
-    assert(camera);
+    st_assert(renderer);
+    st_assert(camera);
 
     memset(renderer, 0, sizeof(*renderer));
     renderer->camera = camera;
 
     vector_reserve(renderer->vertex_buffer, ST_VERTEX_BUFFER_SIZE);
-    assert(renderer->vertex_buffer);
+    st_assert(renderer->vertex_buffer);
     renderer->vertex_pointer = renderer->vertex_buffer;
 
     st_debug("Vertex buffer created (capacity: %d vertices, %d bytes)\n",
@@ -245,9 +245,9 @@ void st_renderer_destroy(StRenderer *renderer)
 
 void st_renderer_add_texture(StRenderer *renderer, StTexture *texture)
 {
-    assert(renderer);
-    assert(texture);
-    assert(vector_length(renderer->textures) <= 4);
+    st_assert(renderer);
+    st_assert(texture);
+    st_assert(vector_length(renderer->textures) <= 4);
 
     vector_push(renderer->textures, texture);
 
@@ -260,7 +260,7 @@ void st_renderer_add_texture(StRenderer *renderer, StTexture *texture)
 
 void st_draw_begin(StWindow *window)
 {
-    assert(window);
+    st_assert(window);
 
     gl_begin(&window->renderer);
 }
@@ -272,9 +272,9 @@ void st_draw_end(StWindow *window)
 
 void st_renderer_push(StRenderer *renderer, StVertex *vertices, int count)
 {
-    assert(renderer);
-    assert(vertices);
-    assert(count > 0);
+    st_assert(renderer);
+    st_assert(vertices);
+    st_assert(count > 0);
 
     St *st = st_instance();
     if (!st) {

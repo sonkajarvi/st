@@ -1,13 +1,13 @@
-#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <st/utility/assert.h>
 #include <st/utility/stringbuilder.h>
 #include <st/utility/vector.h>
 
 void st_sb_add(StStringBuilder *sb, const char *add)
 {
-    assert(sb);
+    st_assert(sb);
 
     _StSBEntry entry;
     entry.ptr = add;
@@ -18,7 +18,7 @@ void st_sb_add(StStringBuilder *sb, const char *add)
 
 char *st_sb_concat(StStringBuilder *sb)
 {
-    assert(sb);
+    st_assert(sb);
 
     if (vector_isempty(sb->entries))
         return NULL;

@@ -15,6 +15,7 @@
 #define st_warn(fmt, ...) _st_fprintf(stdout, ST_LEVEL_WARN, __func__, __LINE__, fmt, ##__VA_ARGS__)
 #define st_error(fmt, ...) _st_fprintf(stdout, ST_LEVEL_ERROR, __func__, __LINE__, fmt, ##__VA_ARGS__)
 
+void _st_print_time(FILE *fp);
 void _st_fprintf(FILE *fp, const int level,
     const char *function, const int line, const char *fmt, ...);
 

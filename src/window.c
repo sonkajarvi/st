@@ -1,10 +1,10 @@
-#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
 #include <st/engine.h>
 #include <st/graphics/camera.h>
 #include <st/graphics/renderer.h>
+#include <st/utility/assert.h>
 #include <st/utility/print.h>
 
 // todo: return a status code
@@ -43,9 +43,9 @@ StWindow *st_window_create(const char *title, int width, int height)
 
 void st_window_destroy(StWindow *window)
 {
-    assert(window);
+    st_assert(window);
     St *st = st_instance();
-    assert(st);
+    st_assert(st);
 
     st_renderer_destroy(&window->renderer);
 
@@ -61,9 +61,9 @@ void st_window_destroy(StWindow *window)
 
 void st_window_show(StWindow *window)
 {
-    assert(window);
+    st_assert(window);
     St *st = st_instance();
-    assert(st);
+    st_assert(st);
 
     call_impl(st, window_show, window);
 
@@ -72,9 +72,9 @@ void st_window_show(StWindow *window)
 
 bool st_window_should_close(StWindow *window)
 {
-    assert(window);
+    st_assert(window);
     St *st = st_instance();
-    assert(st);
+    st_assert(st);
 
     return !window->visible;
 }
@@ -82,9 +82,9 @@ bool st_window_should_close(StWindow *window)
 void st_window_get_size(int *width, int *height)
 {
     St *st = st_instance();
-    assert(st);
+    st_assert(st);
     StWindow *window = st->window;
-    assert(window);
+    st_assert(window);
 
     call_impl(st, window_get_size, window, width, height);
 }
@@ -92,9 +92,9 @@ void st_window_get_size(int *width, int *height)
 void st_window_get_pos(int *x, int *y)
 {
     St *st = st_instance();
-    assert(st);
+    st_assert(st);
     StWindow *window = st->window;
-    assert(window);
+    st_assert(window);
 
     call_impl(st, window_get_pos, window, x, y);
 }
@@ -102,9 +102,9 @@ void st_window_get_pos(int *x, int *y)
 double st_window_time(void)
 {
     St *st = st_instance();
-    assert(st);
+    st_assert(st);
     StWindow *window = st->window;
-    assert(window);
+    st_assert(window);
 
     // return_impl(engine_time, window);
     return call_impl(st, engine_time, window);
@@ -113,9 +113,9 @@ double st_window_time(void)
 // int window_fps(void)
 // {
 //     StEngine *e = st_instance();
-//     assert(e);
+//     st_assert(e);
 //     StWindow *window = e->window;
-//     assert(window);
+//     st_assert(window);
 
 //     return window->fps;
 // }
@@ -123,18 +123,18 @@ double st_window_time(void)
 float st_window_deltatime(void)
 {
     St *st = st_instance();
-    assert(st);
+    st_assert(st);
     StWindow *window = st->window;
-    assert(window);
+    st_assert(window);
 
     return window->deltatime;
 }
 
 void st_window_set_vsync(StWindow *window, bool value)
 {
-    assert(window);
+    st_assert(window);
     St *st = st_instance();
-    assert(st);
+    st_assert(st);
 
     call_impl(st, window_vsync, window, value);
 }
@@ -142,7 +142,7 @@ void st_window_set_vsync(StWindow *window, bool value)
 void st_window_poll_events(StWindow *window)
 {
     St *st = st_instance();
-    assert(st);
+    st_assert(st);
 
     // update time
     // static int frames = 0;
@@ -185,7 +185,7 @@ void st_window_poll_events(StWindow *window)
 void st_window_swap_buffers(StWindow *window)
 {
     St *st = st_instance();
-    assert(st);
+    st_assert(st);
 
     call_impl(st, swap_buffers, window);
 }
