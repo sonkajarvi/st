@@ -15,5 +15,5 @@ CTestTestfile.cmake
 Testing
 tests/tests*
 
-thirdparty/glad/include/glad
+thirdparty/glad/include
 thirdparty/glad/src
