@@ -234,7 +234,9 @@ void impl_x11_poll_events(StWindow *window)
             key = keysym_to_key(keysym);
 
             if (key == ST_KEY_UNKNOWN) {
-                printf("unknown key: code=%d, sym=%d\n", keycode, keysym);
+                st_warn("Unknown key\n");
+                st_warn("... code: %d\n", keycode);
+                st_warn("... sym: %d\n", keysym);
                 break;
             }
 
