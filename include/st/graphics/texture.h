@@ -1,5 +1,5 @@
-#ifndef ST_GFX_TEXTURE_H
-#define ST_GFX_TEXTURE_H
+#ifndef ST_GRAPHICS_TEXTURE_H
+#define ST_GRAPHICS_TEXTURE_H
 
 #include <stdbool.h>
 
@@ -26,4 +26,4 @@ void st_texture_from_bytes(StTexture *texture, unsigned char *bytes, int width, 
 
 void st_texture_destroy(StTexture *texture);
 
-#endif // ST_GFX_TEXTURE_H
+#endif // ST_GRAPHICS_TEXTURE_H

@@ -4,7 +4,7 @@
 #include <cglm/vec3.h>
 #include <cglm/cam.h>
 
-#include <st/gfx/camera.h>
+#include <st/graphics/camera.h>
 #include <st/utils/print.h>
 #include <st/window.h>
 

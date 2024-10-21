@@ -10,8 +10,8 @@
 #include <stb/stb_image.h>
 
 #include <st/engine.h>
-#include <st/gfx/camera.h>
-#include <st/gfx/renderer2d.h>
+#include <st/graphics/camera.h>
+#include <st/graphics/renderer2d.h>
 #include <st/utils/print.h>
 #include <st/utils/util.h>
 #include <st/utils/vector.h>

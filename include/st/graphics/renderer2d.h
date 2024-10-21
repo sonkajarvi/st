@@ -1,13 +1,13 @@
-#ifndef ST_GFX_RENDERER2D_H
-#define ST_GFX_RENDERER2D_H
+#ifndef ST_GRAPHICS_RENDERER2D_H
+#define ST_GRAPHICS_RENDERER2D_H
 
 #include <cglm/vec2.h>
 #include <cglm/vec3.h>
 #include <cglm/vec4.h>
 #include <glad/gl.h>
 
-#include <st/gfx/camera.h>
-#include <st/gfx/texture.h>
+#include <st/graphics/camera.h>
+#include <st/graphics/texture.h>
 
 #define ST_VERTEX_BUFFER_SIZE (256 * 3)
 
@@ -47,4 +47,4 @@ void st_renderer2d_draw_quad(StRenderer2d *renderer, vec3 position,
 void st_renderer2d_draw_textured_quad(StRenderer2d *renderer, vec3 position,
     vec3 rotation, vec3 scale, vec4 color, StTexture *texture);
 
-#endif // ST_GFX_RENDERER2D_H
+#endif // ST_GRAPHICS_RENDERER2D_H

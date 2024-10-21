@@ -8,7 +8,7 @@
 #include <glad/glx.h>
 #endif
 
-#include <st/gfx/camera.h>
+#include <st/graphics/camera.h>
 #include <st/input/keyboard.h>
 #include <st/input/mouse.h>
 

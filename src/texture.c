@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/gfx/texture.h>
+#include <st/graphics/texture.h>
 #include <st/utils/print.h>
 
 void st_texture_from_file(StTexture *texture, const char *path)
