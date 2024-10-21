@@ -4,7 +4,7 @@
 #include <glad/gl.h>
 #include <glad/glx.h>
 
-#include <st/utils/print.h>
+#include <st/utility/print.h>
 #include <st/window.h>
 
 #include "context_glx.h"

@@ -6,7 +6,7 @@
 
 #include <st/model.h>
 #include <st/parse.h>
-#include <st/utils/print.h>
+#include <st/utility/print.h>
 #include <st/vector.h>
 
 #define is_whitespace(c) (c == ' ' || c == '\t' || c == '\n' || c == '\r')

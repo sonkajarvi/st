@@ -1,5 +1,5 @@
-#include <st/utils/compiler.h>
-#include <st/utils/vector.h>
+#include <st/utility/compiler.h>
+#include <st/utility/vector.h>
 
 #include "test.h"
 

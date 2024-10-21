@@ -1,5 +1,5 @@
-#ifndef ST_UTILS_COMPILER_H
-#define ST_UTILS_COMPILER_H
+#ifndef ST_UTILITY_COMPILER_H
+#define ST_UTILITY_COMPILER_H
 
 #define pragma_helper(x) _Pragma(#x)
 #define pragma(x) pragma_helper(x)
@@ -18,4 +18,4 @@
     &__id; \
 })
 
-#endif // ST_UTILS_COMPILER_H
+#endif // ST_UTILITY_COMPILER_H

@@ -1,9 +1,9 @@
-#ifndef ST_UTILS_PRINT_H
-#define ST_UTILS_PRINT_H
+#ifndef ST_UTILITY_PRINT_H
+#define ST_UTILITY_PRINT_H
 
 #include <stdio.h>
 
-#include <st/utils/terminal.h>
+#include <st/utility/terminal.h>
 
 #define ST_LEVEL_DEBUG 0
 #define ST_LEVEL_LOG 1
@@ -18,4 +18,4 @@
 void _st_fprintf(FILE *fp, const int level,
     const char *function, const int line, const char *fmt, ...);
 
-#endif // ST_UTILS_PRINT_H
+#endif // ST_UTILITY_PRINT_H

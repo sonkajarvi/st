@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include <st/graphics/texture.h>
-#include <st/utils/print.h>
+#include <st/utility/print.h>
 
 void st_texture_from_file(StTexture *texture, const char *path)
 {

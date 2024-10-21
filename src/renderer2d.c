@@ -12,9 +12,9 @@
 #include <st/engine.h>
 #include <st/graphics/camera.h>
 #include <st/graphics/renderer2d.h>
-#include <st/utils/print.h>
-#include <st/utils/util.h>
-#include <st/utils/vector.h>
+#include <st/utility/print.h>
+#include <st/utility/util.h>
+#include <st/utility/vector.h>
 
 
 static GLuint create_shader(const char *vertex_path, const char *fragment_path)

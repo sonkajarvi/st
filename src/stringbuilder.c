@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/utils/stringbuilder.h>
-#include <st/utils/vector.h>
+#include <st/utility/stringbuilder.h>
+#include <st/utility/vector.h>
 
 void st_sb_add(StStringBuilder *sb, const char *add)
 {

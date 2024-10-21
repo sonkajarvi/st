@@ -1,5 +1,5 @@
-#ifndef ST_UTILS_VECTOR_H
-#define ST_UTILS_VECTOR_H
+#ifndef ST_UTILITY_VECTOR_H
+#define ST_UTILITY_VECTOR_H
 
 /*
  * vector_isempty
@@ -33,7 +33,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/utils/minmax.h>
+#include <st/utility/minmax.h>
 
 #define VECTOR_DEFAULT_CAPACITY 2
 
@@ -336,4 +336,4 @@ typedef struct StVectorHeader
 size_t __vector_calc_cap(void *, const size_t);
 void *__vector_realloc(void *, const size_t, const size_t);
 
-#endif // ST_UTILS_VECTOR_H
+#endif // ST_UTILITY_VECTOR_H

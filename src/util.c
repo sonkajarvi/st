@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <st/utils/util.h>
+#include <st/utility/util.h>
 
 char *read_file(const char *path)
 {

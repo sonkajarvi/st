@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <time.h>
 
-#include <st/utils/terminal.h>
-#include <st/utils/print.h>
+#include <st/utility/terminal.h>
+#include <st/utility/print.h>
 
 void _st_fprintf(FILE *fp, const int level,
     const char *function, const int line, const char *fmt, ...)

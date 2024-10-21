@@ -1,5 +1,5 @@
-#ifndef ST_UTILS_ARGS_H
-#define ST_UTILS_ARGS_H
+#ifndef ST_UTILITY_ARGS_H
+#define ST_UTILITY_ARGS_H
 
 #include <stdbool.h>
 
@@ -35,4 +35,4 @@ void args_add_option_args(StArgsParser *parser, char short_name,
     char *long_name, char ***out, int *out_len);
 void args_add_fixed(StArgsParser *parser, char ***out, int *out_len);
 
-#endif // ST_UTILS_ARGS_H
+#endif // ST_UTILITY_ARGS_H

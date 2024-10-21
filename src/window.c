@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include <st/engine.h>
-#include <st/utils/print.h>
+#include <st/utility/print.h>
 
 // todo: return a status code
 StWindow *st_window_create(const char *title, int width, int height)

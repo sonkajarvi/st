@@ -11,7 +11,7 @@
 #include <st/engine.h>
 #include <st/event.h>
 #include <st/input/keys.h>
-#include <st/utils/print.h>
+#include <st/utility/print.h>
 #include <st/window.h>
 
 #include "context_glx.h"

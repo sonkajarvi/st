@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include <st/utils/vector.h>
+#include <st/utility/vector.h>
 
 #define new_cap_fn(x) ((x) + ((x) >> 1) + ((x) >> 3))
 

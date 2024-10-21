@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/utils/stringbuilder.h>
+#include <st/utility/stringbuilder.h>
 #include "test.h"
 
 test_case(stringbuilder_concat)
