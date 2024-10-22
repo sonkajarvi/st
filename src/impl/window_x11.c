@@ -9,6 +9,7 @@
 
 #include <st/event.h>
 #include <st/instance.h>
+#include <st/graphics/camera.h>
 #include <st/input/keys.h>
 #include <st/utility/assert.h>
 #include <st/utility/print.h>
@@ -222,9 +223,10 @@ void impl_x11_poll_events(StWindow *window)
             break;
 
         case ConfigureNotify:
-            st_event_trigger(ST_EVENT_WINDOW_RESIZE,  (StEventData){{
-                event.xconfigure.width, event.xconfigure.height
-            }});
+            // st_event_trigger(ST_EVENT_WINDOW_RESIZE,  (StEventData){{
+            //     event.xconfigure.width, event.xconfigure.height
+            // }});
+            st_camera_recalculate_projection(&window->camera);
             break;
 
         case KeyPress:
