@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
-#include <st/engine.h>
 #include <st/event.h>
+#include <st/instance.h>
 #include <st/utility/assert.h>
 #include <st/utility/print.h>
 

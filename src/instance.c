@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/engine.h>
 #include <st/event.h>
+#include <st/instance.h>
 #include <st/utility/print.h>
 
 #include "callbacks.h"

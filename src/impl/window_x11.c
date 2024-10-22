@@ -7,8 +7,8 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
-#include <st/engine.h>
 #include <st/event.h>
+#include <st/instance.h>
 #include <st/input/keys.h>
 #include <st/utility/assert.h>
 #include <st/utility/print.h>

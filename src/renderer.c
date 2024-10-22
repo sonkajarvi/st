@@ -9,7 +9,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
-#include <st/engine.h>
+#include <st/instance.h>
 #include <st/graphics/camera.h>
 #include <st/graphics/renderer.h>
 #include <st/utility/print.h>

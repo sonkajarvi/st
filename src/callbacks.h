@@ -4,7 +4,7 @@
 // todo: move elsewhere
 #define ST_GRAPHICS_OPENGL 1
 
-#include <st/engine.h>
+#include <st/instance.h>
 #include <st/utility/print.h>
 
 #ifdef ST_PLATFORM_LINUX

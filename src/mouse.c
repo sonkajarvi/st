@@ -1,4 +1,4 @@
-#include <st/engine.h>
+#include <st/instance.h>
 #include <st/window.h>
 #include <st/input/mouse.h>
 #include <st/utility/assert.h>

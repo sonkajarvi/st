@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/engine.h>
+#include <st/instance.h>
 #include <st/graphics/camera.h>
 #include <st/graphics/renderer.h>
 #include <st/utility/assert.h>
