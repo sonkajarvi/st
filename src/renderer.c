@@ -318,13 +318,13 @@ void st_draw_textured_quad(StWindow *window, vec3 position,
     const float index = (float)index_from_id(&window->renderer, texture->gl.id);
 
     StVertex vertices[] = {
-        {{ 5.0f,  5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 1.0f}, index}, // top right
-        {{ 5.0f, -5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
-        {{-5.0f,  5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}, // top left
+        {{ 1.0f,  1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 1.0f}, index}, // top right
+        {{ 1.0f, -1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
+        {{-1.0f,  1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}, // top left
 
-        {{ 5.0f, -5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
-        {{-5.0f, -5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, index}, // bottom left
-        {{-5.0f,  5.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}  // top left
+        {{ 1.0f, -1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
+        {{-1.0f, -1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, index}, // bottom left
+        {{-1.0f,  1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}  // top left
     };
 
     mat4 model = GLM_MAT4_IDENTITY_INIT;
