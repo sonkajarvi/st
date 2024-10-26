@@ -340,3 +340,28 @@ void st_draw_textured_quad(StWindow *window, vec3 position,
 
     st_renderer_push(&window->renderer, vertices, 6);
 }
+
+void st_draw_line(StWindow *window, vec3 p0, vec3 p1, vec4 color, float width)
+{
+    const float half = width / 2.0f;
+    const vec2 a = { p1[0] - p0[0], p1[1] - p0[1] };
+    vec3 b = { a[1], -a[0], 0.0f };
+    glm_normalize(b);
+
+    const vec3 p2 = {p0[0] + b[0] * half, p0[1] + b[1] * half, p0[2]};
+    const vec3 p3 = {p0[0] - b[0] * half, p0[1] - b[1] * half, p0[2]};
+    const vec3 p4 = {p1[0] + b[0] * half, p1[1] + b[1] * half, p1[2]};
+    const vec3 p5 = {p1[0] - b[0] * half, p1[1] - b[1] * half, p1[2]};
+
+    StVertex vertices[] = {
+        {{p2[0], p2[1], p2[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f},
+        {{p3[0], p3[1], p3[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f},
+        {{p4[0], p4[1], p4[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f},
+
+        {{p3[0], p3[1], p3[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f},
+        {{p4[0], p4[1], p4[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f},
+        {{p5[0], p5[1], p5[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f}
+    };
+
+    st_renderer_push(&window->renderer, vertices, 6);
+}

@@ -49,4 +49,6 @@ void st_draw_quad(StWindow *window, vec3 position,
 void st_draw_textured_quad(StWindow *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color, StTexture *texture);
 
+void st_draw_line(StWindow *window, vec3 p0, vec3 p1, vec4 color, float width);
+
 #endif // ST_GRAPHICS_RENDERER2D_H
