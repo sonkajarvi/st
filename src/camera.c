@@ -36,9 +36,12 @@ void st_camera_recalculate_projection(StCamera *camera)
     int width, height;
     st_window_get_size(&width, &height);
 
+    camera->viewport[0] = (float)width;
+    camera->viewport[1] = (float)height;
+
     switch (camera->type) {
     case ST_CAMERA_PERSPECTIVE:
-        ratio = (float)width / (float)height;
+        ratio = camera->viewport[0] / camera->viewport[1];
         glm_perspective(glm_rad(camera->fov), ratio, ST_CAMERA_NEAR, ST_CAMERA_FAR, camera->proj_mat);
         break;
 

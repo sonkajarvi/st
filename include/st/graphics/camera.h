@@ -18,6 +18,7 @@ typedef struct StCamera
 {
     int type;
     float fov;
+    vec2 viewport;
 
     vec3 position;
     vec3 rotation;
