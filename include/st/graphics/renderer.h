@@ -47,7 +47,7 @@ void st_draw_end(StWindow *window);
 void st_draw_quad(StWindow *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color);
 void st_draw_textured_quad(StWindow *window, vec3 position,
-    vec3 rotation, vec3 scale, vec4 color, StTexture *texture);
+    vec3 rotation, vec3 scale, vec4 color, StTexture *texture, vec4 tex_coords);
 
 void st_draw_line(StWindow *window, vec3 p0, vec3 p1, vec4 color, float width);
 

@@ -299,7 +299,7 @@ void st_draw_quad(StWindow *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color)
 {
     st_draw_textured_quad(window, position, rotation, scale, color,
-        window->renderer.textures[0]);
+        window->renderer.textures[0], (vec4){0.0f, 0.0f, 1.0f, 1.0f});
 }
 
 static int index_from_id(StRenderer *renderer, GLuint id)
@@ -312,19 +312,29 @@ static int index_from_id(StRenderer *renderer, GLuint id)
 }
 
 void st_draw_textured_quad(StWindow *window, vec3 position,
-    vec3 rotation, vec3 scale, vec4 color, StTexture *texture)
+    vec3 rotation, vec3 scale, vec4 color, StTexture *texture, vec4 tex_coords)
 {
     const float index = (float)index_from_id(&window->renderer, texture->gl.id);
 
-    StVertex vertices[] = {
-        {{ 1.0f,  1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 1.0f}, index}, // top right
-        {{ 1.0f, -1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
-        {{-1.0f,  1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}, // top left
+    const float t0 = tex_coords[0] / texture->width;
+    const float t1 = tex_coords[1] / texture->height;
+    const float t2 = tex_coords[2] / texture->width + t0;
+    const float t3 = tex_coords[3] / texture->height + t1;
 
-        {{ 1.0f, -1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {1.0f, 0.0f}, index}, // bottom right
-        {{-1.0f, -1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, index}, // bottom left
-        {{-1.0f,  1.0f, 0.0f}, {color[0], color[1], color[2], color[3]}, {0.0f, 1.0f}, index}  // top left
+// todo: there has to be a better way
+#define __x(c) c[0], c[1], c[2], c[3]
+
+    StVertex vertices[] = {
+        {{ 1.0f,  1.0f, 0.0f}, {__x(color)}, {t2, t3}, index}, // top right
+        {{ 1.0f, -1.0f, 0.0f}, {__x(color)}, {t2, t1}, index}, // bottom right
+        {{-1.0f,  1.0f, 0.0f}, {__x(color)}, {t0, t3}, index}, // top left
+
+        {{ 1.0f, -1.0f, 0.0f}, {__x(color)}, {t2, t1}, index}, // bottom right
+        {{-1.0f, -1.0f, 0.0f}, {__x(color)}, {t0, t1}, index}, // bottom left
+        {{-1.0f,  1.0f, 0.0f}, {__x(color)}, {t0, t3}, index}  // top left
     };
+
+#undef __X
 
     mat4 model = GLM_MAT4_IDENTITY_INIT;
     glm_translate(model, position);
