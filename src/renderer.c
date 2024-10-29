@@ -16,7 +16,6 @@
 #include <st/utility/util.h>
 #include <st/utility/vector.h>
 
-
 static GLuint create_shader(const char *vertex_path, const char *fragment_path)
 {
     char output[256];
@@ -120,9 +119,6 @@ static void gl_init(StRenderer *renderer)
     st_debug("... id: %d\n", renderer->gl.program);
     st_debug("... vertex: '%s'\n", vertex_path);
     st_debug("... fragment: '%s'\n", fragment_path);
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 static void gl_destroy(StRenderer *renderer)
@@ -140,6 +136,9 @@ static void gl_begin(StRenderer *renderer)
     int width, height;
     st_window_get_size(&width, &height);
     glViewport(0, 0, width, height);
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     glClear(GL_COLOR_BUFFER_BIT);
 
