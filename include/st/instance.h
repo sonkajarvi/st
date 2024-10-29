@@ -50,6 +50,15 @@ typedef struct St
 
         void (*poll_events)(StWindow *);
         void (*swap_buffers)(StWindow *);
+
+        void (*renderer_init)(StWindow *, StRenderer *, StCamera *);
+        void (*renderer_destroy)(StWindow *, StRenderer *);
+        void (*renderer_add_texture)(StWindow *, StRenderer *, StTexture *);
+
+        void (*draw_begin)(StWindow *, StRenderer *);
+        void (*draw_end)(StWindow *, StRenderer *);
+
+        void (*renderer_push)(StWindow *, StRenderer *, StVertex *, size_t);
     } impl;
 } St;
 

@@ -25,8 +25,8 @@ typedef struct StRenderer
 {
     StCamera *camera;
     StTexture **textures;
-    StVertex *vertex_buffer;
-    StVertex *vertex_pointer;
+    StVertex *vertex_buf;
+    StVertex *vertex_ptr;
 
     struct {
         GLuint program;
@@ -39,7 +39,7 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera);
 void st_renderer_destroy(StRenderer *renderer);
 
 void st_renderer_add_texture(StRenderer *renderer, StTexture *texture);
-void st_renderer_push(StRenderer *renderer, StVertex *vertices, int count);
+void st_renderer_push(StRenderer *renderer, StVertex *vertices, size_t count);
 
 void st_draw_begin(StWindow *window);
 void st_draw_end(StWindow *window);
