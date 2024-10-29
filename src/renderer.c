@@ -224,6 +224,11 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera)
     st_texture_from_bytes(&white, bytes, 1, 1);
     st_renderer_add_texture(renderer, &white);
 
+    // Font texture
+    static StTexture font = {0};
+    st_texture_from_file(&font, "assets/images/font.png");
+    st_renderer_add_texture(renderer, &font);
+
     st_debug("2D renderer created\n");
 }
 

@@ -11,6 +11,7 @@ set(SOURCES
     src/assert.c
     src/event.c
     src/camera.c
+    src/draw_text.c
     src/instance.c
     src/keyboard.c
     # src/model.c
