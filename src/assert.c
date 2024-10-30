@@ -10,7 +10,7 @@ ST_NORETURN void _st_assert_exit(const char *expr, const char *function,
 {
     _st_print_time(stderr);
 
-    fprintf(stderr, ST_ESC_BOLD ST_ESC_RED_B " **ASSERT FAILED**: '%s', in %s(), at %s:%d" ST_ESC_RESET "\n", expr, function, file, line);
+    fprintf(stderr, ST_ESC_BOLD ST_ESC_MAGENTA_B " **ASSERT FAILED**: '%s', in %s(), at %s:%d" ST_ESC_RESET "\n", expr, function, file, line);
 
     exit(1);
 }

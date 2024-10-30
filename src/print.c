@@ -2,8 +2,25 @@
 #include <stdio.h>
 #include <time.h>
 
-#include <st/utility/terminal.h>
+#include <st/utility/assert.h>
 #include <st/utility/print.h>
+#include <st/utility/terminal.h>
+
+static const char *const __prefixes[] = {
+    ST_ESC_BLACK_B "debug: ",
+    "log: ",
+    ST_ESC_YELLOW_B "*warn*: ",
+    ST_ESC_BOLD ST_ESC_RED_B "*ERROR*: "
+};
+
+static inline int __get_print_level(const char *fmt)
+{
+    if (fmt[0] == _ST_PRINT_SOH_CHAR && fmt[1]) {
+        if (fmt[1] >= 1 && fmt[1] <= 4)
+            return fmt[1];
+    }
+    return 0;
+}
 
 void _st_print_time(FILE *fp)
 {
@@ -13,45 +30,25 @@ void _st_print_time(FILE *fp)
     clock_gettime(CLOCK_REALTIME, &ts);
 
     fprintf(fp, ST_ESC_RESET ST_ESC_GREEN "[%02d:%02d:%02d.%03ld]" ST_ESC_RESET,
-        tm->tm_hour,
-        tm->tm_min,
-        tm->tm_sec,
+        tm->tm_hour, tm->tm_min, tm->tm_sec,
         ((ts.tv_sec * 1000) + (ts.tv_nsec / 1000)) % 1000);
 }
 
-void _st_fprintf(FILE *fp, const int level,
-    const char *function, const int line, const char *fmt, ...)
+// todo: Extend formatting options, e.g. v2, v3, v4 for vectors
+void _st_fprint(FILE *const fp, const char *func, const int line, const char *fmt, ...)
 {
-    // timestamp
-    _st_print_time(fp);
+    st_assert(fp);
+    st_assert(fmt);
 
-    // function and line
-    fprintf(fp, ST_ESC_YELLOW " %s:%d: " ST_ESC_RESET, function, line);
+    const int level = __get_print_level(fmt);
+    if (level) {
+        fmt += 2; // Skip level
 
-    // level
-    switch (level) {
-    case ST_LEVEL_DEBUG:
-        fprintf(fp, ST_ESC_BLACK_B "debug: ");
-        break;
-
-    case ST_LEVEL_LOG:
-        fprintf(fp, "log: ");
-        break;
-
-    case ST_LEVEL_WARN:
-        fprintf(fp, ST_ESC_YELLOW_B "*warn*: ");
-        break;
-
-    case ST_LEVEL_ERROR:
-        fprintf(fp, ST_ESC_BOLD ST_ESC_RED_B "*ERROR*: ");
-        break;
-
-    default:
-        fprintf(fp, "(unknown): ");
-        break;
+        _st_print_time(fp);
+        fprintf(fp, ST_ESC_YELLOW " %s:%d: " ST_ESC_RESET "%s",
+            func, line, __prefixes[level - 1]);
     }
 
-    // message
     va_list args;
     va_start(args, fmt);
     vfprintf(fp, fmt, args);
