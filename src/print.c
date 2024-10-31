@@ -10,13 +10,14 @@ static const char *const __prefixes[] = {
     ST_ESC_BLACK_B "debug: ",
     "log: ",
     ST_ESC_YELLOW_B "*warn*: ",
-    ST_ESC_BOLD ST_ESC_RED_B "*ERROR*: "
+    ST_ESC_BOLD ST_ESC_RED_B "*ERROR*: ",
+    ST_ESC_BOLD ST_ESC_MAGENTA_B " **ASSERT FAILED**: "
 };
 
 static inline int __get_print_level(const char *fmt)
 {
     if (fmt[0] == _ST_PRINT_SOH_CHAR && fmt[1]) {
-        if (fmt[1] >= 1 && fmt[1] <= 4)
+        if (fmt[1] >= 1 && fmt[1] <= 5)
             return fmt[1];
     }
     return 0;
@@ -45,8 +46,9 @@ void _st_fprint(FILE *const fp, const char *func, const int line, const char *fm
         fmt += 2; // Skip level
 
         _st_print_time(fp);
-        fprintf(fp, ST_ESC_YELLOW " %s:%d: " ST_ESC_RESET "%s",
-            func, line, __prefixes[level - 1]);
+        if (level <= 4)
+            fprintf(fp, ST_ESC_YELLOW " %s:%d: " ST_ESC_RESET, func, line);
+        fprintf(fp, "%s", __prefixes[level - 1]);
     }
 
     va_list args;

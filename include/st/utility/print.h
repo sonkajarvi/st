@@ -10,6 +10,7 @@
 #define ST_PRINT_LOG       _ST_PRINT_SOH "\02"
 #define ST_PRINT_WARN      _ST_PRINT_SOH "\03"
 #define ST_PRINT_ERROR     _ST_PRINT_SOH "\04"
+#define ST_PRINT_ASSERT    _ST_PRINT_SOH "\05"
 
 #define st_debug(fmt, ...) st_fprint(stdout, ST_PRINT_DEBUG fmt, ##__VA_ARGS__)
 #define st_log(fmt, ...)   st_fprint(stdout, ST_PRINT_LOG fmt, ##__VA_ARGS__)

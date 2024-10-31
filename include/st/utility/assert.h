@@ -9,6 +9,6 @@
 })
 
 ST_NORETURN void _st_assert_exit(const char *expr,
-    const char *function, const int line, const char *file);
+    const char *func, const int line, const char *file);
 
 #endif // ST_UTILITY_ASSERT_H
