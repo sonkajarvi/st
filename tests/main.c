@@ -54,6 +54,8 @@ int main()
     test_declare(args_long_option_args_no_args2);
 
     // String builder
-    test_declare(stringbuilder_concat);
-    test_declare(stringbuilder_concat_empty);
+    test_declare(st_strbuilder_free);
+    test_declare(st_strbuilder_append);
+    test_declare(st_strbuilder_length);
+    test_declare(st_strbuilder_empty);
 }
