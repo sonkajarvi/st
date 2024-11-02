@@ -60,7 +60,7 @@ target_compile_options(st PRIVATE
     -Wextra
     -Werror
     # -Wstrict-prototypes
-    -Wno-gnu-zero-variadic-macro
+    # -Wno-gnu-zero-variadic-macro
 )
 
 # tests

@@ -56,6 +56,6 @@ int main()
     // String builder
     test_declare(st_strbuilder_free);
     test_declare(st_strbuilder_append);
-    test_declare(st_strbuilder_length);
+    test_declare(st_strbuilder_insert);
     test_declare(st_strbuilder_empty);
 }

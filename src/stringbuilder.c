@@ -19,15 +19,16 @@ void st_strbuilder_free(struct st_strbuilder *sb)
     if (!sb->head)
         return;
 
-    struct st_lsnode *node = sb->head;
-    while (node) {
-        struct sb_node *cont = st_container_of(node, struct sb_node, node);
-        node = node->next;
+    struct st_lsnode *tmp = sb->head;
+    while (tmp) {
+        struct sb_node *cont = st_container_of(tmp, struct sb_node, node);
+        tmp = tmp->next;
 
         free(cont);
     }
 
     sb->head = NULL;
+    sb->length = 0;
 }
 
 // todo: Return status code?
@@ -35,18 +36,106 @@ void st_strbuilder_append(struct st_strbuilder *sb, const char *str)
 {
     st_assert(sb);
 
-    // Do nothing, if string is NULL or empty
+    // Do nothing if string is NULL or empty
     if (!str || !str[0])
         return;
 
-    struct sb_node *node = malloc(sizeof(*node));
-    st_assert(node);
+    struct sb_node *tmp = malloc(sizeof(*tmp));
+    st_assert(tmp);
 
-    node->str = str;
-    node->len = strlen(str);
-    node->node.next = sb->head ? : NULL;
+    tmp->str = str;
+    tmp->len = strlen(str);
+    tmp->node.next = sb->head;
 
-    sb->head = &node->node;
+    sb->head = &tmp->node;
+    sb->length += tmp->len;
+}
+
+// todo: Return status code?
+void st_strbuilder_insert(struct st_strbuilder *sb, const size_t index, const char *str)
+{
+    st_assert(sb);
+
+    // Do nothing if string is NULL or empty
+    if (!str || !str[0])
+        return;
+
+    // If string builder is empty, we can just append
+    if (!sb->head)
+        goto append;
+
+    // Out of bounds, just append
+    if (index >= sb->length)
+        goto append;
+
+    // String builder uses a singly linked list to store the strings,
+    // so they are in reverse order. Therefore indexing is a bit tricky
+    //
+    //  56789      01234
+    //  v          v
+    // "world" -> "hello" -> NULL
+
+    struct st_lsnode *tmp = sb->head;
+    size_t offset = sb->length;
+    
+    while (tmp) {
+        struct sb_node *cont = st_container_of(tmp, struct sb_node, node);
+        offset -= cont->len;
+
+        if (index < offset)
+            goto skip;
+
+        // If 'index' equals to a node's starting index,
+        // 'str' can be inserted right after, without splitting the node
+        if (index == offset) {
+            struct sb_node *new = malloc(sizeof(*new));
+            st_assert(new);
+
+            new->str = str;
+            new->len = strlen(str);
+            new->node.next = tmp->next;
+
+            tmp->next = &new->node;
+            sb->length += new->len;
+            
+            return;
+        }
+
+        // 'index' is in the middle of a node, so it has to be split
+
+        // Middle node
+        struct sb_node *mid = malloc(sizeof(*mid));
+        st_assert(mid);
+
+        mid->str = str;
+        mid->len = strlen(str);
+        mid->node.next = tmp->next;
+
+        tmp->next = &mid->node;
+        sb->length += mid->len;
+
+        // Right node
+        struct sb_node *right = malloc(sizeof(*right));
+        st_assert(right);
+
+        right->str = cont->str;
+        right->len = cont->len - (index - offset);
+        right->node.next = mid->node.next;
+
+        mid->node.next = &right->node;
+
+        // Left node
+        cont->str += right->len;
+        cont->len -= right->len;
+
+        return;
+
+skip:
+        tmp = tmp->next;
+    }
+
+append:
+    st_strbuilder_append(sb, str);
 }
 
 char *st_strbuilder_concat(struct st_strbuilder *sb)
@@ -56,34 +145,18 @@ char *st_strbuilder_concat(struct st_strbuilder *sb)
     if (!sb->head)
         return NULL;
 
-    const size_t len = st_strbuilder_length(sb);
-    char *ret = malloc(len + 1);
+    char *ret = malloc(sb->length + 1);
 
     // The linked list is in reverse order,
     // so the strings have to be copied in reverse order
-    size_t stride = len;
+    size_t stride = sb->length;
     for (struct st_lsnode *node = sb->head; node; node = node->next) {
         struct sb_node *cont = st_container_of(node, struct sb_node, node);
 
         stride -= cont->len;
         memcpy(ret + stride, cont->str, cont->len);
     }
-    ret[len] = '\0';
+    ret[sb->length] = '\0';
 
     return ret;
-}
-
-size_t st_strbuilder_length(struct st_strbuilder *sb)
-{
-    st_assert(sb);
-
-    if (!sb->head)
-        return 0;
-
-    size_t len = 0;
-    for (struct st_lsnode *node = sb->head; node; node = node->next) {
-        struct sb_node *cont = st_container_of(node, struct sb_node, node);
-        len += cont->len;
-    }
-    return len;
 }
