@@ -105,6 +105,21 @@
     v[__vector_header(v)->length++] = (value); \
     st_vector_back(v); })
 
+// st_vector_push_range - Push range of values to vector
+// @v: Vector
+// @ptr: Pointer to array
+// @len: Length of array
+//
+// note: Does nothing if 'ptr' is NULL or 'len' is 0
+#define st_vector_push_range(v, ptr, len) ({                             \
+    const size_t __len = (len);                                          \
+    const __typeof__(v) __ptr = (ptr);                                   \
+    __ptr && __len > 0                                                   \
+        ? (__vector_grow(v, __len),                                      \
+            memmove(v + st_vector_length(v), __ptr, __len * sizeof(*v)), \
+            __vector_header(v)->length += __len, 0)                      \
+        : 0; })
+
 // st_vector_insert - Insert value at index
 // @v: Vector
 // @index: Index to insert at
@@ -169,21 +184,6 @@
             ? (v[__index] = *st_vector_back(v),  \
                 __vector_header(v)->length--, 0) \
             : 0; })
-
-// st_vector_push_range - Push range of values to vector
-// @v: Vector
-// @ptr: Pointer to array
-// @len: Length of array
-//
-// note: Does nothing if 'ptr' is NULL or 'len' is 0
-#define st_vector_push_range(v, ptr, len) ({                             \
-    const size_t __len = (len);                                          \
-    const __typeof__(v) __ptr = (ptr);                                   \
-    __ptr && __len > 0                                                   \
-        ? (__vector_grow(v, __len),                                      \
-            memmove(v + st_vector_length(v), __ptr, __len * sizeof(*v)), \
-            __vector_header(v)->length += __len, 0)                      \
-        : 0; })
 
 // st_vector_reserve - Reserve capacity for vector
 // @v: Vector

@@ -178,23 +178,26 @@ test_case(st_vector_push)
     test_success();
 }
 
-test_case(st_vector_pop)
+test_case(st_vector_push_range)
 {
     int *v = NULL;
+    static int arr[] = { 1, 2, 3, 4, 5 };
 
-    st_vector_push(v, 1);
-    st_vector_push(v, 2);
-    st_vector_push(v, 3);
-    test_assert(st_vector_length(v) == 3);
+    // note: Compiler complains about NULL on Linux
+    st_ignore_diagnostic("-Wnonnull", st_vector_push_range(v, NULL, 0));
+    test_assert(v == NULL);
 
-    st_vector_pop(v);
-    test_assert(st_vector_length(v) == 2);
+    st_vector_push_range(v, arr, 0);
+    test_assert(v == NULL);
 
-    st_vector_pop(v);
-    test_assert(st_vector_length(v) == 1);
-    
-    st_vector_pop(v);
-    test_assert(st_vector_length(v) == 0);
+    st_vector_push_range(v, arr, 5);
+    test_assert(st_vector_length(v) == 5);
+    test_assert(v[0] == 1);
+    test_assert(v[1] == 2);
+    test_assert(v[2] == 3);
+    test_assert(v[3] == 4);
+    test_assert(v[4] == 5);
+
     st_vector_free(v);
 
     test_success();
@@ -260,6 +263,28 @@ test_case(st_vector_insert_swap)
     test_success();
 }
 
+test_case(st_vector_pop)
+{
+    int *v = NULL;
+
+    st_vector_push(v, 1);
+    st_vector_push(v, 2);
+    st_vector_push(v, 3);
+    test_assert(st_vector_length(v) == 3);
+
+    st_vector_pop(v);
+    test_assert(st_vector_length(v) == 2);
+
+    st_vector_pop(v);
+    test_assert(st_vector_length(v) == 1);
+
+    st_vector_pop(v);
+    test_assert(st_vector_length(v) == 0);
+    st_vector_free(v);
+
+    test_success();
+}
+
 test_case(st_vector_remove)
 {
     int *v = NULL;
@@ -310,31 +335,6 @@ test_case(st_vector_remove_swap)
     st_vector_remove_swap(v, 100);
     test_assert(st_vector_length(v) == 1);
     test_assert(v[0] == 3);
-
-    st_vector_free(v);
-
-    test_success();
-}
-
-test_case(st_vector_push_range)
-{
-    int *v = NULL;
-    static int arr[] = { 1, 2, 3, 4, 5 };
-
-    // note: Compiler complains about NULL on Linux
-    st_ignore_diagnostic("-Wnonnull", st_vector_push_range(v, NULL, 0));
-    test_assert(v == NULL);
-    
-    st_vector_push_range(v, arr, 0);
-    test_assert(v == NULL);
-    
-    st_vector_push_range(v, arr, 5);
-    test_assert(st_vector_length(v) == 5);
-    test_assert(v[0] == 1);
-    test_assert(v[1] == 2);
-    test_assert(v[2] == 3);
-    test_assert(v[3] == 4);
-    test_assert(v[4] == 5);
 
     st_vector_free(v);
 

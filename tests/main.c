@@ -15,12 +15,12 @@ int main()
     test_declare(st_vector_rof);
 
     test_declare(st_vector_push);
-    test_declare(st_vector_pop);
+    test_declare(st_vector_push_range);
     test_declare(st_vector_insert);
     test_declare(st_vector_insert_swap);
+    test_declare(st_vector_pop);
     test_declare(st_vector_remove);
     test_declare(st_vector_remove_swap);
-    test_declare(st_vector_push_range);
     test_declare(st_vector_reserve);
     test_declare(st_vector_clear);
     test_declare(st_vector_free);
