@@ -44,27 +44,31 @@ test_case(st_strbuilder_insert)
     struct st_strbuilder sb = { 0 };
 
     // At index 0
-    st_strbuilder_insert(&sb, 0, "defjkl");
-    test_assert(sb.length == 6);
+    st_strbuilder_insert(&sb, 0, "246");
+    test_assert(sb.length == 3);
 
     // Again, at index 0
-    st_strbuilder_insert(&sb, 0, "abc");
-    test_assert(sb.length == 9);
+    st_strbuilder_insert(&sb, 0, "1");
+    test_assert(sb.length == 4);
 
     // Out of bounds
-    st_strbuilder_insert(&sb, 100, "pqr");
-    test_assert(sb.length == 12);
+    st_strbuilder_insert(&sb, 100, "8");
+    test_assert(sb.length == 5);
 
     // Between strings
-    st_strbuilder_insert(&sb, 9, "mno");
-    test_assert(sb.length == 15);
+    st_strbuilder_insert(&sb, 4, "7");
+    test_assert(sb.length == 6);
 
     // Inside string
-    st_strbuilder_insert(&sb, 6, "ghi");
-    test_assert(sb.length == 18);
+    st_strbuilder_insert(&sb, 3, "3");
+    test_assert(sb.length == 7);
+
+    // Again, inside string
+    st_strbuilder_insert(&sb, 4, "5");
+    test_assert(sb.length == 8);
 
     char *s = st_strbuilder_concat(&sb);
-    test_assert(strcmp(s, "abcdefghijklmnopqr") == 0);
+    test_assert(strcmp(s, "12345678") == 0);
 
     free(s);
     st_strbuilder_free(&sb);

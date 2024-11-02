@@ -12,6 +12,19 @@ struct sb_node
     size_t len;
 };
 
+static inline struct sb_node *__add_string(struct st_lsnode **head, const char *str)
+{
+    struct sb_node *tmp = malloc(sizeof(*tmp));
+    st_assert(tmp);
+
+    tmp->str = str;
+    tmp->len = strlen(str);
+    tmp->node.next = *head;
+
+    *head = &tmp->node;
+    return tmp;
+}
+
 void st_strbuilder_free(struct st_strbuilder *sb)
 {
     st_assert(sb);
@@ -40,14 +53,7 @@ void st_strbuilder_append(struct st_strbuilder *sb, const char *str)
     if (!str || !str[0])
         return;
 
-    struct sb_node *tmp = malloc(sizeof(*tmp));
-    st_assert(tmp);
-
-    tmp->str = str;
-    tmp->len = strlen(str);
-    tmp->node.next = sb->head;
-
-    sb->head = &tmp->node;
+    const struct sb_node *tmp = __add_string(&sb->head, str);
     sb->length += tmp->len;
 }
 
@@ -75,11 +81,11 @@ void st_strbuilder_insert(struct st_strbuilder *sb, const size_t index, const ch
     //  v          v
     // "world" -> "hello" -> NULL
 
-    struct st_lsnode *tmp = sb->head;
+    struct st_lsnode *head = sb->head;
     size_t offset = sb->length;
     
-    while (tmp) {
-        struct sb_node *cont = st_container_of(tmp, struct sb_node, node);
+    while (head) {
+        struct sb_node *cont = st_container_of(head, struct sb_node, node);
         offset -= cont->len;
 
         if (index < offset)
@@ -88,50 +94,28 @@ void st_strbuilder_insert(struct st_strbuilder *sb, const size_t index, const ch
         // If 'index' equals to a node's starting index,
         // 'str' can be inserted right after, without splitting the node
         if (index == offset) {
-            struct sb_node *new = malloc(sizeof(*new));
-            st_assert(new);
-
-            new->str = str;
-            new->len = strlen(str);
-            new->node.next = tmp->next;
-
-            tmp->next = &new->node;
-            sb->length += new->len;
-            
+            const struct sb_node *tmp = __add_string(&head->next, str);
+            sb->length += tmp->len;
             return;
         }
 
         // 'index' is in the middle of a node, so it has to be split
 
         // Middle node
-        struct sb_node *mid = malloc(sizeof(*mid));
-        st_assert(mid);
-
-        mid->str = str;
-        mid->len = strlen(str);
-        mid->node.next = tmp->next;
-
-        tmp->next = &mid->node;
+        struct sb_node *mid = __add_string(&head->next, str);
         sb->length += mid->len;
 
         // Right node
-        struct sb_node *right = malloc(sizeof(*right));
-        st_assert(right);
-
-        right->str = cont->str;
+        struct sb_node *right = __add_string(&mid->node.next, cont->str);
         right->len = cont->len - (index - offset);
-        right->node.next = mid->node.next;
-
-        mid->node.next = &right->node;
 
         // Left node
         cont->str += right->len;
         cont->len -= right->len;
 
         return;
-
 skip:
-        tmp = tmp->next;
+        head = head->next;
     }
 
 append:
