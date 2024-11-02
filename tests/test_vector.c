@@ -181,16 +181,18 @@ test_case(st_vector_push)
 test_case(st_vector_push_range)
 {
     int *v = NULL;
-    static int arr[] = { 1, 2, 3, 4, 5 };
+    static int a[] = { 1, 2, 3, 4, 5 };
 
-    // note: Compiler complains about NULL on Linux
-    st_ignore_diagnostic("-Wnonnull", st_vector_push_range(v, NULL, 0));
+    st_vector_push_range(v, NULL, 5);
     test_assert(v == NULL);
 
-    st_vector_push_range(v, arr, 0);
+    st_vector_push_range(v, a, 0);
     test_assert(v == NULL);
 
-    st_vector_push_range(v, arr, 5);
+    st_vector_push_range(v, a, 0);
+    test_assert(v == NULL);
+
+    st_vector_push_range(v, a, 5);
     test_assert(st_vector_length(v) == 5);
     test_assert(v[0] == 1);
     test_assert(v[1] == 2);
