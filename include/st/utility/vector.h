@@ -21,12 +21,13 @@
  *  st_vector_push_range
  *  todo: st_vector_push_vector
  *  st_vector_insert
+ *  todo: st_vector_insert_range
  *  st_vector_insert_swap
  *
  *  st_vector_pop
  *  st_vector_remove
- *  st_vector_remove_swap
  *  todo: st_vector_remove_range
+ *  st_vector_remove_swap
  *
  *  st_vector_reserve
  *  st_vector_resize
@@ -43,21 +44,21 @@
 // st_vector_empty - Check if vector is empty
 // @v: Vector
 #define st_vector_empty(v) ({ \
-    v ? st_vector_length(v) == 0 : 1; })
+    (v) ? st_vector_length(v) == 0 : 1; })
 
 // st_vector_length - Get length of vector
 // @v: Vector
 //
 // note: Returns 0 if vector is NULL
 #define st_vector_length(v) ({ \
-    v ? __vector_header(v)->length : 0; })
+    (v) ? __vector_header(v)->length : 0; })
 
 // st_vector_capacity - Get capacity of vector
 // @v: Vector
 //
 // note: Returns 0 if 'v' is NULL
 #define st_vector_capacity(v) ({ \
-    v ? __vector_header(v)->capacity : 0; })
+    (v) ? __vector_header(v)->capacity : 0; })
 
 // st_vector_at - Get element at index
 // @v: Vector
@@ -66,7 +67,7 @@
 // note: Returns NULL if 'v' is NULL or 'index' is out of bounds
 #define st_vector_at(v, index) ({   \
     const size_t __index = (index); \
-    v && __index < st_vector_length(v) ? v + __index : NULL; })
+    (v) && __index < st_vector_length(v) ? (v) + __index : NULL; })
 
 // st_vector_begin - Get pointer to first element of vector
 // @v: Vector
@@ -75,30 +76,30 @@
 // st_vector_end - Get pointer to last element of vector
 // @v: Vector
 #define st_vector_end(v) ({ \
-    v ? v + st_vector_length(v) - 1 : NULL; })
+    (v) ? (v) + st_vector_length(v) - 1 : NULL; })
 
 // st_vector_for - Iterate over vector
 // @v: Vector
 // @it: Iterator name
 #define st_vector_for(v, it)                    \
     for (__typeof__(v) it = st_vector_begin(v); \
-        it < (v ? st_vector_end(v) + 1 : NULL); it++)
+        it < ((v) ? st_vector_end(v) + 1 : NULL); it++)
 
 // st_vector_rof - Iterate over vector in reverse
 // @v: Vector
 // @it: Iterator name
 #define st_vector_rof(v, it)                   \
     for (__typeof__(v) it = st_vector_end(v); \
-        it > (v ? st_vector_begin(v) - 1 : NULL); it--)
+        it > ((v) ? st_vector_begin(v) - 1 : NULL); it--)
 
 // st_vector_push - Push value to vector
 // @v: Vector
 // @value: Value to add
 //
 // note: Returns a pointer to added element
-#define st_vector_push(v, value) ({            \
-    __vector_grow(v, 1);                       \
-    v[__vector_header(v)->length++] = (value); \
+#define st_vector_push(v, value) ({              \
+    __vector_grow(v, 1);                         \
+    (v)[__vector_header(v)->length++] = (value); \
     st_vector_end(v); })
 
 // st_vector_push_range - Push range of values to vector
