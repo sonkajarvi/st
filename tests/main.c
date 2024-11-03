@@ -22,6 +22,8 @@ int main()
     test_declare(st_vector_remove);
     test_declare(st_vector_remove_swap);
     test_declare(st_vector_reserve);
+    test_declare(st_vector_resize);
+    test_declare(st_vector_shrink);
     test_declare(st_vector_clear);
     test_declare(st_vector_free);
 

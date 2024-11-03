@@ -2,14 +2,19 @@
 
 #include <st/utility/vector.h>
 
-#define new_cap_fn(x) ((x) + ((x) >> 1) + ((x) >> 3))
+static inline size_t __new_cap_fn(const size_t cap)
+{
+    if (cap == 1)
+        return 2;
+
+    return cap + (cap >> 1) + (cap >> 3);
+}
 
 size_t __vector_calc_cap(void *v, const size_t add_len)
 {
-    const size_t cap = v ? st_vector_capacity(v) : VECTOR_DEFAULT_CAPACITY;
-    size_t new_cap = cap;
+    size_t new_cap = v ? st_vector_capacity(v) : 1;
     while (new_cap < st_vector_length(v) + add_len)
-        new_cap = new_cap_fn(new_cap);
+        new_cap = __new_cap_fn(new_cap);
     
     return new_cap;
 }

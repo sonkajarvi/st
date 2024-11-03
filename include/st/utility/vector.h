@@ -40,10 +40,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/utility/minmax.h>
-
-#define VECTOR_DEFAULT_CAPACITY 2
-
 // st_vector_empty - Check if vector is empty
 // @v: Vector
 #define st_vector_empty(v) ({ \
@@ -190,11 +186,11 @@
 // @new_cap: New capacity
 //
 // note: Does nothing if 'new_cap' is less than current capacity
-#define st_vector_reserve(v, new_cap) ({                               \
-    const size_t __new_cap = st_max(new_cap, VECTOR_DEFAULT_CAPACITY); \
-    __typeof__(v) __tmp = NULL;                                        \
-    if (__new_cap > st_vector_capacity(v))                             \
-        __tmp = __vector_realloc(v, __new_cap, sizeof(*v));            \
+#define st_vector_reserve(v, new_cap) ({                    \
+    const size_t __new_cap = new_cap;                       \
+    __typeof__(v) __tmp = NULL;                             \
+    if (__new_cap > st_vector_capacity(v))                  \
+        __tmp = __vector_realloc(v, __new_cap, sizeof(*v)); \
     __tmp ? (v = __tmp, 0) : 0; })
 
 // st_vector_resize - Resize vector to new capacity
@@ -245,7 +241,7 @@ struct st_vector_header
     size_t capacity;
 };
 
-size_t __vector_calc_cap(void *, const size_t);
-void *__vector_realloc(void *, const size_t, const size_t);
+size_t __vector_calc_cap(void *v, const size_t add_len);
+void *__vector_realloc(void *v, const size_t cap, const size_t type_width);
 
 #endif // ST_UTILITY_VECTOR_H

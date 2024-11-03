@@ -347,13 +347,18 @@ test_case(st_vector_reserve)
 {
     int *v = NULL;
 
-    // Reserve less than default capacity
+    // Reserve 0
     st_vector_reserve(v, 0);
     test_assert(st_vector_length(v) == 0);
-    test_assert(st_vector_capacity(v) == VECTOR_DEFAULT_CAPACITY);
-    st_vector_free(v);
+    test_assert(st_vector_capacity(v) == 0);
+    test_assert(v == NULL);
 
-    // Reserve more than default capacity
+    // Reserve 1
+    st_vector_reserve(v, 1);
+    test_assert(st_vector_length(v) == 0);
+    test_assert(st_vector_capacity(v) == 1);
+
+    // Reserve more
     st_vector_reserve(v, 100);
     test_assert(st_vector_length(v) == 0);
     test_assert(st_vector_capacity(v) == 100);
