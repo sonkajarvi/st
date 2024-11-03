@@ -54,40 +54,6 @@ test_case(st_vector_capacity)
     test_success();
 }
 
-test_case(st_vector_front)
-{
-    int *v = NULL;
-
-    // Null vector
-    test_assert(st_vector_front(v) == NULL);
-
-    // Vector with elements
-    st_vector_push(v, 1);
-    st_vector_push(v, 2);
-    st_vector_push(v, 3);
-    test_assert(st_vector_front(v) == &v[0]);
-    st_vector_free(v);
-
-    test_success();
-}
-
-test_case(st_vector_back)
-{
-    int *v = NULL;
-
-    // Null vector
-    test_assert(st_vector_back(v) == NULL);
-
-    // Vector with elements
-    st_vector_push(v, 1);
-    st_vector_push(v, 2);
-    st_vector_push(v, 3);
-    test_assert(st_vector_back(v) == &v[2]);
-    st_vector_free(v);
-
-    test_success();
-}
-
 test_case(st_vector_at)
 {
     int *v = NULL;
@@ -103,6 +69,40 @@ test_case(st_vector_at)
     test_assert(*st_vector_at(v, 1) == 2);
     test_assert(*st_vector_at(v, 2) == 3);
     test_assert(st_vector_at(v, 3) == NULL);
+    st_vector_free(v);
+
+    test_success();
+}
+
+test_case(st_vector_begin)
+{
+    int *v = NULL;
+
+    // Null vector
+    test_assert(st_vector_begin(v) == NULL);
+
+    // Vector with elements
+    st_vector_push(v, 1);
+    st_vector_push(v, 2);
+    st_vector_push(v, 3);
+    test_assert(st_vector_begin(v) == &v[0]);
+    st_vector_free(v);
+
+    test_success();
+}
+
+test_case(st_vector_end)
+{
+    int *v = NULL;
+
+    // Null vector
+    test_assert(st_vector_end(v) == NULL);
+
+    // Vector with elements
+    st_vector_push(v, 1);
+    st_vector_push(v, 2);
+    st_vector_push(v, 3);
+    test_assert(st_vector_end(v) == &v[2]);
     st_vector_free(v);
 
     test_success();

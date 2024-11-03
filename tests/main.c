@@ -8,9 +8,10 @@ int main()
     test_declare(st_vector_empty);
     test_declare(st_vector_length);
     test_declare(st_vector_capacity);
-    test_declare(st_vector_front);
-    test_declare(st_vector_back);
     test_declare(st_vector_at);
+
+    test_declare(st_vector_begin);
+    test_declare(st_vector_end);
     test_declare(st_vector_for);
     test_declare(st_vector_rof);
 

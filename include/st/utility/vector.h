@@ -8,11 +8,11 @@
  *  st_vector_empty
  *  st_vector_length
  *  st_vector_capacity
- *  st_vector_front
- *  st_vector_back
  *  st_vector_at
  *
  * Iterators:
+ *  st_vector_begin
+ *  st_vector_end
  *  st_vector_for
  *  st_vector_rof
  *
@@ -59,15 +59,6 @@
 #define st_vector_capacity(v) ({ \
     v ? __vector_header(v)->capacity : 0; })
 
-// st_vector_front - Get first element of vector
-// @v: Vector
-#define st_vector_front(v) (v)
-
-// st_vector_back - Get last element of vector
-// @v: Vector
-#define st_vector_back(v) ({ \
-    v ? v + st_vector_length(v) - 1 : NULL; })
-
 // st_vector_at - Get element at index
 // @v: Vector
 // @index: Index
@@ -77,19 +68,28 @@
     const size_t __index = (index); \
     v && __index < st_vector_length(v) ? v + __index : NULL; })
 
+// st_vector_begin - Get pointer to first element of vector
+// @v: Vector
+#define st_vector_begin(v) (v)
+
+// st_vector_end - Get pointer to last element of vector
+// @v: Vector
+#define st_vector_end(v) ({ \
+    v ? v + st_vector_length(v) - 1 : NULL; })
+
 // st_vector_for - Iterate over vector
 // @v: Vector
 // @it: Iterator name
 #define st_vector_for(v, it)                    \
-    for (__typeof__(v) it = st_vector_front(v); \
-        it < (v ? st_vector_back(v) + 1 : NULL); it++)
+    for (__typeof__(v) it = st_vector_begin(v); \
+        it < (v ? st_vector_end(v) + 1 : NULL); it++)
 
 // st_vector_rof - Iterate over vector in reverse
 // @v: Vector
 // @it: Iterator name
 #define st_vector_rof(v, it)                   \
-    for (__typeof__(v) it = st_vector_back(v); \
-        it > (v ? st_vector_front(v) - 1 : NULL); it--)
+    for (__typeof__(v) it = st_vector_end(v); \
+        it > (v ? st_vector_begin(v) - 1 : NULL); it--)
 
 // st_vector_push - Push value to vector
 // @v: Vector
@@ -99,7 +99,7 @@
 #define st_vector_push(v, value) ({            \
     __vector_grow(v, 1);                       \
     v[__vector_header(v)->length++] = (value); \
-    st_vector_back(v); })
+    st_vector_end(v); })
 
 // st_vector_push_range - Push range of values to vector
 // @v: Vector
@@ -177,7 +177,7 @@
     __index == st_vector_length(v) - 1           \
         ? st_vector_pop(v)                       \
         : __index < st_vector_length(v) - 1      \
-            ? (v[__index] = *st_vector_back(v),  \
+            ? (v[__index] = *st_vector_end(v),  \
                 __vector_header(v)->length--, 0) \
             : 0; })
 
