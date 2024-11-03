@@ -22,5 +22,6 @@
 #define st_unlikely(x) __builtin_expect(!!(x), 0)
 
 #define ST_NORETURN __attribute__((noreturn))
+#define ST_NODISCARD __attribute__((warn_unused_result))
 
 #endif // ST_UTILITY_COMPILER_H
