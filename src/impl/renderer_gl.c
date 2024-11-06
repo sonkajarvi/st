@@ -99,7 +99,7 @@ void impl_gl_renderer_init(StWindow *window, StRenderer *renderer, StCamera *cam
 
     glGenBuffers(1, &renderer->gl.vbo);
     glBindBuffer(GL_ARRAY_BUFFER, renderer->gl.vbo);
-    glBufferData(GL_ARRAY_BUFFER, vector_capacity(renderer->vertex_buf) * sizeof(StVertex),
+    glBufferData(GL_ARRAY_BUFFER, st_vector_capacity(renderer->vertex_buf) * sizeof(StVertex),
         NULL, GL_DYNAMIC_DRAW);
     
     // Position
@@ -153,7 +153,7 @@ void impl_gl_draw_begin(StWindow *window, StRenderer *renderer)
     glUniform1iv(glGetUniformLocation(renderer->gl.program, "u_textures"),
         4, array);
 
-    for (size_t i = 0; i < vector_length(renderer->textures); i++)
+    for (size_t i = 0; i < st_vector_length(renderer->textures); i++)
         glBindTextureUnit(i, renderer->textures[i]->gl.id);
 
     glUniformMatrix4fv(glGetUniformLocation(renderer->gl.program, "u_view_mat"),
@@ -179,7 +179,7 @@ void impl_gl_renderer_destroy(StWindow *window, StRenderer *renderer)
     glDeleteVertexArrays(1, &renderer->gl.vao);
     glDeleteProgram(renderer->gl.program);
 
-    vector_for(renderer->textures, StTexture *, texture)
+    st_vector_for(renderer->textures, texture)
         glDeleteTextures(1, &(*texture)->gl.id);
 }
 

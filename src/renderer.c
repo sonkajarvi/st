@@ -14,6 +14,8 @@
 #include <st/utility/util.h>
 #include <st/utility/vector.h>
 
+#define FONT_PATH "assets/images/font2.png"
+
 void st_renderer_init(StRenderer *renderer, StCamera *camera)
 {
     st_assert(renderer);
@@ -22,13 +24,13 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera)
     memset(renderer, 0, sizeof(*renderer));
     renderer->camera = camera;
 
-    vector_reserve(renderer->vertex_buf, ST_VERTEX_BUFFER_SIZE);
+    st_vector_reserve(renderer->vertex_buf, ST_VERTEX_BUFFER_SIZE);
     st_assert(renderer->vertex_buf);
     renderer->vertex_ptr = renderer->vertex_buf;
 
     st_debug("Vertex buffer created (capacity: %d vertices, %d bytes)\n",
-        vector_capacity(renderer->vertex_buf),
-        vector_capacity(renderer->vertex_buf) * sizeof(StVertex));
+        st_vector_capacity(renderer->vertex_buf),
+        st_vector_capacity(renderer->vertex_buf) * sizeof(StVertex));
 
     // 1x1 white texture
     static StTexture white = {0};
@@ -38,7 +40,7 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera)
 
     // Font texture
     static StTexture font = {0};
-    st_texture_from_file(&font, "assets/images/font.png");
+    st_texture_from_file(&font, FONT_PATH);
     st_renderer_add_texture(renderer, &font);
 
     St *st = st_instance();
@@ -62,9 +64,9 @@ void st_renderer_destroy(StRenderer *renderer)
 
     call_impl(st, renderer_destroy, window, renderer);
 
-    vector_free(renderer->vertex_buf);
+    st_vector_free(renderer->vertex_buf);
 
-    vector_for(renderer->textures, StTexture *, texture)
+    st_vector_for(renderer->textures, texture)
         st_texture_destroy(*texture);
 
     st_debug("2D renderer destroyed\n");
@@ -74,8 +76,8 @@ void st_renderer_add_texture(StRenderer *renderer, StTexture *texture)
 {
     st_assert(renderer);
     st_assert(texture);
-    st_assert(vector_length(renderer->textures) <= 4);
-    vector_push(renderer->textures, texture);
+    st_assert(st_vector_length(renderer->textures) <= 4);
+    st_vector_push(renderer->textures, texture);
 
     St *st = st_instance();
     st_assert(st);
@@ -134,7 +136,7 @@ void st_draw_quad(StWindow *window, vec3 position,
 
 static int index_from_id(StRenderer *renderer, GLuint id)
 {
-    for (size_t i = 0; i < vector_length(renderer->textures); i++) {
+    for (size_t i = 0; i < st_vector_length(renderer->textures); i++) {
         if (renderer->textures[i]->gl.id == id)
             return (int)i;
     }
