@@ -6,9 +6,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(tests
     main.c
-    test_args.c
     test_vector.c
-    test_stringbuilder.c
 )
 
 target_include_directories(tests PRIVATE

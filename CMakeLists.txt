@@ -7,20 +7,16 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(SOURCES
-    src/args.c
     src/assert.c
     src/event.c
     src/camera.c
     src/draw_text.c
     src/instance.c
     src/keyboard.c
-    # src/model.c
     src/mouse.c
-    # src/parse.c
     src/print.c
     src/renderer.c
     src/impl/renderer_gl.c
-    src/stringbuilder.c
     src/texture.c
     src/util.c
     src/vector.c
