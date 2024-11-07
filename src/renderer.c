@@ -14,8 +14,6 @@
 #include <st/utility/util.h>
 #include <st/utility/vector.h>
 
-#define FONT_PATH "assets/images/font2.png"
-
 void st_renderer_init(StRenderer *renderer, StCamera *camera)
 {
     st_assert(renderer);
@@ -40,7 +38,7 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera)
 
     // Font texture
     static StTexture font = {0};
-    st_texture_from_file(&font, FONT_PATH);
+    st_texture_from_file(&font, ST_ASSETS_PATH "/images/font.png");
     st_renderer_add_texture(renderer, &font);
 
     St *st = st_instance();
