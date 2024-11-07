@@ -16,6 +16,8 @@ void st_hello(void)
         return;
     }
 
+    st_log("Commit %s..\n", ST_COMMIT);
+
     memset(&__st, 0, sizeof(__st));
     __st.initialized = true;
     st_debug("Instance created\n");
