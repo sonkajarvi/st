@@ -88,7 +88,7 @@
 // st_vector_rof - Iterate over vector in reverse
 // @v: Vector
 // @it: Iterator name
-#define st_vector_rof(v, it)                   \
+#define st_vector_rof(v, it)                  \
     for (__typeof__(v) it = st_vector_end(v); \
         it > ((v) ? st_vector_begin(v) - 1 : NULL); it--)
 
@@ -97,9 +97,9 @@
 // @value: Value to add
 //
 // note: Returns a pointer to added element
-#define st_vector_push(v, value) ({              \
-    __vector_grow(v, 1);                         \
-    (v)[__vector_header(v)->length++] = (value); \
+#define st_vector_push(v, ...) ({                    \
+    __vector_grow(v, 1);                             \
+    (v)[__vector_header(v)->length++] = __VA_ARGS__; \
     st_vector_end(v); })
 
 // st_vector_push_range - Push range of values to vector
