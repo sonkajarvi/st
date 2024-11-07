@@ -28,10 +28,21 @@ void st_draw_string(StWindow *window, vec3 position,
     st_assert(window);
     st_assert(str);
 
+    const float origin_x = position[0];
+
     char c;
     while ((c = *str++)) {
+        if (c == '\n') {
+            position[0] = origin_x;
+            position[1] -= scale[1] * 2.0f;
+            continue;
+        }
+
         if (c != ' ')
             st_draw_char(window, position, rotation, scale, color, c);
+
+        if (c == '\t')
+            position[0] += scale[0] * 3.0f;
 
         position[0] += scale[0];
     }
