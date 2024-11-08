@@ -16,7 +16,7 @@ void st_hello(void)
         return;
     }
 
-    st_log("Commit %s..\n", ST_COMMIT);
+    st_log("Commit %.7s... ('%s')\n", ST_COMMIT_HASH, ST_COMMIT_SUBJECT);
 
     memset(&__st, 0, sizeof(__st));
     __st.initialized = true;

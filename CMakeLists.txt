@@ -35,15 +35,23 @@ endif()
 
 add_library(st ${SOURCES})
 
-execute_process(COMMAND git rev-parse --short HEAD
-    OUTPUT_VARIABLE COMMIT
+execute_process(
+    COMMAND git log -1 --pretty=%H
+    OUTPUT_VARIABLE COMMIT_HASH
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+execute_process(
+    COMMAND git log -1 --pretty=%s
+    OUTPUT_VARIABLE COMMIT_SUBJECT
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 # Absolute assets path
 target_compile_definitions(st PUBLIC
     ST_ASSETS_PATH="${CMAKE_CURRENT_SOURCE_DIR}/assets"
-    ST_COMMIT="${COMMIT}"
+    ST_COMMIT_HASH="${COMMIT_HASH}"
+    ST_COMMIT_SUBJECT="${COMMIT_SUBJECT}"
 )
 
 add_subdirectory(thirdparty/glad)
