@@ -10,7 +10,7 @@ void st_draw_char(struct st_window *window, vec3 position,
 {
     st_assert(window);
 
-    StTexture *font = window->renderer.textures[1];
+    struct st_texture *font = &window->renderer.tex_font;
 
     const char n = c - 32;
     float x = 16.0f * (n % 16);

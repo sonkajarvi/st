@@ -11,10 +11,11 @@
 #include "impl/window_x11.h"
 #include "impl/context_glx.h"
 #include "impl/renderer_gl.h"
+#include "impl/texture_gl.h"
 #endif
 
 // Called once at program start up
-// note: caller validates engine context
+// Note: Caller validates engine context
 static inline void set_platform_callbacks(St *const st)
 {
 #ifdef ST_PLATFORM_LINUX
@@ -31,7 +32,7 @@ static inline void set_platform_callbacks(St *const st)
 }
 
 // Called at least once at program start up, and anytime after that
-// note: caller validates engine context
+// Note: Caller validates engine context
 static inline void set_graphics_callbacks(St *const st, int type)
 {
     switch (type) {
@@ -42,10 +43,11 @@ static inline void set_graphics_callbacks(St *const st, int type)
 #endif
         st->impl.renderer_init    = impl_gl_renderer_init;
         st->impl.renderer_destroy = impl_gl_renderer_destroy;
-        st->impl.renderer_add_texture = impl_gl_renderer_add_texture;
         st->impl.draw_begin       = impl_gl_draw_begin;
         st->impl.draw_end         = impl_gl_draw_end;
         st->impl.renderer_push    = impl_gl_renderer_push;
+        st->impl.texture_create   = impl_gl_texture_create;
+        st->impl.texture_destroy  = impl_gl_texture_destroy;
 
         st_debug("Graphics callbacks set for OpenGL\n");
         break;

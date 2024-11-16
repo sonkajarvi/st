@@ -16,13 +16,15 @@ set(SOURCES
     src/mouse.c
     src/print.c
     src/renderer.c
-    src/impl/renderer_gl.c
     src/texture.c
     src/util.c
     src/vector.c
     src/window.c
 
     src/image/image.c
+
+    src/impl/renderer_gl.c
+    src/impl/texture_gl.c
 )
 
 set(LIBS glad m)

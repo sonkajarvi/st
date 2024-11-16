@@ -1,15 +1,10 @@
-#include <stdlib.h>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb/stb_image.h>
-
+#include <st/graphics/renderer.h>
 #include <st/utility/assert.h>
 #include <st/utility/print.h>
 #include <st/utility/util.h>
 #include <st/utility/vector.h>
 
 #include "renderer_gl.h"
-#include "st/graphics/renderer.h"
 
 #define _SHADER_LOG_BUFSZ 512
 
@@ -153,8 +148,8 @@ void impl_gl_draw_begin(struct st_window *window, StRenderer *renderer)
     glUniform1iv(glGetUniformLocation(renderer->gl.program, "u_textures"),
         4, array);
 
-    for (size_t i = 0; i < st_vector_length(renderer->textures); i++)
-        glBindTextureUnit(i, renderer->textures[i]->gl.id);
+    for (size_t i = 0; i < 4; i++)
+        glBindTextureUnit(i, renderer->gl.tex_ids[i]);
 
     glUniformMatrix4fv(glGetUniformLocation(renderer->gl.program, "u_view_mat"),
         1, GL_FALSE, *renderer->camera->view_mat);
@@ -179,43 +174,8 @@ void impl_gl_renderer_destroy(struct st_window *window, StRenderer *renderer)
     glDeleteVertexArrays(1, &renderer->gl.vao);
     glDeleteProgram(renderer->gl.program);
 
-    st_vector_for(renderer->textures, texture)
-        glDeleteTextures(1, &(*texture)->gl.id);
-}
-
-void impl_gl_renderer_add_texture(
-    struct st_window *window, StRenderer *renderer, StTexture *texture)
-{
-    st_assert(window);
-    st_assert(renderer);
-    st_assert(texture);
-
-    glGenTextures(1, &texture->gl.id);
-    glBindTexture(GL_TEXTURE_2D, texture->gl.id);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    unsigned char *data;
-    if (texture->from_file) {
-        int channels;
-
-        stbi_set_flip_vertically_on_load(1);
-        data = stbi_load(texture->data.path,
-            &texture->width, &texture->height, &channels, 4);
-        st_assert(data);
-    } else {
-        data = texture->data.bytes;
-    }
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture->width,
-        texture->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    if (texture->from_file)
-        stbi_image_free(data);
+    st_texture_destroy(&renderer->tex_white);
+    st_texture_destroy(&renderer->tex_font);
 }
 
 void impl_gl_renderer_push(struct st_window * window,

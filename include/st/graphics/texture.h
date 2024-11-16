@@ -1,29 +1,22 @@
 #ifndef ST_GRAPHICS_TEXTURE_H
 #define ST_GRAPHICS_TEXTURE_H
 
-#include <stdbool.h>
-
 #include <glad/gl.h>
 
-typedef struct StTexture
+#include <st/graphics/image.h>
+
+struct st_texture
 {
     int width;
     int height;
-    bool from_file;
-    union {
-        char *path;
-        struct  {
-            unsigned char *bytes;
-        };
-    } data;
+    int index;
+
     struct {
         GLuint id;
     } gl;
-} StTexture;
+};
 
-void st_texture_from_file(StTexture *texture, const char *path);
-void st_texture_from_bytes(StTexture *texture, unsigned char *bytes, int width, int height);
-
-void st_texture_destroy(StTexture *texture);
+void st_texture_create(struct st_texture *tex, struct st_image *img);
+void st_texture_destroy(struct st_texture *tex);
 
 #endif // ST_GRAPHICS_TEXTURE_H

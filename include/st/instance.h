@@ -53,7 +53,9 @@ typedef struct St
 
         void (*renderer_init)(struct st_window *, StRenderer *, StCamera *);
         void (*renderer_destroy)(struct st_window *, StRenderer *);
-        void (*renderer_add_texture)(struct st_window *, StRenderer *, StTexture *);
+
+        void (*texture_create)(struct st_texture *, struct st_image *);
+        void (*texture_destroy)(struct st_texture *);
 
         void (*draw_begin)(struct st_window *, StRenderer *);
         void (*draw_end)(struct st_window *, StRenderer *);

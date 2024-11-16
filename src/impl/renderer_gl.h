@@ -8,8 +8,6 @@
 
 void impl_gl_renderer_init(struct st_window *window, StRenderer *renderer, StCamera *camera);
 void impl_gl_renderer_destroy(struct st_window *window, StRenderer *renderer);
-void impl_gl_renderer_add_texture(
-    struct st_window *window, StRenderer *renderer, StTexture *texture);
 
 void impl_gl_draw_begin(struct st_window *window, StRenderer *renderer);
 void impl_gl_draw_end(struct st_window *window, StRenderer *renderer);

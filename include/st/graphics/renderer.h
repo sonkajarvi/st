@@ -24,30 +24,34 @@ typedef struct StVertex
 typedef struct StRenderer
 {
     StCamera *camera;
-    StTexture **textures;
     StVertex *vertex_buf;
     StVertex *vertex_ptr;
+
+    struct st_texture tex_white;
+    struct st_texture tex_font;
 
     struct {
         GLuint program;
         GLuint vao;
         GLuint vbo;
+        GLuint tex_ids[4];
     } gl;
 } StRenderer;
 
 void st_renderer_init(StRenderer *renderer, StCamera *camera);
 void st_renderer_destroy(StRenderer *renderer);
 
-void st_renderer_add_texture(StRenderer *renderer, StTexture *texture);
 void st_renderer_push(StRenderer *renderer, StVertex *vertices, size_t count);
 
 void st_draw_begin(struct st_window *window);
 void st_draw_end(struct st_window *window);
 
-void st_draw_quad(struct st_window *window, vec3 position,
-    vec3 rotation, vec3 scale, vec4 color);
-void st_draw_textured_quad(struct st_window *window, vec3 position,
-    vec3 rotation, vec3 scale, vec4 color, StTexture *texture, vec4 tex_coords);
+void st_draw_quad(struct st_window *window,
+    vec3 position, vec3 rotation, vec3 scale, vec4 color);
+
+void st_draw_textured_quad(struct st_window *window,
+    vec3 position, vec3 rotation, vec3 scale, vec4 color,
+    struct st_texture *tex, vec4 tex_coords);
 
 void st_draw_line(struct st_window *window, vec3 p0, vec3 p1, vec4 color, float width);
 

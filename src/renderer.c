@@ -14,6 +14,12 @@
 #include <st/utility/util.h>
 #include <st/utility/vector.h>
 
+static int __index_next_available(void)
+{
+    static int cnt = 0;
+    return cnt++;
+}
+
 void st_renderer_init(StRenderer *renderer, StCamera *camera)
 {
     st_assert(renderer);
@@ -30,16 +36,24 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera)
         st_vector_capacity(renderer->vertex_buf),
         st_vector_capacity(renderer->vertex_buf) * sizeof(StVertex));
 
-    // 1x1 white texture
-    static StTexture white = {0};
-    unsigned char bytes[] = {0xff, 0xff, 0xff, 0xff};
-    st_texture_from_bytes(&white, bytes, 1, 1);
-    st_renderer_add_texture(renderer, &white);
+    // White 1x1 texture
+    struct st_image tmp = {
+        .width = 1,
+        .height = 1,
+        .data = (uint8_t[]){ 0xff, 0xff, 0xff, 0xff },
+    };
+    st_texture_create(&renderer->tex_white, &tmp);
+    // static StTexture white = {0};
+    // unsigned char bytes[] = {0xff, 0xff, 0xff, 0xff};
+    // st_texture_from_bytes(&white, bytes, 1, 1);
+    // st_renderer_add_texture(renderer, &white);
 
     // Font texture
-    static StTexture font = {0};
-    st_texture_from_file(&font, ST_ASSETS_PATH "/images/font.png");
-    st_renderer_add_texture(renderer, &font);
+    st_image_from_file(&tmp, ST_ASSETS_PATH "/images/font.png");
+    st_texture_create(&renderer->tex_font, &tmp);
+    // static StTexture font = {0};
+    // st_texture_from_file(&font, ST_ASSETS_PATH "/images/font.png");
+    // st_renderer_add_texture(renderer, &font);
 
     St *st = st_instance();
     st_assert(st);
@@ -64,29 +78,7 @@ void st_renderer_destroy(StRenderer *renderer)
 
     st_vector_free(renderer->vertex_buf);
 
-    st_vector_for(renderer->textures, texture)
-        st_texture_destroy(*texture);
-
     st_debug("2D renderer destroyed\n");
-}
-
-void st_renderer_add_texture(StRenderer *renderer, StTexture *texture)
-{
-    st_assert(renderer);
-    st_assert(texture);
-    st_assert(st_vector_length(renderer->textures) <= 4);
-    st_vector_push(renderer->textures, texture);
-
-    St *st = st_instance();
-    st_assert(st);
-    struct st_window *window = st->window;
-    st_assert(window);
-
-    call_impl(st, renderer_add_texture, window, renderer, texture);
-
-    st_debug("Texture added to 2D renderer\n");
-    st_debug("... id: %d\n", texture->gl.id);
-    st_debug("... size: %dx%d\n", texture->width, texture->height);
 }
 
 void st_draw_begin(struct st_window *window)
@@ -129,27 +121,27 @@ void st_draw_quad(struct st_window *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color)
 {
     st_draw_textured_quad(window, position, rotation, scale, color,
-        window->renderer.textures[0], (vec4){0.0f, 0.0f, 1.0f, 1.0f});
+        &window->renderer.tex_white, (vec4){0.0f, 0.0f, 1.0f, 1.0f});
 }
 
-static int index_from_id(StRenderer *renderer, GLuint id)
+void st_draw_textured_quad(struct st_window *window,
+    vec3 position, vec3 rotation, vec3 scale, vec4 color,
+    struct st_texture *tex, vec4 tex_coords)
 {
-    for (size_t i = 0; i < st_vector_length(renderer->textures); i++) {
-        if (renderer->textures[i]->gl.id == id)
-            return (int)i;
+    if (!window || !tex)
+        return;
+
+    if (tex->index == -1) {
+        tex->index = __index_next_available();
+        window->renderer.gl.tex_ids[tex->index] = tex->gl.id;
     }
-    return -1;
-}
 
-void st_draw_textured_quad(struct st_window *window, vec3 position,
-    vec3 rotation, vec3 scale, vec4 color, StTexture *texture, vec4 tex_coords)
-{
-    const float index = (float)index_from_id(&window->renderer, texture->gl.id);
+    const float index = (float)tex->index;
 
-    const float t0 = tex_coords[0] / texture->width;
-    const float t1 = tex_coords[1] / texture->height;
-    const float t2 = tex_coords[2] / texture->width + t0;
-    const float t3 = tex_coords[3] / texture->height + t1;
+    const float t0 = tex_coords[0] / tex->width;
+    const float t1 = tex_coords[1] / tex->height;
+    const float t2 = tex_coords[2] / tex->width + t0;
+    const float t3 = tex_coords[3] / tex->height + t1;
 
 // todo: there has to be a better way
 #define __x(c) c[0], c[1], c[2], c[3]
