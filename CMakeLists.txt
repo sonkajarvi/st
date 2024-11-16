@@ -21,6 +21,8 @@ set(SOURCES
     src/util.c
     src/vector.c
     src/window.c
+
+    src/image/image.c
 )
 
 set(LIBS glad m)
