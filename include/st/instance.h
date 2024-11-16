@@ -19,6 +19,9 @@
  *     - Metal
  */
 
+// todo: Move elsewhere
+#define ST_GRAPHICS_OPENGL 1
+
 // note: caller validates instance
 #define call_impl(instance, callback, ...) \
     instance->impl.callback(__VA_ARGS__)
@@ -67,5 +70,10 @@ typedef struct St
 void st_hello(void);
 void st_goodbye(void);
 St *st_instance(void);
+
+// Called once at program start up
+void st_set_platform_callbacks(St *const st);
+// Called at least once at program start up, and anytime after that
+void st_set_graphics_callbacks(St *const st, int type);
 
 #endif // ST_ENGINE_H

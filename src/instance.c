@@ -5,8 +5,6 @@
 #include <st/instance.h>
 #include <st/utility/print.h>
 
-#include "callbacks.h"
-
 static St __st = { 0 };
 
 void st_hello(void)
@@ -22,10 +20,10 @@ void st_hello(void)
     __st.initialized = true;
     st_debug("Instance created\n");
     
-    set_platform_callbacks(&__st);
+    st_set_platform_callbacks(&__st);
 
     // use opengl, as it's the only graphics backend available, for now
-    set_graphics_callbacks(&__st, ST_GRAPHICS_OPENGL);
+    st_set_graphics_callbacks(&__st, ST_GRAPHICS_OPENGL);
 }
 
 void st_goodbye(void)

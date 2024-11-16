@@ -10,6 +10,7 @@ set(SOURCES
     src/assert.c
     src/event.c
     src/camera.c
+    src/callbacks.c
     src/draw_text.c
     src/instance.c
     src/keyboard.c

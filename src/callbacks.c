@@ -1,9 +1,3 @@
-#ifndef CALLBACKS_H
-#define CALLBACKS_H
-
-// todo: move elsewhere
-#define ST_GRAPHICS_OPENGL 1
-
 #include <st/instance.h>
 #include <st/utility/print.h>
 
@@ -14,9 +8,8 @@
 #include "impl/texture_gl.h"
 #endif
 
-// Called once at program start up
 // Note: Caller validates engine context
-static inline void set_platform_callbacks(St *const st)
+void st_set_platform_callbacks(St *const st)
 {
 #ifdef ST_PLATFORM_LINUX
     st->impl.window_create   = impl_x11_window_create;
@@ -31,9 +24,8 @@ static inline void set_platform_callbacks(St *const st)
 #endif
 }
 
-// Called at least once at program start up, and anytime after that
 // Note: Caller validates engine context
-static inline void set_graphics_callbacks(St *const st, int type)
+void st_set_graphics_callbacks(St *const st, int type)
 {
     switch (type) {
     case ST_GRAPHICS_OPENGL:
@@ -53,5 +45,3 @@ static inline void set_graphics_callbacks(St *const st, int type)
         break;
     }
 }
-
-#endif // CALLBACKS_H
