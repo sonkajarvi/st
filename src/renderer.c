@@ -43,7 +43,7 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera)
 
     St *st = st_instance();
     st_assert(st);
-    StWindow *window = st->window;
+    struct st_window *window = st->window;
     st_assert(window);
 
     call_impl(st, renderer_init, window, renderer, camera);
@@ -57,7 +57,7 @@ void st_renderer_destroy(StRenderer *renderer)
 
     St *st = st_instance();
     st_assert(st);
-    StWindow *window = st->window;
+    struct st_window *window = st->window;
     st_assert(window);
 
     call_impl(st, renderer_destroy, window, renderer);
@@ -79,7 +79,7 @@ void st_renderer_add_texture(StRenderer *renderer, StTexture *texture)
 
     St *st = st_instance();
     st_assert(st);
-    StWindow *window = st->window;
+    struct st_window *window = st->window;
     st_assert(window);
 
     call_impl(st, renderer_add_texture, window, renderer, texture);
@@ -89,7 +89,7 @@ void st_renderer_add_texture(StRenderer *renderer, StTexture *texture)
     st_debug("... size: %dx%d\n", texture->width, texture->height);
 }
 
-void st_draw_begin(StWindow *window)
+void st_draw_begin(struct st_window *window)
 {
     st_assert(window);
 
@@ -100,7 +100,7 @@ void st_draw_begin(StWindow *window)
     call_impl(st, draw_begin, window, renderer);
 }
 
-void st_draw_end(StWindow *window)
+void st_draw_end(struct st_window *window)
 {
     st_assert(window);
 
@@ -119,13 +119,13 @@ void st_renderer_push(StRenderer *renderer, StVertex *vertices, size_t count)
 
     St *st = st_instance();
     st_assert(st);
-    StWindow *window = st->window;
+    struct st_window *window = st->window;
     st_assert(window);
 
     call_impl(st, renderer_push, window, renderer, vertices, count);
 }
 
-void st_draw_quad(StWindow *window, vec3 position,
+void st_draw_quad(struct st_window *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color)
 {
     st_draw_textured_quad(window, position, rotation, scale, color,
@@ -141,7 +141,7 @@ static int index_from_id(StRenderer *renderer, GLuint id)
     return -1;
 }
 
-void st_draw_textured_quad(StWindow *window, vec3 position,
+void st_draw_textured_quad(struct st_window *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color, StTexture *texture, vec4 tex_coords)
 {
     const float index = (float)index_from_id(&window->renderer, texture->gl.id);
@@ -180,7 +180,7 @@ void st_draw_textured_quad(StWindow *window, vec3 position,
     st_renderer_push(&window->renderer, vertices, 6);
 }
 
-void st_draw_line(StWindow *window, vec3 p0, vec3 p1, vec4 color, float width)
+void st_draw_line(struct st_window *window, vec3 p0, vec3 p1, vec4 color, float width)
 {
     const float half = width / 2.0f;
     const vec2 a = { p1[0] - p0[0], p1[1] - p0[1] };

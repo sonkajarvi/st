@@ -5,7 +5,7 @@
 #include <st/utility/assert.h>
 #include <st/utility/print.h>
 
-void st_draw_char(StWindow *window, vec3 position,
+void st_draw_char(struct st_window *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color, const char c)
 {
     st_assert(window);
@@ -22,7 +22,7 @@ void st_draw_char(StWindow *window, vec3 position,
         position, rotation, scale, color, font, tex_coords);
 }
 
-void st_draw_string(StWindow *window, vec3 position,
+void st_draw_string(struct st_window *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color, const char *str)
 {
     st_assert(window);

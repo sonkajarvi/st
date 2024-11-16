@@ -8,7 +8,7 @@
 #include <st/utility/print.h>
 
 // todo: return a status code
-StWindow *st_window_create(const char *title, int width, int height)
+struct st_window *st_window_create(const char *title, int width, int height)
 {
     St *st = st_instance();
     if (!st) {
@@ -21,7 +21,7 @@ StWindow *st_window_create(const char *title, int width, int height)
         return NULL;
     }
 
-    StWindow *window = malloc(sizeof(*window));
+    struct st_window *window = malloc(sizeof(*window));
     if (!window) {
         st_error("Failed to allocate memory for window\n");
         return NULL;
@@ -41,7 +41,7 @@ StWindow *st_window_create(const char *title, int width, int height)
     return window;
 }
 
-void st_window_destroy(StWindow *window)
+void st_window_destroy(struct st_window *window)
 {
     st_assert(window);
     St *st = st_instance();
@@ -59,7 +59,7 @@ void st_window_destroy(StWindow *window)
     st_debug("Window destroyed\n");
 }
 
-void st_window_show(StWindow *window)
+void st_window_show(struct st_window *window)
 {
     st_assert(window);
     St *st = st_instance();
@@ -70,7 +70,7 @@ void st_window_show(StWindow *window)
     window->visible = true;
 }
 
-bool st_window_should_close(StWindow *window)
+bool st_window_should_close(struct st_window *window)
 {
     st_assert(window);
     St *st = st_instance();
@@ -83,7 +83,7 @@ void st_window_get_size(int *width, int *height)
 {
     St *st = st_instance();
     st_assert(st);
-    StWindow *window = st->window;
+    struct st_window *window = st->window;
     st_assert(window);
 
     call_impl(st, window_get_size, window, width, height);
@@ -93,7 +93,7 @@ void st_window_get_pos(int *x, int *y)
 {
     St *st = st_instance();
     st_assert(st);
-    StWindow *window = st->window;
+    struct st_window *window = st->window;
     st_assert(window);
 
     call_impl(st, window_get_pos, window, x, y);
@@ -103,7 +103,7 @@ double st_window_time(void)
 {
     St *st = st_instance();
     st_assert(st);
-    StWindow *window = st->window;
+    struct st_window *window = st->window;
     st_assert(window);
 
     // return_impl(engine_time, window);
@@ -114,7 +114,7 @@ double st_window_time(void)
 // {
 //     StEngine *e = st_instance();
 //     st_assert(e);
-//     StWindow *window = e->window;
+//     struct st_window *window = e->window;
 //     st_assert(window);
 
 //     return window->fps;
@@ -124,13 +124,13 @@ float st_window_deltatime(void)
 {
     St *st = st_instance();
     st_assert(st);
-    StWindow *window = st->window;
+    struct st_window *window = st->window;
     st_assert(window);
 
     return window->deltatime;
 }
 
-void st_window_set_vsync(StWindow *window, bool value)
+void st_window_set_vsync(struct st_window *window, bool value)
 {
     st_assert(window);
     St *st = st_instance();
@@ -139,7 +139,7 @@ void st_window_set_vsync(StWindow *window, bool value)
     call_impl(st, window_vsync, window, value);
 }
 
-void st_window_poll_events(StWindow *window)
+void st_window_poll_events(struct st_window *window)
 {
     St *st = st_instance();
     st_assert(st);
@@ -182,7 +182,7 @@ void st_window_poll_events(StWindow *window)
     call_impl(st, poll_events, window);
 }
 
-void st_window_swap_buffers(StWindow *window)
+void st_window_swap_buffers(struct st_window *window)
 {
     St *st = st_instance();
     st_assert(st);

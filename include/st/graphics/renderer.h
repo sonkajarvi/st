@@ -9,7 +9,7 @@
 #include <st/graphics/camera.h>
 #include <st/graphics/texture.h>
 
-typedef struct StWindow StWindow;
+struct st_window;
 
 #define ST_VERTEX_BUFFER_SIZE (256 * 3)
 
@@ -41,14 +41,14 @@ void st_renderer_destroy(StRenderer *renderer);
 void st_renderer_add_texture(StRenderer *renderer, StTexture *texture);
 void st_renderer_push(StRenderer *renderer, StVertex *vertices, size_t count);
 
-void st_draw_begin(StWindow *window);
-void st_draw_end(StWindow *window);
+void st_draw_begin(struct st_window *window);
+void st_draw_end(struct st_window *window);
 
-void st_draw_quad(StWindow *window, vec3 position,
+void st_draw_quad(struct st_window *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color);
-void st_draw_textured_quad(StWindow *window, vec3 position,
+void st_draw_textured_quad(struct st_window *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color, StTexture *texture, vec4 tex_coords);
 
-void st_draw_line(StWindow *window, vec3 p0, vec3 p1, vec4 color, float width);
+void st_draw_line(struct st_window *window, vec3 p0, vec3 p1, vec4 color, float width);
 
 #endif // ST_GRAPHICS_RENDERER2D_H

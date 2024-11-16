@@ -103,7 +103,7 @@ static int keysym_to_key(int code)
 }
 
 // todo: return a status code
-void impl_x11_window_create(StWindow *window, const char *title, int width, int height)
+void impl_x11_window_create(struct st_window *window, const char *title, int width, int height)
 {
     Display *display = XOpenDisplay(NULL);
     if (!display) {
@@ -163,7 +163,7 @@ void impl_x11_window_create(StWindow *window, const char *title, int width, int 
     glx_create_context(window);
 }
 
-void impl_x11_window_destroy(StWindow *window)
+void impl_x11_window_destroy(struct st_window *window)
 {
     glx_destroy_context(window);
     
@@ -171,7 +171,7 @@ void impl_x11_window_destroy(StWindow *window)
     XCloseDisplay(window->x11.display);
 }
 
-void impl_x11_window_show(StWindow *window)
+void impl_x11_window_show(struct st_window *window)
 {
     st_assert(window);
     st_assert(window->x11.display);
@@ -180,7 +180,7 @@ void impl_x11_window_show(StWindow *window)
     XMapWindow(window->x11.display, window->x11.window);
 }
 
-void impl_x11_window_get_size(StWindow *window, int *width, int *height)
+void impl_x11_window_get_size(struct st_window *window, int *width, int *height)
 {
     XGetWindowAttributes(window->x11.display, window->x11.window, &window_attribs);
 
@@ -190,7 +190,7 @@ void impl_x11_window_get_size(StWindow *window, int *width, int *height)
         *height = window_attribs.height;
 }
 
-void impl_x11_window_get_pos(StWindow *window, int *x, int *y)
+void impl_x11_window_get_pos(struct st_window *window, int *x, int *y)
 {
     XGetWindowAttributes(window->x11.display, window->x11.window, &window_attribs);
 
@@ -200,13 +200,13 @@ void impl_x11_window_get_pos(StWindow *window, int *x, int *y)
         *y = window_attribs.y;
 }
 
-double impl_x11_window_time(StWindow *window)
+double impl_x11_window_time(struct st_window *window)
 {
     uint64_t now = get_time();
     return (double)(now - window->x11.offset) / 1000000000.0;
 }
 
-void impl_x11_poll_events(StWindow *window)
+void impl_x11_poll_events(struct st_window *window)
 {
     XEvent event;
     int keycode, keysym, key;
@@ -250,12 +250,12 @@ void impl_x11_poll_events(StWindow *window)
     XFlush(window->x11.display);
 }
 
-// void impl_glx_swap_buffers(StWindow *window)
+// void impl_glx_swap_buffers(struct st_window *window)
 // {
 //     glXSwapBuffers(window->x11.display, window->x11.window);
 // }
 
-// void impl_glx_context_create(StWindow *window)
+// void impl_glx_context_create(struct st_window *window)
 // {
 //     glXCreateContextAttribsARBProc glxCreateContextAttribsABR =
 //         (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte *)"glXCreateContextAttribsARB");
@@ -276,13 +276,13 @@ void impl_x11_poll_events(StWindow *window)
 //     st_log("GLX version: %d.%d\n", major, minor);
 // }
 
-// void impl_glx_context_destroy(StWindow *window)
+// void impl_glx_context_destroy(struct st_window *window)
 // {
 //     glXMakeCurrent(window->x11.display, 0, 0);
 //     glXDestroyContext(window->x11.display, window->x11.context);
 // }
 
-// void impl_glx_window_vsync(StWindow *window, bool value)
+// void impl_glx_window_vsync(struct st_window *window, bool value)
 // {
 //     glXSwapIntervalEXTProc glXSwapIntervalEXT =
 //         (glXSwapIntervalEXTProc)glXGetProcAddress((const GLubyte *)"glXSwapIntervalEXT");

@@ -35,30 +35,30 @@ typedef struct St
 {
     bool initialized;
 
-    StWindow *window;
+    struct st_window *window;
 
     StEventHandler event_handler;
 
     struct {
-        double (*engine_time)(StWindow *);
-        void (*window_create)(StWindow *, const char *, int, int);
-        void (*window_destroy)(StWindow *);
-        void (*window_show)(StWindow *);
-        void (*window_get_size)(StWindow *, int *, int *);
-        void (*window_get_pos)(StWindow *, int *, int *);
-        void (*window_vsync)(StWindow *, bool);
+        double (*engine_time)(struct st_window *);
+        void (*window_create)(struct st_window *, const char *, int, int);
+        void (*window_destroy)(struct st_window *);
+        void (*window_show)(struct st_window *);
+        void (*window_get_size)(struct st_window *, int *, int *);
+        void (*window_get_pos)(struct st_window *, int *, int *);
+        void (*window_vsync)(struct st_window *, bool);
 
-        void (*poll_events)(StWindow *);
-        void (*swap_buffers)(StWindow *);
+        void (*poll_events)(struct st_window *);
+        void (*swap_buffers)(struct st_window *);
 
-        void (*renderer_init)(StWindow *, StRenderer *, StCamera *);
-        void (*renderer_destroy)(StWindow *, StRenderer *);
-        void (*renderer_add_texture)(StWindow *, StRenderer *, StTexture *);
+        void (*renderer_init)(struct st_window *, StRenderer *, StCamera *);
+        void (*renderer_destroy)(struct st_window *, StRenderer *);
+        void (*renderer_add_texture)(struct st_window *, StRenderer *, StTexture *);
 
-        void (*draw_begin)(StWindow *, StRenderer *);
-        void (*draw_end)(StWindow *, StRenderer *);
+        void (*draw_begin)(struct st_window *, StRenderer *);
+        void (*draw_end)(struct st_window *, StRenderer *);
 
-        void (*renderer_push)(StWindow *, StRenderer *, StVertex *, size_t);
+        void (*renderer_push)(struct st_window *, StRenderer *, StVertex *, size_t);
     } impl;
 } St;
 

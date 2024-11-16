@@ -88,7 +88,7 @@ static void __flush(StRenderer *renderer)
     renderer->vertex_ptr = renderer->vertex_buf;
 }
 
-void impl_gl_renderer_init(StWindow *window, StRenderer *renderer, StCamera *camera)
+void impl_gl_renderer_init(struct st_window *window, StRenderer *renderer, StCamera *camera)
 {
     st_assert(window);
     st_assert(renderer);
@@ -133,7 +133,7 @@ void impl_gl_renderer_init(StWindow *window, StRenderer *renderer, StCamera *cam
     st_debug("... fragment: '%s'\n", fragment_path);
 }
 
-void impl_gl_draw_begin(StWindow *window, StRenderer *renderer)
+void impl_gl_draw_begin(struct st_window *window, StRenderer *renderer)
 {
     st_assert(window);
     st_assert(renderer);
@@ -162,7 +162,7 @@ void impl_gl_draw_begin(StWindow *window, StRenderer *renderer)
         1, GL_FALSE, *renderer->camera->proj_mat);
 }
 
-void impl_gl_draw_end(StWindow *window, StRenderer *renderer)
+void impl_gl_draw_end(struct st_window *window, StRenderer *renderer)
 {
     assert(window);
     assert(renderer);
@@ -170,7 +170,7 @@ void impl_gl_draw_end(StWindow *window, StRenderer *renderer)
     __flush(renderer);
 }
 
-void impl_gl_renderer_destroy(StWindow *window, StRenderer *renderer)
+void impl_gl_renderer_destroy(struct st_window *window, StRenderer *renderer)
 {
     st_assert(window);
     st_assert(renderer);
@@ -184,7 +184,7 @@ void impl_gl_renderer_destroy(StWindow *window, StRenderer *renderer)
 }
 
 void impl_gl_renderer_add_texture(
-    StWindow *window, StRenderer *renderer, StTexture *texture)
+    struct st_window *window, StRenderer *renderer, StTexture *texture)
 {
     st_assert(window);
     st_assert(renderer);
@@ -218,7 +218,7 @@ void impl_gl_renderer_add_texture(
         stbi_image_free(data);
 }
 
-void impl_gl_renderer_push(StWindow * window,
+void impl_gl_renderer_push(struct st_window * window,
     StRenderer * renderer, StVertex *vertices, size_t count)
 {
     st_assert(window);

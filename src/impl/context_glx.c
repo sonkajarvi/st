@@ -21,7 +21,7 @@ void glx_init(Display *display, int screen)
 }
 
 // todo: return a status code
-void glx_create_context(StWindow *window)
+void glx_create_context(struct st_window *window)
 {
     int ctx_attrs[] = {
         GLX_CONTEXT_MAJOR_VERSION_ARB, 4,
@@ -50,7 +50,7 @@ void glx_create_context(StWindow *window)
 }
 
 // todo: return a status code
-void glx_destroy_context(StWindow *window)
+void glx_destroy_context(struct st_window *window)
 {
     glXMakeCurrent(window->x11.display, None, NULL);
     glXDestroyContext(window->x11.display, window->x11.context);
@@ -107,12 +107,12 @@ void glx_choose_fbc(Display *display, int screen, GLXFBConfig *config)
     XFree(configs);
 }
 
-void impl_glx_swap_buffers(StWindow *window)
+void impl_glx_swap_buffers(struct st_window *window)
 {
     glXSwapBuffers(window->x11.display, window->x11.window);
 }
 
-void impl_glx_window_vsync(StWindow *window, bool on)
+void impl_glx_window_vsync(struct st_window *window, bool on)
 {
     glXSwapIntervalEXT(window->x11.display, window->x11.window, on);
 }
