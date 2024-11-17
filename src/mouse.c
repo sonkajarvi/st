@@ -5,7 +5,7 @@
 
 void mouse_get_pos(int *x, int *y)
 {
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -18,7 +18,7 @@ void mouse_get_pos(int *x, int *y)
 
 void mouse_get_delta(int *x, int *y)
 {
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -31,7 +31,7 @@ void mouse_get_delta(int *x, int *y)
 
 float mouse_get_wheel(void)
 {
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -42,7 +42,7 @@ float mouse_get_wheel(void)
 bool mouse_down(int button)
 {
     st_assert(button >= __ST_MOUSE_FIRST && button <= __ST_MOUSE_LAST);
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -53,7 +53,7 @@ bool mouse_down(int button)
 bool mouse_press(int button)
 {
     st_assert(button >= __ST_MOUSE_FIRST && button <= __ST_MOUSE_LAST);
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -64,7 +64,7 @@ bool mouse_press(int button)
 bool mouse_release(int button)
 {
     st_assert(button >= __ST_MOUSE_FIRST && button <= __ST_MOUSE_LAST);
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);

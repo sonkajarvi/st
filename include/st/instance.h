@@ -22,7 +22,8 @@
 #define ST_GRAPHICS_OPENGL 1
 
 // todo: Move elsewhere
-#define ST_ENOST 1000 // Library not initialized
+#define ST_ENOST    1000 // Library not initialized
+#define ST_EINIT    1001 // Already initialized
 
 // note: caller validates instance
 #define call_impl(instance, callback, ...) \
@@ -36,9 +37,9 @@
         return e->impl.f(__VA_ARGS__); \
     } while (0)
 
-typedef struct St
+struct st
 {
-    bool initialized;
+    bool init;
 
     // Pointer to the created window, set by `st_window_create()`
     struct st_window *window;
@@ -66,15 +67,22 @@ typedef struct St
 
         void (*renderer_push)(struct st_window *, StRenderer *, StVertex *, size_t);
     } impl;
-} St;
+};
 
-void st_hello(void);
+// st_hello() - Initialize the library instance
+int st_hello(void);
+
+// st_goodbye() - Deinitialize the library instance
 void st_goodbye(void);
-St *st_instance(void);
+
+// st_instance() - Get the library instance
+//
+// Returns: A pointer to the initialized instance, NULL otherwise
+struct st *st_instance(void);
 
 // Called once at program start up
-void st_set_platform_callbacks(St *const st);
+void st_set_platform_callbacks(struct st *const st);
 // Called at least once at program start up, and anytime after that
-void st_set_graphics_callbacks(St *const st, int type);
+void st_set_graphics_callbacks(struct st *const st, int type);
 
 #endif // ST_ENGINE_H

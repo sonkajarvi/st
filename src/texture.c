@@ -6,7 +6,7 @@
 // todo: Return a status code
 void st_texture_create(struct st_texture *tex, struct st_image *img)
 {
-    St *st;
+    struct st *st;
 
     if (!tex || !img || !(st = st_instance()))
         return;
@@ -23,7 +23,7 @@ void st_texture_create(struct st_texture *tex, struct st_image *img)
 // todo: Return a status code
 void st_texture_destroy(struct st_texture *tex)
 {
-    St *st;
+    struct st *st;
 
     if (!tex || !(st = st_instance()))
         return;

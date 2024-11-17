@@ -9,7 +9,7 @@
 #endif
 
 // Note: Caller validates engine context
-void st_set_platform_callbacks(St *const st)
+void st_set_platform_callbacks(struct st *const st)
 {
 #ifdef ST_PLATFORM_LINUX
     st->impl.window_create   = impl_x11_window_create;
@@ -25,7 +25,7 @@ void st_set_platform_callbacks(St *const st)
 }
 
 // Note: Caller validates engine context
-void st_set_graphics_callbacks(St *const st, int type)
+void st_set_graphics_callbacks(struct st *const st, int type)
 {
     switch (type) {
     case ST_GRAPHICS_OPENGL:

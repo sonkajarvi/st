@@ -55,7 +55,7 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera)
     // st_texture_from_file(&font, ST_ASSETS_PATH "/images/font.png");
     // st_renderer_add_texture(renderer, &font);
 
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -69,7 +69,7 @@ void st_renderer_destroy(StRenderer *renderer)
 {
     st_assert(renderer);
 
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -85,7 +85,7 @@ void st_draw_begin(struct st_window *window)
 {
     st_assert(window);
 
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     StRenderer *renderer = &window->renderer;
 
@@ -96,7 +96,7 @@ void st_draw_end(struct st_window *window)
 {
     st_assert(window);
 
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     StRenderer *renderer = &window->renderer;
 
@@ -109,7 +109,7 @@ void st_renderer_push(StRenderer *renderer, StVertex *vertices, size_t count)
     st_assert(vertices);
     st_assert(count > 0);
 
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);

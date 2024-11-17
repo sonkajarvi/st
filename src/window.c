@@ -9,7 +9,7 @@
 
 int st_window_create(struct st_window *win, const char *title, int width, int height)
 {
-    St *st;
+    struct st *st;
     if (!(st = st_instance()))
         return ST_ENOST;
 
@@ -30,7 +30,7 @@ int st_window_create(struct st_window *win, const char *title, int width, int he
 
 void st_window_destroy(struct st_window *win)
 {
-    St *st;
+    struct st *st;
     if (!win || !(st = st_instance()))
         return;
 
@@ -43,7 +43,7 @@ void st_window_destroy(struct st_window *win)
 void st_window_show(struct st_window *window)
 {
     st_assert(window);
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
 
     call_impl(st, window_show, window);
@@ -54,7 +54,7 @@ void st_window_show(struct st_window *window)
 bool st_window_should_close(struct st_window *window)
 {
     st_assert(window);
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
 
     return !window->visible;
@@ -62,7 +62,7 @@ bool st_window_should_close(struct st_window *window)
 
 void st_window_get_size(int *width, int *height)
 {
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -72,7 +72,7 @@ void st_window_get_size(int *width, int *height)
 
 void st_window_get_pos(int *x, int *y)
 {
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -82,7 +82,7 @@ void st_window_get_pos(int *x, int *y)
 
 double st_window_time(void)
 {
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -103,7 +103,7 @@ double st_window_time(void)
 
 float st_window_deltatime(void)
 {
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -114,7 +114,7 @@ float st_window_deltatime(void)
 void st_window_set_vsync(struct st_window *window, bool value)
 {
     st_assert(window);
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
 
     call_impl(st, window_vsync, window, value);
@@ -122,7 +122,7 @@ void st_window_set_vsync(struct st_window *window, bool value)
 
 void st_window_poll_events(struct st_window *window)
 {
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
 
     // update time
@@ -165,7 +165,7 @@ void st_window_poll_events(struct st_window *window)
 
 void st_window_swap_buffers(struct st_window *window)
 {
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
 
     call_impl(st, swap_buffers, window);

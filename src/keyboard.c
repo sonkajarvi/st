@@ -6,7 +6,7 @@
 bool key_down(int key)
 {
     st_assert(key >= __ST_KEY_FIRST && key <= __ST_KEY_LAST);
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -17,7 +17,7 @@ bool key_down(int key)
 bool key_press(int key)
 {
     st_assert(key >= __ST_KEY_FIRST && key <= __ST_KEY_LAST);
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
@@ -28,7 +28,7 @@ bool key_press(int key)
 bool key_release(int key)
 {
     st_assert(key >= __ST_KEY_FIRST && key <= __ST_KEY_LAST);
-    St *st = st_instance();
+    struct st *st = st_instance();
     st_assert(st);
     struct st_window *window = st->window;
     st_assert(window);
