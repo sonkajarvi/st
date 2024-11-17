@@ -69,6 +69,10 @@ end2:
 
     glDeleteShader(vertex_shader);
     glDeleteShader(fragment_shader);
+
+    st_debug("GL shader created with ID %d (vertex=\"%s\", fragment=\"%s\")\n",
+        program, vertex_path, fragment_path);
+
     return program;
 }
 
@@ -121,11 +125,6 @@ void impl_gl_renderer_init(struct st_window *window, StRenderer *renderer, StCam
     const char *fragment_path = ST_ASSETS_PATH "/shaders/fragment_2d.glsl";
     renderer->gl.program = __create_shader(vertex_path, fragment_path);
     st_assert(renderer->gl.program);
-
-    st_debug("Shader created\n");
-    st_debug("... id: %d\n", renderer->gl.program);
-    st_debug("... vertex: '%s'\n", vertex_path);
-    st_debug("... fragment: '%s'\n", fragment_path);
 }
 
 void impl_gl_draw_begin(struct st_window *window, StRenderer *renderer)

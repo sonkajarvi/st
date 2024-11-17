@@ -32,7 +32,7 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera)
     st_assert(renderer->vertex_buf);
     renderer->vertex_ptr = renderer->vertex_buf;
 
-    st_debug("Vertex buffer created (capacity: %d vertices, %d bytes)\n",
+    st_debug("Vertex buffer created for %zu vertices, %zu bytes\n",
         st_vector_capacity(renderer->vertex_buf),
         st_vector_capacity(renderer->vertex_buf) * sizeof(StVertex));
 
@@ -43,17 +43,10 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera)
         .data = (uint8_t[]){ 0xff, 0xff, 0xff, 0xff },
     };
     st_texture_create(&renderer->tex_white, &tmp);
-    // static StTexture white = {0};
-    // unsigned char bytes[] = {0xff, 0xff, 0xff, 0xff};
-    // st_texture_from_bytes(&white, bytes, 1, 1);
-    // st_renderer_add_texture(renderer, &white);
 
     // Font texture
     st_image_from_file(&tmp, ST_ASSETS_PATH "/images/font.png");
     st_texture_create(&renderer->tex_font, &tmp);
-    // static StTexture font = {0};
-    // st_texture_from_file(&font, ST_ASSETS_PATH "/images/font.png");
-    // st_renderer_add_texture(renderer, &font);
 
     struct st *st = st_instance();
     st_assert(st);

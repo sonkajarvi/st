@@ -17,8 +17,8 @@ void st_image_from_file(struct st_image *img, const char *path)
     int channels;
     img->data = stbi_load(path, &img->width, &img->height, &channels, 4);
 
-    st_debug("Image created from file (at %p)\n", img);
-    st_debug("[data=%p, width=%d, height=%d]\n", img->data, img->width, img->height);
+    st_debug("Image created at %p (width=%d, height=%d, data=%p)\n",
+        img, img->width, img->height, img->data);
 }
 
 void st_image_free(struct st_image *img)
@@ -28,5 +28,5 @@ void st_image_free(struct st_image *img)
 
     stbi_image_free(img->data);
 
-    st_debug("Image freed (at %p)\n", img);
+    st_debug("Image freed at %p\n", img);
 }

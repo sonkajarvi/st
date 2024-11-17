@@ -23,7 +23,8 @@ int st_window_create(struct st_window *win, const char *title, int width, int he
     st_camera_init(&win->camera, ST_CAMERA_ORTHO);
     st_renderer_init(&win->renderer, &win->camera);
 
-    st_log("Window created at %p (title=\"%s\", width=%d, height=%d)\n", win, title, width, height);
+    st_log("Window created at %p (title=\"%s\", width=%d, height=%d)\n",
+        win, title, width, height);
 
     return 0;
 }
