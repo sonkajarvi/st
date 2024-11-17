@@ -42,8 +42,20 @@ struct st_window
 #endif
 };
 
-struct st_window *st_window_create(const char *title, int width, int height);
-void st_window_destroy(struct st_window *window);
+// st_window_create() - Create a window with the given title, width, and height.
+// Initialize the graphics context, renderer, and camera
+//
+// @win: Pointer to the created window
+// @title: Window title, must not be NULL or empty
+// @width: Window width, must be greater than 0
+// @height: Window height, must be greater than 0
+int st_window_create(struct st_window *win, const char *title, int width, int height);
+
+// st_window_destroy() - Destroy a window
+//
+// @win: Pointer to the window to destroy
+void st_window_destroy(struct st_window *win);
+
 void st_window_show(struct st_window *window);
 bool st_window_should_close(struct st_window *window);
 

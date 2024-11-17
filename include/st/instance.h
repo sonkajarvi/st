@@ -21,6 +21,9 @@
 // todo: Move elsewhere
 #define ST_GRAPHICS_OPENGL 1
 
+// todo: Move elsewhere
+#define ST_ENOST 1000 // Library not initialized
+
 // note: caller validates instance
 #define call_impl(instance, callback, ...) \
     instance->impl.callback(__VA_ARGS__)
@@ -37,6 +40,7 @@ typedef struct St
 {
     bool initialized;
 
+    // Pointer to the created window, set by `st_window_create()`
     struct st_window *window;
 
     struct {

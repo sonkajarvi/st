@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <errno.h>
 #include <string.h>
 
 #include <st/instance.h>
@@ -7,56 +7,37 @@
 #include <st/utility/assert.h>
 #include <st/utility/print.h>
 
-// todo: return a status code
-struct st_window *st_window_create(const char *title, int width, int height)
+int st_window_create(struct st_window *win, const char *title, int width, int height)
 {
-    St *st = st_instance();
-    if (!st) {
-        st_error("Failed to create window. No instance found\n");
-        return NULL;
-    }
+    St *st;
+    if (!(st = st_instance()))
+        return ST_ENOST;
 
-    if (st->window) {
-        st_error("Failed to create window. Window already exists\n");
-        return NULL;
-    }
+    if (!win || !title || !title[0] || width <= 0 || height <= 0)
+        return EINVAL;
 
-    struct st_window *window = malloc(sizeof(*window));
-    if (!window) {
-        st_error("Failed to allocate memory for window\n");
-        return NULL;
-    }
+    memset(win, 0, sizeof(*win));
+    st->window = win;
 
-    memset(window, 0, sizeof(*window));
-    call_impl(st, window_create, window, title, width, height);
-    st->window = window;
+    call_impl(st, window_create, win, title, width, height);
+    st_camera_init(&win->camera, ST_CAMERA_ORTHO);
+    st_renderer_init(&win->renderer, &win->camera);
 
-    st_camera_init(&st->window->camera, ST_CAMERA_ORTHO);
-    st_renderer_init(&st->window->renderer, &st->window->camera);
+    st_log("Window created at %p (title=\"%s\", width=%d, height=%d)\n", win, title, width, height);
 
-    st_debug("Window created\n");
-    st_debug("... title: '%s'\n", title);
-    st_debug("... size: %dx%d\n", width, height);
-
-    return window;
+    return 0;
 }
 
-void st_window_destroy(struct st_window *window)
+void st_window_destroy(struct st_window *win)
 {
-    st_assert(window);
-    St *st = st_instance();
-    st_assert(st);
+    St *st;
+    if (!win || !(st = st_instance()))
+        return;
 
-    st_renderer_destroy(&window->renderer);
+    st_renderer_destroy(&win->renderer);
+    call_impl(st, window_destroy, win);
 
-    // call_impl(e, context_destroy, window);
-    call_impl(st, window_destroy, window);
-
-    // todo: destroy the graphics context
-
-    free(window);
-
-    st_debug("Window destroyed\n");
+    st_log("Window destroyed at %p\n", win);
 }
 
 void st_window_show(struct st_window *window)
