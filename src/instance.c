@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/event.h>
 #include <st/instance.h>
 #include <st/utility/print.h>
 
@@ -32,10 +31,6 @@ void st_goodbye(void)
         st_error("Failed to destroy instance. No instance found\n");
         return;
     }
-
-    // Clear event listeners
-    for (int i = 0; i < ST_EVENT_LENGTH; i++)
-        st_event_clear(i);
 
     memset(&__st, 0, sizeof(__st));
 

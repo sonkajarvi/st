@@ -8,7 +8,6 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(SOURCES
     src/assert.c
-    src/event.c
     src/camera.c
     src/callbacks.c
     src/draw_text.c

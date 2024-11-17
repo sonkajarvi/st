@@ -1,7 +1,6 @@
 #ifndef ST_ENGINE_H
 #define ST_ENGINE_H
 
-#include <st/event.h>
 #include <st/window.h>
 
 /**
@@ -39,8 +38,6 @@ typedef struct St
     bool initialized;
 
     struct st_window *window;
-
-    StEventHandler event_handler;
 
     struct {
         double (*engine_time)(struct st_window *);
