@@ -31,13 +31,16 @@ set(LIBS glad m)
 
 if (UNIX AND NOT APPLE)
     message("st: Building for Linux")
-    add_compile_definitions(ST_PLATFORM_LINUX)
     set(LIBS ${LIBS} X11)
     set(SOURCES ${SOURCES} src/impl/window_x11.c)
     set(SOURCES ${SOURCES} src/impl/context_glx.c)
 endif()
 
 add_library(st ${SOURCES})
+
+if (UNIX AND NOT APPLE)
+    target_compile_definitions(st PUBLIC ST_PLATFORM_LINUX)
+endif()
 
 execute_process(
     COMMAND git log -1 --pretty=%H
