@@ -4,6 +4,7 @@
 #include <st/instance.h>
 #include <st/graphics/camera.h>
 #include <st/graphics/renderer.h>
+#include <st/input/mouse.h>
 #include <st/utility/assert.h>
 #include <st/utility/print.h>
 
@@ -121,7 +122,7 @@ void st_window_set_vsync(struct st_window *window, bool value)
     call_impl(st, window_vsync, window, value);
 }
 
-void st_window_poll_events(struct st_window *window)
+void st_window_poll_events(struct st_window *win)
 {
     struct st *st = st_instance();
     st_assert(st);
@@ -132,7 +133,7 @@ void st_window_poll_events(struct st_window *window)
     static double last = 0.0;
 
     double now = st_window_time();
-    window->deltatime = (float)(now - last);
+    win->deltatime = (float)(now - last);
     // elapsed += now - last;
     last = now;
 
@@ -143,25 +144,25 @@ void st_window_poll_events(struct st_window *window)
     // }
     // frames++;
 
-    // reset mouse wheel delta
-    window->mouse.wheel = 0.0f;
+    // Update mouse button states
+    for (int i = __ST_MOUSE_FIRST; i <= __ST_MOUSE_LAST; i++)
+        win->mouse.states[i].prev = win->mouse.states[i].curr;
 
-    // update mouse button states
-    for (int i = 0; i < __ST_MOUSE_COUNT; i++)
-        window->mouse.state[i].previous = window->mouse.state[i].current;
+    // Update mouse position delta
+    static int prev_mouse_X = 0, prev_mouse_y = 0;
+    win->mouse.dx = win->mouse.x - prev_mouse_X;
+    win->mouse.dx = win->mouse.y - prev_mouse_y;
+    prev_mouse_X = win->mouse.x;
+    prev_mouse_y = win->mouse.y;
 
-    // update mouse position delta
-    static ivec2 prev_position = {0, 0};
-    window->mouse.delta[0] = window->mouse.position[0] - prev_position[0];
-    window->mouse.delta[1] = window->mouse.position[1] - prev_position[1];
-    prev_position[0] = window->mouse.position[0];
-    prev_position[1] = window->mouse.position[1];
+    // Reset mouse wheel delta
+    win->mouse.wheel = 0.0f;
 
     // update keyboard key states
     for (int i = 0; i < __ST_KEY_COUNT; i++)
-        window->keyboard.state[i].previous = window->keyboard.state[i].current;
+        win->keyboard.state[i].previous = win->keyboard.state[i].current;
 
-    call_impl(st, poll_events, window);
+    call_impl(st, poll_events, win);
 }
 
 void st_window_swap_buffers(struct st_window *window)

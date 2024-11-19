@@ -10,6 +10,7 @@
 #include <st/instance.h>
 #include <st/graphics/camera.h>
 #include <st/input/keys.h>
+#include <st/input/mouse.h>
 #include <st/utility/assert.h>
 #include <st/utility/print.h>
 #include <st/window.h>
@@ -132,7 +133,7 @@ void impl_x11_window_create(struct st_window *window, const char *title, int wid
     swa.colormap = XCreateColormap(display, root, visual, AllocNone);
     swa.background_pixmap = None;
     swa.border_pixel = 0;
-    swa.event_mask = StructureNotifyMask | KeyPressMask | KeyReleaseMask;
+    swa.event_mask = StructureNotifyMask | KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask;
 
     window->x11.window = XCreateWindow(
         display,
@@ -238,7 +239,23 @@ void impl_x11_poll_events(struct st_window *window)
                 break;
             }
 
-            window->keyboard.state[key].current = event.type == KeyPress;
+            window->keyboard.state[key].current = (event.type == KeyPress);
+            break;
+
+        case ButtonPress:
+        case ButtonRelease:
+            switch (event.xbutton.button) {
+            case Button1:
+                window->mouse.states[ST_MOUSE_LEFT].curr = (event.type == ButtonPress);
+                break;
+            case Button2:
+                window->mouse.states[ST_MOUSE_MIDDLE].curr = (event.type == ButtonPress);
+                break;
+            case Button3:
+                window->mouse.states[ST_MOUSE_RIGHT].curr = (event.type == ButtonPress);
+                break;
+            // todo: X1 and X2
+            }
             break;
         }
     }

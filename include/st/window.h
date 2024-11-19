@@ -18,7 +18,7 @@ struct st_window
     bool visible;
     float deltatime;
 
-    StMouse mouse;
+    struct st_mouse mouse;
     StKeyboard keyboard;
     StCamera camera;
     StRenderer renderer;
