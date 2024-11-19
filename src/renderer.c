@@ -14,6 +14,9 @@
 #include <st/utility/util.h>
 #include <st/utility/vector.h>
 
+// #define __ST_FONT_PATH ST_ASSETS_PATH "/images/fonts/vga.png"
+#define __ST_FONT_PATH ST_ASSETS_PATH "/images/fonts/nes.png"
+
 static int __index_next_available(void)
 {
     static int cnt = 0;
@@ -45,7 +48,7 @@ void st_renderer_init(StRenderer *renderer, StCamera *camera)
     st_texture_create(&renderer->tex_white, &tmp);
 
     // Font texture
-    st_image_from_file(&tmp, ST_ASSETS_PATH "/images/font.png");
+    st_image_from_file(&tmp, __ST_FONT_PATH);
     st_texture_create(&renderer->tex_font, &tmp);
 
     struct st *st = st_instance();
