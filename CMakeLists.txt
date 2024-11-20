@@ -31,7 +31,7 @@ set(LIBS glad m)
 
 if (UNIX AND NOT APPLE)
     message("st: Building for Linux")
-    set(LIBS ${LIBS} X11)
+    set(LIBS ${LIBS} X11 Xfixes)
     set(SOURCES ${SOURCES} src/impl/window_x11.c)
     set(SOURCES ${SOURCES} src/impl/context_glx.c)
 endif()

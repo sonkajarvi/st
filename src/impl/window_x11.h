@@ -13,4 +13,6 @@ double impl_x11_window_time(struct st_window *);
 
 void impl_x11_poll_events(struct st_window *);
 
+void impl_x11_window_show_cursor(struct st_window *win, bool shown);
+
 #endif // WINDOW_X11_H

@@ -6,6 +6,7 @@
 #include <X11/XKBlib.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/extensions/Xfixes.h>
 
 #include <st/instance.h>
 #include <st/graphics/camera.h>
@@ -204,6 +205,17 @@ double impl_x11_window_time(struct st_window *window)
 {
     uint64_t now = get_time();
     return (double)(now - window->x11.offset) / 1000000000.0;
+}
+
+// todo: Only hide cursor for this window
+void impl_x11_window_show_cursor(struct st_window *win, bool shown)
+{
+    if (shown)
+        XFixesShowCursor(win->x11.display, win->x11.window);
+    else
+        XFixesHideCursor(win->x11.display, win->x11.window);
+
+    XFlush(win->x11.display);
 }
 
 void impl_x11_poll_events(struct st_window *win)

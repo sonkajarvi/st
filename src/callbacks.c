@@ -19,6 +19,7 @@ void st_set_platform_callbacks(struct st *const st)
     st->impl.window_get_pos  = impl_x11_window_get_pos;
     st->impl.engine_time     = impl_x11_window_time;
     st->impl.poll_events     = impl_x11_poll_events;
+    st->impl.window_show_cursor = impl_x11_window_show_cursor;
 
     st_debug("Platform callbacks set for X11\n");
 #endif

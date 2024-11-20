@@ -70,8 +70,9 @@ end2:
     glDeleteShader(vertex_shader);
     glDeleteShader(fragment_shader);
 
-    st_debug("GL shader created with ID %d (vertex=\"%s\", fragment=\"%s\")\n",
-        program, vertex_path, fragment_path);
+    st_debug("GL shader created with ID %d:\n", program);
+    st_debug("... vertex:   \"%s\"\n", vertex_path);
+    st_debug("... fragment: \"%s\"\n", fragment_path);
 
     return program;
 }

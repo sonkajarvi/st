@@ -52,6 +52,7 @@ struct st
         void (*window_get_size)(struct st_window *, int *, int *);
         void (*window_get_pos)(struct st_window *, int *, int *);
         void (*window_vsync)(struct st_window *, bool);
+        void (*window_show_cursor)(struct st_window *, bool);
 
         void (*poll_events)(struct st_window *);
         void (*swap_buffers)(struct st_window *);

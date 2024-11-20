@@ -70,4 +70,9 @@ void st_window_poll_events(struct st_window *window);
 void st_window_swap_buffers(struct st_window *window);
 void st_window_set_vsync(struct st_window *window, bool value);
 
+// st_window_show_cursor() - Show or hide the cursor
+// @win: Pointer to the window
+// @shown: True to show the cursor, false to hide it
+void st_window_show_cursor(struct st_window *win, bool shown);
+
 #endif // ST_WINDOW_H

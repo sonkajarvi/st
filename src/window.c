@@ -122,6 +122,15 @@ void st_window_set_vsync(struct st_window *window, bool value)
     call_impl(st, window_vsync, window, value);
 }
 
+void st_window_show_cursor(struct st_window *win, bool shown)
+{
+    st_assert(win);
+    struct st *st = st_instance();
+    st_assert(st);
+
+    call_impl(st, window_show_cursor, win, shown);
+}
+
 void st_window_poll_events(struct st_window *win)
 {
     struct st *st = st_instance();
