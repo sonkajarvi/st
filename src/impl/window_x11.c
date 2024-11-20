@@ -254,6 +254,15 @@ void impl_x11_poll_events(struct st_window *window)
             case Button3:
                 window->mouse.states[ST_MOUSE_RIGHT].curr = (event.type == ButtonPress);
                 break;
+
+            // These are actually the mouse wheel up/down events
+            case Button4:
+                window->mouse.wheel = 1.0f;
+                break;
+            case Button5:
+                window->mouse.wheel = -1.0f;
+                break;
+
             // todo: X1 and X2
             }
             break;
