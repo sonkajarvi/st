@@ -206,30 +206,41 @@ double impl_x11_window_time(struct st_window *window)
     return (double)(now - window->x11.offset) / 1000000000.0;
 }
 
-void impl_x11_poll_events(struct st_window *window)
+void impl_x11_poll_events(struct st_window *win)
 {
     XEvent event;
     int keycode, keysym, key;
 
-    while (QLength(window->x11.display)) {
-        XNextEvent(window->x11.display, &event);
+    XID tmp;
+
+    XQueryPointer(
+        win->x11.display,
+        win->x11.window,
+        &tmp, &tmp,
+        (int *)&tmp, (int *)&tmp,
+        &win->mouse.x, &win->mouse.y,
+        (unsigned int *)&tmp
+    );
+
+    while (QLength(win->x11.display)) {
+        XNextEvent(win->x11.display, &event);
 
         switch (event.type) {
         case ClientMessage:
             if (event.xclient.data.l[0] == (long)wm_delete_window) {
-                window->visible = false;
+                win->visible = false;
                 return;
             }
             break;
 
         case ConfigureNotify:
-            st_camera_recalculate_projection(&window->camera);
+            st_camera_recalculate_projection(&win->camera);
             break;
 
         case KeyPress:
         case KeyRelease:
             keycode = event.xkey.keycode;
-            keysym = XkbKeycodeToKeysym(window->x11.display, keycode, 0, 0);
+            keysym = XkbKeycodeToKeysym(win->x11.display, keycode, 0, 0);
             key = keysym_to_key(keysym);
 
             if (key == ST_KEY_UNKNOWN) {
@@ -239,28 +250,28 @@ void impl_x11_poll_events(struct st_window *window)
                 break;
             }
 
-            window->keyboard.state[key].current = (event.type == KeyPress);
+            win->keyboard.state[key].current = (event.type == KeyPress);
             break;
 
         case ButtonPress:
         case ButtonRelease:
             switch (event.xbutton.button) {
             case Button1:
-                window->mouse.states[ST_MOUSE_LEFT].curr = (event.type == ButtonPress);
+                win->mouse.states[ST_MOUSE_LEFT].curr = (event.type == ButtonPress);
                 break;
             case Button2:
-                window->mouse.states[ST_MOUSE_MIDDLE].curr = (event.type == ButtonPress);
+                win->mouse.states[ST_MOUSE_MIDDLE].curr = (event.type == ButtonPress);
                 break;
             case Button3:
-                window->mouse.states[ST_MOUSE_RIGHT].curr = (event.type == ButtonPress);
+                win->mouse.states[ST_MOUSE_RIGHT].curr = (event.type == ButtonPress);
                 break;
 
             // These are actually the mouse wheel up/down events
             case Button4:
-                window->mouse.wheel = 1.0f;
+                win->mouse.wheel = 1.0f;
                 break;
             case Button5:
-                window->mouse.wheel = -1.0f;
+                win->mouse.wheel = -1.0f;
                 break;
 
             // todo: X1 and X2
@@ -269,7 +280,7 @@ void impl_x11_poll_events(struct st_window *window)
         }
     }
 
-    XFlush(window->x11.display);
+    XFlush(win->x11.display);
 }
 
 // void impl_glx_swap_buffers(struct st_window *window)

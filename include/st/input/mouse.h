@@ -33,8 +33,4 @@ bool st_mouse_press(struct st_mouse *m, int btn);
 // @btn: Mouse button to check
 bool st_mouse_release(struct st_mouse *m, int btn);
 
-// void mouse_get_pos(int *x, int *y);
-// void mouse_get_delta(int *x, int *y);
-// float mouse_get_wheel(void);
-
 #endif // ST_INPUT_MOUSE_H
