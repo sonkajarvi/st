@@ -23,5 +23,6 @@
 
 #define ST_NORETURN __attribute__((noreturn))
 #define ST_NODISCARD __attribute__((warn_unused_result))
+#define ST_UNUSED __attribute__((unused))
 
 #endif // ST_UTILITY_COMPILER_H
