@@ -11,7 +11,7 @@
 static vec3 cam_front;
 static vec3 cam_up = {0.0f, 1.0f, 0.0f};
 
-void st_camera_recalculate_view(StCamera *camera, bool rotated)
+void st_camera_recalculate_view(struct st_camera *camera, bool rotated)
 {
     st_assert(camera);
 
@@ -28,7 +28,7 @@ void st_camera_recalculate_view(StCamera *camera, bool rotated)
     glm_lookat(camera->position, pos_and_front, cam_up, camera->view_mat);
 }
 
-void st_camera_recalculate_projection(StCamera *camera)
+void st_camera_recalculate_projection(struct st_camera *camera)
 {
     st_assert(camera);
 
@@ -55,7 +55,7 @@ void st_camera_recalculate_projection(StCamera *camera)
     }
 }
 
-void st_camera_set_projection(StCamera *camera, int type)
+void st_camera_set_projection(struct st_camera *camera, int type)
 {
     st_assert(camera);
 
@@ -65,7 +65,7 @@ void st_camera_set_projection(StCamera *camera, int type)
     st_camera_recalculate_projection(camera);
 }
 
-void st_camera_set_position(StCamera *camera, float x, float y, float z)
+void st_camera_set_position(struct st_camera *camera, float x, float y, float z)
 {
     // todo: we could just return here instead
     st_assert(camera);
@@ -77,7 +77,7 @@ void st_camera_set_position(StCamera *camera, float x, float y, float z)
     st_camera_recalculate_view(camera, false);
 }
 
-void st_camera_add_position(StCamera *camera, float x, float y, float z)
+void st_camera_add_position(struct st_camera *camera, float x, float y, float z)
 {
     st_assert(camera);
 
@@ -97,7 +97,7 @@ void st_camera_add_position(StCamera *camera, float x, float y, float z)
     st_camera_recalculate_view(camera, false);
 }
 
-void st_camera_set_rotation(StCamera *camera, float x, float y, float z)
+void st_camera_set_rotation(struct st_camera *camera, float x, float y, float z)
 {
     st_assert(camera);
 
@@ -108,7 +108,7 @@ void st_camera_set_rotation(StCamera *camera, float x, float y, float z)
     st_camera_recalculate_view(camera, true);
 }
 
-void st_camera_add_rotation(StCamera *camera, float x, float y, float z)
+void st_camera_add_rotation(struct st_camera *camera, float x, float y, float z)
 {
     st_assert(camera);
 
@@ -119,7 +119,7 @@ void st_camera_add_rotation(StCamera *camera, float x, float y, float z)
     st_camera_recalculate_view(camera, true);
 }
 
-void st_camera_set_fov(StCamera *camera, float fov)
+void st_camera_set_fov(struct st_camera *camera, float fov)
 {
     st_assert(camera);
 
@@ -128,7 +128,7 @@ void st_camera_set_fov(StCamera *camera, float fov)
     st_camera_recalculate_projection(camera);
 }
 
-void st_camera_add_fov(StCamera *camera, float fov)
+void st_camera_add_fov(struct st_camera *camera, float fov)
 {
     st_assert(camera);
 

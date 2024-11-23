@@ -23,7 +23,7 @@ static int __index_next_available(void)
     return cnt++;
 }
 
-void st_renderer_init(StRenderer *renderer, StCamera *camera)
+void st_renderer_init(StRenderer *renderer, struct st_camera *camera)
 {
     st_assert(renderer);
     st_assert(camera);

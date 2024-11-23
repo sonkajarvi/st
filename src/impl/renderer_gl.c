@@ -88,7 +88,7 @@ static void __flush(StRenderer *renderer)
     renderer->vertex_ptr = renderer->vertex_buf;
 }
 
-void impl_gl_renderer_init(struct st_window *window, StRenderer *renderer, StCamera *camera)
+void impl_gl_renderer_init(struct st_window *window, StRenderer *renderer, struct st_camera *camera)
 {
     st_assert(window);
     st_assert(renderer);

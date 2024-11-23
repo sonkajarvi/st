@@ -6,7 +6,7 @@
 #include <st/window.h>
 #include <st/graphics/renderer.h>
 
-void impl_gl_renderer_init(struct st_window *window, StRenderer *renderer, StCamera *camera);
+void impl_gl_renderer_init(struct st_window *window, StRenderer *renderer, struct st_camera *camera);
 void impl_gl_renderer_destroy(struct st_window *window, StRenderer *renderer);
 
 void impl_gl_draw_begin(struct st_window *window, StRenderer *renderer);

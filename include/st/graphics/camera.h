@@ -14,7 +14,7 @@
 #define ST_CAMERA_NEAR 0.1f
 #define ST_CAMERA_FAR 100.0f
 
-typedef struct StCamera
+struct st_camera
 {
     int type;
     float fov;
@@ -25,23 +25,23 @@ typedef struct StCamera
 
     mat4 view_mat;
     mat4 proj_mat;
-} StCamera;
+};
 
-void st_camera_recalculate_view(StCamera *camera, bool rotated);
-void st_camera_recalculate_projection(StCamera *camera);
+void st_camera_recalculate_view(struct st_camera *camera, bool rotated);
+void st_camera_recalculate_projection(struct st_camera *camera);
 
-void st_camera_set_projection(StCamera *camera, int type);
+void st_camera_set_projection(struct st_camera *camera, int type);
 
-void st_camera_set_position(StCamera *camera, float x, float y, float z);
-void st_camera_add_position(StCamera *camera, float x, float y, float z);
+void st_camera_set_position(struct st_camera *camera, float x, float y, float z);
+void st_camera_add_position(struct st_camera *camera, float x, float y, float z);
 
-void st_camera_set_rotation(StCamera *camera, float x, float y, float z);
-void st_camera_add_rotation(StCamera *camera, float x, float y, float z);
+void st_camera_set_rotation(struct st_camera *camera, float x, float y, float z);
+void st_camera_add_rotation(struct st_camera *camera, float x, float y, float z);
 
-void st_camera_set_fov(StCamera *camera, float fov);
-void st_camera_add_fov(StCamera *camera, float fov);
+void st_camera_set_fov(struct st_camera *camera, float fov);
+void st_camera_add_fov(struct st_camera *camera, float fov);
 
-static inline void st_camera_init(StCamera *const camera, int type)
+static inline void st_camera_init(struct st_camera *const camera, int type)
 {
     st_assert(camera);
 

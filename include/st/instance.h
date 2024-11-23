@@ -57,7 +57,7 @@ struct st
         void (*poll_events)(struct st_window *);
         void (*swap_buffers)(struct st_window *);
 
-        void (*renderer_init)(struct st_window *, StRenderer *, StCamera *);
+        void (*renderer_init)(struct st_window *, StRenderer *, struct st_camera *);
         void (*renderer_destroy)(struct st_window *, StRenderer *);
 
         void (*texture_create)(struct st_texture *, struct st_image *);

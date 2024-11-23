@@ -20,7 +20,7 @@ struct st_window
 
     struct st_mouse mouse;
     StKeyboard keyboard;
-    StCamera camera;
+    struct st_camera camera;
     StRenderer renderer;
 
 #ifdef ST_PLATFORM_LINUX

@@ -23,7 +23,7 @@ typedef struct StVertex
 
 typedef struct StRenderer
 {
-    StCamera *camera;
+    struct st_camera *camera;
     StVertex *vertex_buf;
     StVertex *vertex_ptr;
 
@@ -38,7 +38,7 @@ typedef struct StRenderer
     } gl;
 } StRenderer;
 
-void st_renderer_init(StRenderer *renderer, StCamera *camera);
+void st_renderer_init(StRenderer *renderer, struct st_camera *camera);
 void st_renderer_destroy(StRenderer *renderer);
 
 void st_renderer_push(StRenderer *renderer, StVertex *vertices, size_t count);
