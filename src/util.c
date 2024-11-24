@@ -10,15 +10,15 @@ char *read_file(const char *path)
     size_t len = 0, ret = 0;
 
     if (file) {
-
         fseek(file, 0, SEEK_END);
         len = ftell(file);
         fseek(file, 0, SEEK_SET);
 
         s = malloc(len + 1);
-        if (s)
+        if (s) {
             ret = fread(s, 1, len, file);
-        s[len] = '\0';
+            s[len] = '\0';
+        }
 
         fclose(file);
 
