@@ -256,9 +256,7 @@ void impl_x11_poll_events(struct st_window *win)
             key = keysym_to_key(keysym);
 
             if (key == ST_KEY_UNKNOWN) {
-                st_warn("Unknown key\n");
-                st_warn("... code: %d\n", keycode);
-                st_warn("... sym: %d\n", keysym);
+                st_warn("Unknown key 0x%x, sym 0x%x\n", keycode, keysym);
                 break;
             }
 
