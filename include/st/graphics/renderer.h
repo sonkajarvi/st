@@ -55,4 +55,6 @@ void st_draw_textured_quad(struct st_window *window,
 
 void st_draw_line(struct st_window *window, vec3 p0, vec3 p1, vec4 color, float width);
 
+void st_draw_quad_outline(struct st_window *window, vec3 position, vec3 scale, vec4 color, float width);
+
 #endif // ST_GRAPHICS_RENDERER2D_H

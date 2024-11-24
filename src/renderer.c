@@ -180,15 +180,36 @@ void st_draw_line(struct st_window *window, vec3 p0, vec3 p1, vec4 color, float 
     const vec3 p4 = {p1[0] + b[0] * half, p1[1] + b[1] * half, p1[2]};
     const vec3 p5 = {p1[0] - b[0] * half, p1[1] - b[1] * half, p1[2]};
 
-    StVertex vertices[] = {
-        {{p2[0], p2[1], p2[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f},
-        {{p3[0], p3[1], p3[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f},
-        {{p4[0], p4[1], p4[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f},
+    struct st_texture *tex = &window->renderer.tex_white;
+    if (tex->index == -1) {
+        tex->index = __index_next_available();
+        window->renderer.gl.tex_ids[tex->index] = tex->gl.id;
+    }
+    float index = (float)tex->index;
 
-        {{p3[0], p3[1], p3[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f},
-        {{p4[0], p4[1], p4[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f},
-        {{p5[0], p5[1], p5[2]}, {color[0], color[1], color[2], color[3]}, {0.0f, 0.0f}, 0.0f}
+#define __x(c) c[0], c[1], c[2], c[3]
+    StVertex vertices[] = {
+        {{p2[0], p2[1], p2[2]}, {__x(color)}, {1.0f, 1.0f}, index},
+        {{p3[0], p3[1], p3[2]}, {__x(color)}, {1.0f, 0.0f}, index},
+        {{p4[0], p4[1], p4[2]}, {__x(color)}, {0.0f, 1.0f}, index},
+        {{p3[0], p3[1], p3[2]}, {__x(color)}, {1.0f, 0.0f}, index},
+        {{p4[0], p4[1], p4[2]}, {__x(color)}, {0.0f, 0.0f}, index},
+        {{p5[0], p5[1], p5[2]}, {__x(color)}, {0.0f, 1.0f}, index}
     };
+#undef __X
 
     st_renderer_push(&window->renderer, vertices, 6);
+}
+
+void st_draw_quad_outline(struct st_window *window, vec3 position, vec3 scale, vec4 color, float width)
+{
+    vec3 topleft = { position[0] - scale[0] / 2.0f, position[1] - scale[1] / 2.0f, 0.0f };
+    vec3 topright = { position[0] + scale[0] / 2.0f, position[1] - scale[1] / 2.0f, 0.0f };
+    vec3 bottomleft = { position[0] - scale[0] / 2.0f, position[1] + scale[1] / 2.0f, 0.0f };
+    vec3 bottomright = { position[0] + scale[0] / 2.0f, position[1] + scale[1] / 2.0f, 0.0f };
+
+    st_draw_line(window, topleft, topright, color, width);
+    st_draw_line(window, topright, bottomright, color, width);
+    st_draw_line(window, bottomright, bottomleft, color, width);
+    st_draw_line(window, bottomleft, topleft, color, width);
 }
