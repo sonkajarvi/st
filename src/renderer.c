@@ -159,6 +159,7 @@ void st_draw_textured_quad(struct st_window *window,
     glm_rotate(model, glm_rad(rotation[0]), (vec3){1.0f, 0.0f, 0.0f});
     glm_rotate(model, glm_rad(rotation[1]), (vec3){0.0f, 1.0f, 0.0f});
     glm_rotate(model, glm_rad(rotation[2]), (vec3){0.0f, 0.0f, 1.0f});
+    glm_vec3_scale(scale, 0.5f, scale);
     glm_scale(model, scale);
 
     for (int i = 0; i < 6; i++) {
@@ -166,6 +167,10 @@ void st_draw_textured_quad(struct st_window *window,
     }
 
     st_renderer_push(&window->renderer, vertices, 6);
+
+    // Scale back the scale. This wouldn't be necessary
+    // if struct-based vectors were used
+    glm_vec3_scale(scale, 2.0f, scale);
 }
 
 void st_draw_line(struct st_window *window, vec3 p0, vec3 p1, vec4 color, float width)

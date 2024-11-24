@@ -34,7 +34,7 @@ void st_draw_string(struct st_window *window, vec3 position,
     while ((c = *str++)) {
         if (c == '\n') {
             position[0] = origin_x;
-            position[1] -= scale[1] * 2.0f;
+            position[1] -= scale[1];
             continue;
         }
 
@@ -44,6 +44,6 @@ void st_draw_string(struct st_window *window, vec3 position,
         if (c == '\t')
             position[0] += scale[0] * 3.0f;
 
-        position[0] += scale[0];
+        position[0] += scale[0] / 2.0f;
     }
 }
