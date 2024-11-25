@@ -6,24 +6,15 @@
 #include <st/utility/print.h>
 #include <st/utility/terminal.h>
 
-static const char *const __prefixes[] = {
-    ST_ESC_BLACK_B "debug: ",
-    "log: ",
-    ST_ESC_YELLOW_B "*warn*: ",
-    ST_ESC_BOLD ST_ESC_RED_B "*ERROR*: ",
-    ST_ESC_BOLD ST_ESC_MAGENTA_B " **ASSERT FAILED**: "
+static const char *const __PREFIXES[] = {
+    ST_ESC_BLACK_B "debug:",
+    "log:",
+    ST_ESC_YELLOW_B "*warn*:",
+    ST_ESC_BOLD ST_ESC_RED_B "*ERROR*:",
+    ST_ESC_BOLD ST_ESC_MAGENTA_B " **ASSERT FAILED**:"
 };
 
-static inline int __get_print_level(const char *fmt)
-{
-    if (fmt[0] == _ST_PRINT_SOH_CHAR && fmt[1]) {
-        if (fmt[1] >= 1 && fmt[1] <= 5)
-            return fmt[1];
-    }
-    return 0;
-}
-
-void _st_print_time(FILE *fp)
+static inline void print_time(FILE *const fp)
 {
     time_t t = time(NULL);
     struct tm *tm = localtime(&t);
@@ -35,21 +26,17 @@ void _st_print_time(FILE *fp)
         ((ts.tv_sec * 1000) + (ts.tv_nsec / 1000)) % 1000);
 }
 
-// todo: Extend formatting options, e.g. v2, v3, v4 for vectors
-void _st_fprint(FILE *const fp, const char *func, const int line, const char *fmt, ...)
+void st_print(const int level, const char *const file, const char *const func,
+              const int line, const char *const fmt, ...)
 {
-    st_assert(fp);
-    st_assert(fmt);
+    FILE *fp = stdout;
+    if (level >= ST_PRINT_WARN)
+        fp = stderr;
 
-    const int level = __get_print_level(fmt);
-    if (level) {
-        fmt += 2; // Skip level
+    print_time(fp);
+    fprintf(fp, ST_ESC_YELLOW " %s:%s:%d:" ST_ESC_RESET, file, func, line);
 
-        _st_print_time(fp);
-        if (level <= 4)
-            fprintf(fp, ST_ESC_YELLOW " %s:%d: " ST_ESC_RESET, func, line);
-        fprintf(fp, "%s", __prefixes[level - 1]);
-    }
+    fprintf(fp, " %s ", __PREFIXES[level]);
 
     va_list args;
     va_start(args, fmt);
