@@ -134,10 +134,13 @@ void st_draw_textured_quad(struct st_window *window,
 
     const float index = (float)tex->index;
 
-    const float t0 = tex_coords[0] / tex->width;
-    const float t1 = tex_coords[1] / tex->height;
-    const float t2 = tex_coords[2] / tex->width + t0;
-    const float t3 = tex_coords[3] / tex->height + t1;
+    const float offset_w = 0.125f / tex->width;
+    const float offset_h = 0.125f / tex->height;
+
+    const float t0 = tex_coords[0] / tex->width + offset_w;
+    const float t1 = tex_coords[1] / tex->height + offset_h;
+    const float t2 = tex_coords[2] / tex->width + t0 - offset_w;
+    const float t3 = tex_coords[3] / tex->height + t1 - offset_h;
 
 // todo: there has to be a better way
 #define __x(c) c[0], c[1], c[2], c[3]
