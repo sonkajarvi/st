@@ -1,12 +1,10 @@
-#include <cglm/vec4.h>
-
-#include <st/graphics/draw_text.h>
+#include <st/window.h>
 #include <st/graphics/renderer.h>
 #include <st/util/assert.h>
 #include <st/util/print.h>
 
-void st_draw_char(struct st_window *window, vec3 position,
-    vec3 rotation, vec3 scale, vec4 color, const char c)
+void st_draw_char(struct st_window *window, vec3 position, vec3 rotation,
+    vec3 scale, vec4 color, const char c)
 {
     st_assert(window);
 
@@ -22,8 +20,8 @@ void st_draw_char(struct st_window *window, vec3 position,
         position, rotation, scale, color, font, tex_coords);
 }
 
-void st_draw_string(struct st_window *window, vec3 position,
-    vec3 rotation, vec3 scale, vec4 color, const char *str)
+void st_draw_string(struct st_window *window, vec3 position, vec3 rotation,
+    vec3 scale, vec4 color, const char *str)
 {
     st_assert(window);
     st_assert(str);

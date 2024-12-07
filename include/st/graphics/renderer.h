@@ -1,9 +1,7 @@
 #ifndef ST_GRAPHICS_RENDERER2D_H
 #define ST_GRAPHICS_RENDERER2D_H
 
-#include <cglm/vec2.h>
-#include <cglm/vec3.h>
-#include <cglm/vec4.h>
+#include <cglm/types.h>
 #include <glad/gl.h>
 
 #include <st/graphics/camera.h>
@@ -53,8 +51,16 @@ void st_draw_textured_quad(struct st_window *window,
     vec3 position, vec3 rotation, vec3 scale, vec4 color,
     struct st_texture *tex, vec4 tex_coords);
 
-void st_draw_line(struct st_window *window, vec3 p0, vec3 p1, vec4 color, float width);
+void st_draw_line(struct st_window *window, vec3 p0, vec3 p1, vec4 color,
+    float width);
 
-void st_draw_quad_outline(struct st_window *window, vec3 position, vec3 scale, vec4 color, float width);
+void st_draw_quad_outline(struct st_window *window, vec3 position, vec3 scale,
+    vec4 color, float width);
+
+void st_draw_char(struct st_window *window, vec3 position, vec3 rotation,
+    vec3 scale, vec4 color, const char c);
+
+void st_draw_string(struct st_window *window, vec3 position, vec3 rotation,
+    vec3 scale, vec4 color, const char *str);
 
 #endif // ST_GRAPHICS_RENDERER2D_H

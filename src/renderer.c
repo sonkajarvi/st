@@ -14,8 +14,8 @@
 #include <st/util/util.h>
 #include <st/util/vector.h>
 
-// #define __ST_FONT_PATH ST_ASSETS_PATH "/images/fonts/vga.png"
-#define __ST_FONT_PATH ST_ASSETS_PATH "/images/fonts/nes.png"
+#define __ST_FONT_PATH ST_ASSETS_PATH "/images/fonts/vga.png"
+// #define __ST_FONT_PATH ST_ASSETS_PATH "/images/fonts/nes.png"
 
 static int __index_next_available(void)
 {
