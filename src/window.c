@@ -5,8 +5,8 @@
 #include <st/graphics/camera.h>
 #include <st/graphics/renderer.h>
 #include <st/input/mouse.h>
-#include <st/utility/assert.h>
-#include <st/utility/print.h>
+#include <st/util/assert.h>
+#include <st/util/print.h>
 
 int st_window_create(struct st_window *win, const char *title, int width, int height)
 {

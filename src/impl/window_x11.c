@@ -12,8 +12,8 @@
 #include <st/graphics/camera.h>
 #include <st/input/keys.h>
 #include <st/input/mouse.h>
-#include <st/utility/assert.h>
-#include <st/utility/print.h>
+#include <st/util/assert.h>
+#include <st/util/print.h>
 #include <st/window.h>
 
 #include "context_glx.h"

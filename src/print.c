@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <time.h>
 
-#include <st/utility/assert.h>
-#include <st/utility/print.h>
-#include <st/utility/terminal.h>
+#include <st/util/assert.h>
+#include <st/util/print.h>
+#include <st/util/terminal.h>
 
 static const char *const __PREFIXES[] = {
     ST_ESC_BLACK_B "debug:",

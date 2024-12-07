@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include <st/utility/vector.h>
+#include <st/util/vector.h>
 
 static inline size_t __new_cap_fn(const size_t cap)
 {

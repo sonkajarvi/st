@@ -3,7 +3,7 @@
 
 #include <stddef.h>
 
-#include <st/utility/list.h>
+#include <st/util/list.h>
 
 struct st_strbuilder
 {

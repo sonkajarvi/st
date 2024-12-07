@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <st/utility/args.h>
-#include <st/utility/vector.h>
+#include <st/util/args.h>
+#include <st/util/vector.h>
 
 #include "test.h"
 

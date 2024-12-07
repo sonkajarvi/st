@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/utility/stringbuilder.h>
+#include <st/util/stringbuilder.h>
 #include "test.h"
 
 test_case(st_strbuilder_free)

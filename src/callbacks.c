@@ -1,5 +1,5 @@
 #include <st/instance.h>
-#include <st/utility/print.h>
+#include <st/util/print.h>
 
 #ifdef ST_PLATFORM_LINUX
 #include "impl/window_x11.h"

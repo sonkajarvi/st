@@ -1,7 +1,7 @@
 #include <st/instance.h>
 #include <st/graphics/texture.h>
-#include <st/utility/assert.h>
-#include <st/utility/print.h>
+#include <st/util/assert.h>
+#include <st/util/print.h>
 
 // todo: Return a status code
 void st_texture_create(struct st_texture *tex, struct st_image *img)

@@ -13,7 +13,7 @@
 #define __TEST_FUNCTION(x) __func_##x
 #define __TEST_NAME(x) __name_##x
 
-#include <st/utility/terminal.h>
+#include <st/util/terminal.h>
 
 #define __TEST_SUCCESS_FMT \
     ST_ESC_YELLOW "%s:" \

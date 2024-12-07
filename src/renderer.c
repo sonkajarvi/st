@@ -10,9 +10,9 @@
 #include <st/instance.h>
 #include <st/graphics/camera.h>
 #include <st/graphics/renderer.h>
-#include <st/utility/print.h>
-#include <st/utility/util.h>
-#include <st/utility/vector.h>
+#include <st/util/print.h>
+#include <st/util/util.h>
+#include <st/util/vector.h>
 
 // #define __ST_FONT_PATH ST_ASSETS_PATH "/images/fonts/vga.png"
 #define __ST_FONT_PATH ST_ASSETS_PATH "/images/fonts/nes.png"

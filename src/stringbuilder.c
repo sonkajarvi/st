@@ -1,9 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/utility/assert.h>
-#include <st/utility/stringbuilder.h>
-#include <st/utility/util.h>
+#include <st/util/assert.h>
+#include <st/util/stringbuilder.h>
+#include <st/util/util.h>
 
 struct sb_node
 {

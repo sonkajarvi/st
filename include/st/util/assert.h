@@ -1,7 +1,7 @@
 #ifndef ST_UTILITY_ASSERT_H
 #define ST_UTILITY_ASSERT_H
 
-#include <st/utility/compiler.h>
+#include <st/util/compiler.h>
 
 #define st_assert(x) ({  \
     if (!st_unlikely(x)) \

@@ -1,7 +1,7 @@
 #include <st/instance.h>
 #include <st/input/keyboard.h>
 #include <st/input/keys.h>
-#include <st/utility/assert.h>
+#include <st/util/assert.h>
 
 bool key_down(int key)
 {

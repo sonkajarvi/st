@@ -1,5 +1,5 @@
 #include <st/input/mouse.h>
-#include <st/utility/print.h>
+#include <st/util/print.h>
 
 bool st_mouse_down(struct st_mouse *m, int btn)
 {

@@ -5,8 +5,8 @@
 
 #include <st/model.h>
 #include <st/parse.h>
-#include <st/utility/assert.h>
-#include <st/utility/print.h>
+#include <st/util/assert.h>
+#include <st/util/print.h>
 #include <st/vector.h>
 
 #define is_whitespace(c) (c == ' ' || c == '\t' || c == '\n' || c == '\r')

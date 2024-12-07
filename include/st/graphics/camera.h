@@ -4,7 +4,7 @@
 #include <cglm/vec3.h>
 #include <cglm/mat4.h>
 
-#include <st/utility/assert.h>
+#include <st/util/assert.h>
 
 // projection types
 #define ST_CAMERA_PERSPECTIVE   0

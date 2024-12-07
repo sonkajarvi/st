@@ -5,7 +5,7 @@
 #include <stb/stb_image.h>
 
 #include <st/graphics/image.h>
-#include <st/utility/print.h>
+#include <st/util/print.h>
 
 void st_image_from_file(struct st_image *img, const char *path)
 {

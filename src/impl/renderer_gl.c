@@ -1,8 +1,8 @@
 #include <st/graphics/renderer.h>
-#include <st/utility/assert.h>
-#include <st/utility/print.h>
-#include <st/utility/util.h>
-#include <st/utility/vector.h>
+#include <st/util/assert.h>
+#include <st/util/print.h>
+#include <st/util/util.h>
+#include <st/util/vector.h>
 
 #include "renderer_gl.h"
 

@@ -2,7 +2,7 @@
 #include <string.h>
 
 #include <st/instance.h>
-#include <st/utility/print.h>
+#include <st/util/print.h>
 
 static struct st __st = {0};
 

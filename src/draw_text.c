@@ -2,8 +2,8 @@
 
 #include <st/graphics/draw_text.h>
 #include <st/graphics/renderer.h>
-#include <st/utility/assert.h>
-#include <st/utility/print.h>
+#include <st/util/assert.h>
+#include <st/util/print.h>
 
 void st_draw_char(struct st_window *window, vec3 position,
     vec3 rotation, vec3 scale, vec4 color, const char c)

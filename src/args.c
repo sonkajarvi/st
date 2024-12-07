@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <st/utility/assert.h>
-#include <st/utility/args.h>
-#include <st/utility/vector.h>
+#include <st/util/assert.h>
+#include <st/util/args.h>
+#include <st/util/vector.h>
 
 static struct {
     int argc;

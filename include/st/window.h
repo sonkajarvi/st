@@ -11,7 +11,7 @@
 #include <st/graphics/renderer.h>
 #include <st/input/keyboard.h>
 #include <st/input/mouse.h>
-#include <st/utility/assert.h>
+#include <st/util/assert.h>
 
 struct st_window
 {

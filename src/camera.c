@@ -4,8 +4,8 @@
 #include <cglm/cam.h>
 
 #include <st/graphics/camera.h>
-#include <st/utility/assert.h>
-#include <st/utility/print.h>
+#include <st/util/assert.h>
+#include <st/util/print.h>
 #include <st/window.h>
 
 static vec3 cam_front;
