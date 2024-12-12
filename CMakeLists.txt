@@ -74,7 +74,7 @@ target_link_libraries(st PRIVATE ${LIBS})
 
 target_compile_options(st PRIVATE
     -g
-    -O2
+    -O3
     -Wall
     -Wextra
     -Werror
