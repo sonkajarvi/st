@@ -83,7 +83,7 @@ void st_strbuilder_insert(struct st_strbuilder *sb, const size_t index, const ch
 
     struct st_lsnode *head = sb->head;
     size_t offset = sb->length;
-    
+
     while (head) {
         struct sb_node *cont = st_container_of(head, struct sb_node, node);
         offset -= cont->len;

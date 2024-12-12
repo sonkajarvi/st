@@ -40,7 +40,7 @@ void glx_create_context(struct st_window *window)
     int major, minor;
     glXQueryVersion(window->x11.display, &major, &minor);
     st_debug("GLX context created for %d.%d\n", major, minor);
-    
+
     int gl_ver = gladLoaderLoadGL();
     if (!gl_ver) {
         st_error("Failed to load GL functions\n");
@@ -91,7 +91,7 @@ void glx_choose_fbc(Display *display, int screen, GLXFBConfig *config)
             int buf, samples;
             glXGetFBConfigAttrib(display, configs[i], GLX_SAMPLE_BUFFERS, &buf);
             glXGetFBConfigAttrib(display, configs[i], GLX_SAMPLES, &samples);
-        
+
             if (best < 0 || (buf && samples > best_samples)) {
                 best = i;
                 best_samples = samples;

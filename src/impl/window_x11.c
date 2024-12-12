@@ -117,7 +117,7 @@ void impl_x11_window_create(struct st_window *window, const char *title, int wid
 
     GLXFBConfig fbc;
     glx_choose_fbc(display, screen, &fbc);
-    
+
     XVisualInfo *vi = glXGetVisualFromFBConfig(display, fbc);
     if (!vi) {
         st_error("Failed to get visual from FB config\n");
@@ -167,7 +167,7 @@ void impl_x11_window_create(struct st_window *window, const char *title, int wid
 void impl_x11_window_destroy(struct st_window *window)
 {
     glx_destroy_context(window);
-    
+
     XDestroyWindow(window->x11.display, window->x11.window);
     XCloseDisplay(window->x11.display);
 }
@@ -302,7 +302,7 @@ void impl_x11_poll_events(struct st_window *win)
 // {
 //     glXCreateContextAttribsARBProc glxCreateContextAttribsABR =
 //         (glXCreateContextAttribsARBProc)glXGetProcAddress((const GLubyte *)"glXCreateContextAttribsARB");
-    
+
 //     int ctx_attribs[] = {
 //         GLX_CONTEXT_MAJOR_VERSION_ARB, 4,
 //         GLX_CONTEXT_MINOR_VERSION_ARB, 6,

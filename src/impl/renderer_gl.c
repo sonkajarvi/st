@@ -101,7 +101,7 @@ void impl_gl_renderer_init(struct st_window *window, StRenderer *renderer, struc
     glBindBuffer(GL_ARRAY_BUFFER, renderer->gl.vbo);
     glBufferData(GL_ARRAY_BUFFER, st_vector_capacity(renderer->vertex_buf) * sizeof(StVertex),
         NULL, GL_DYNAMIC_DRAW);
-    
+
     // Position
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
         sizeof(StVertex), (void *)offsetof(StVertex, position));
